@@ -1,0 +1,13 @@
+body{
+    background-image: linear-gradient(to right top, #6a9db3, #5196bc, #3a8ec6, #2e85ce, #3879d3, #4672d0, #546acc, #6062c7, #6360be, #665fb5, #675dad, #685ca4);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#logo-image{
+    width: 300px;
+    height: 100px;
+    position: relative;
+    top: 20px;
+
+}

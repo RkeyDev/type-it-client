@@ -1,0 +1,108 @@
+#logo-image{
+    margin: 0 auto;
+    display: block;
+}
+
+#room-code-textfield{
+    position: relative;
+    top: 80px;
+    padding: 100px;
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    outline: none;
+    background-color: #768EA9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    color: white;
+}
+#main-menu-buttons-container{
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    top: 100px;
+}
+
+
+#room-code-textfield::placeholder {
+    color: white;
+    font-size: 25px;
+}
+
+#join-room-button{
+    font-size: 25px; /* Match input placeholder font size */
+    padding: 5px 10px; 
+    margin-top: 20px;
+    width: 50%;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: #9C73BC;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 28%;
+    top: 70px;
+}
+
+#join-room-button:hover{
+    background-color: #8c6ca5;
+    transition: background-color 0.3s ease;
+}
+
+#matchmaking-button{
+    font-size: 25px; /* Match input placeholder font size */
+    padding: 5px 10px; 
+    margin-top: 100px;
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border: none;
+    background-color: #96B1A9;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 3.5%;
+    top: 70px;
+}
+
+#matchmaking-button:hover{
+    background-color: #7fada0;
+    transition: background-color 0.3s ease;
+}
+
+#create-room-button{
+    font-size: 25px; /* Match input placeholder font size */
+    padding: 5px 10px; 
+    margin-top: 40px;
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border: none;
+    background-color: #A9B170;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 3.5%;
+    top: 70px;
+}
+
+#create-room-button:hover{
+    background-color: #9cae5f;
+    transition: background-color 0.3s ease;
+}

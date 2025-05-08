@@ -1,3 +1,8 @@
+h1,h2,h3,h4,label,p,span,button,input,textarea,select{
+    font-family: "Just Another Hand", cursive;
+    font-size: 25px;
+    color: white;
+}
 body{
     background-image: linear-gradient(to right top, #6a9db3, #5196bc, #3a8ec6, #2e85ce, #3879d3, #4672d0, #546acc, #6062c7, #6360be, #665fb5, #675dad, #685ca4);
     background-repeat: no-repeat;
@@ -11,3 +16,5 @@ body{
     top: 20px;
 
 }
+
+

@@ -1,0 +1,304 @@
+#room-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Adjusts vertical alignment */
+    position: absolute;
+    top: 20px; /* Adjust this value to control the vertical offset */
+    left: 49%;
+    transform: translateX(-50%);
+}
+
+#room-settings-form {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center horizontally */
+    gap: 20px; /* Add spacing between the containers */
+}
+
+#room-code-text{
+    font-size: 50px;
+    text-align: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+#room-code-button {
+    position: relative;
+    bottom: 20px;
+    font-size: 25px; /* Match input placeholder font size */
+    padding: 5px 10px;
+    margin-top: 10px;
+    width: 50%;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    background-color: #768EA9;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 2.5%;
+}
+
+#room-code-button:hover {
+    background-color: #6985a4;
+    transition: background-color 0.3s ease;
+}
+
+#room-settings-players-wrapper{
+    position: fixed;
+    width: 70%;
+    margin: 0 auto;
+    height: 400px; /* or whatever height you need */
+}
+
+#room-settings-container {
+    background-color: #96B1A9;
+    
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+    width: 70%;
+    height: 100%;
+    position: fixed;
+    top: 200px;
+    left: 25%; 
+}
+
+
+#players-container {
+    background-color: #A9B170;
+    border-radius: 10px;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    width: 30%;
+    height: 120%;
+    position: fixed;
+    top: -10px;
+    left: 70%;
+}
+
+#typing-time-container {
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    width: auto; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    padding: 20px; /* Optional: Add padding */
+}
+
+#typing-time-slider-container {
+    display: flex;
+    align-items: center; /* Align slider and labels vertically */
+    justify-content: space-between; /* Push labels to the sides of the slider */
+    width: 100%; /* Ensure the container spans the full width */
+}
+
+.slider {
+    flex: 1; /* Allow the slider to take up available space */
+    margin: 0 10px; /* Add spacing between the slider and the labels */
+}
+
+#time-label {
+    font-size: 36px; /* Adjust font size as needed */
+    position: relative;
+    top: -5px; /* Adjust vertical position as needed */
+}
+
+#current-time {
+    margin-top: 10px; 
+    text-align: center; 
+    position: relative;
+    left: -10px;
+    font-size: 30px;
+    color: white;
+}
+
+.slider {
+    -webkit-appearance: none; /* Remove default styling for WebKit browsers */
+    appearance: none; /* Remove default styling for other browsers */
+    width: 250px; /* Full width */
+    height: 8px; /* Height of the slider track */
+    background: white; /* Make the track white */
+    border-radius: 5px; /* Rounded edges for the track */
+    outline: none; /* Remove focus outline */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Remove default styling for WebKit browsers */
+    appearance: none; /* Remove default styling for other browsers */
+    width: 20px; /* Width of the circle */
+    height: 20px; /* Height of the circle */
+    background: #398A8F; /* Color of the circle */
+    border-radius: 50%; /* Make the circle round */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+
+.copied-room-code {
+    color: rgb(116, 206, 116); /* Make the text green */
+    font-size: 18px; /* Make the text smaller */
+}
+
+
+#game-rounds-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    width: auto; 
+    height: auto; 
+    padding: 20px; 
+}
+#round-label {
+    font-size: 36px; 
+    position: relative;
+    top: 5px; 
+}
+#rounds-header{
+    position: relative;
+    top: 50px;
+    left: -10px;
+    font-size: 30px;
+    color: white;
+}
+
+#typing-time-header {
+    position: relative;
+    top: 35px;
+    left: -30px;
+    font-size: 30px;
+    color: white;
+}
+
+#current-round {
+    margin-top: 10px; 
+    text-align: center; 
+    position: relative;
+    left: -15px;
+    font-size: 30px;
+    color: white;
+}
+
+#languages-dropdown{
+    background-color: #B45858;
+    outline: none;
+    border-radius: 10px;
+    border: none;
+    width: 190%;
+    height: 45px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#languages-dropdown:hover {
+    background-color: #ad5757;
+    transition: background-color 0.3s ease;
+}
+
+#languages-dropdown-container{
+    position: fixed;
+    top: 50%;
+    left: 49.5%;
+    transform: translate(-50%, 250%);
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    width: auto; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    padding: 20px; /* Optional: Add padding */
+
+
+}
+
+#start-game-button-container {
+    position: fixed;
+    top: 50%;
+    left: 49.3%;
+    transform: translate(-50%, 350%);
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    width: auto; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    padding: 20px; /* Optional: Add padding */
+}
+
+#start-game-button{
+    position: relative;
+    bottom: 20px;
+    font-size: 25px; /* Match input placeholder font size */
+    padding: 5px 10px;
+    margin-top: 10px;
+    width: 150px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    background-color: #86A976;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#start-game-button:hover {
+    background-color: #7b9f6c;
+    transition: background-color 0.3s ease;
+}
+
+
+.player-slot {
+    margin: 30px;
+    padding: 15px;
+    background-color: #1D637D;
+    border-radius: 10px;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    width: 90%;
+    height: 70px;
+    position: relative;
+    top: 20px;
+    right: 2%;
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Space between name and icon */
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.player-name {
+    flex: 1; /* Allow the name to take up available space */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis for long names */
+    color: white; /* Ensure text is visible */
+    font-size: 28px; /* Adjust font size as needed */
+}
+
+.player-icon {
+    flex-shrink: 0; /* Prevent the icon from shrinking */
+    width: 80px;
+    height: 80px;
+    margin-left: 10px; /* Add spacing between name and icon */
+}
+
+#players-title{
+    font-size: 40px;
+    text-align: center;
+    justify-content: center;
+    white-space: nowrap;
+}

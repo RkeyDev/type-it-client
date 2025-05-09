@@ -1,21 +1,31 @@
-let textfield = document.getElementById("username-textfield");
-let form = document.getElementById("login-form");
+let username_textfield = document.getElementById("username-textfield");
 
 // This is temporary, will have to change the skins to be dynamic and not hardcoded when backend is ready
 let currentSkin = 0; 
 let skins = ["/src/assets/skins/default-skin.png", "/src/assets/skins/glasses-suit-skin.png", "/src/assets/skins/alien-skin.png"];
 
+function validateForm() {
 
-form.onsubmit = function (event) {
-    if (textfield.value.length > 15) { // Prevent form submission if the username is too long
-        event.preventDefault();
-        alert("Please enter a username with less than 15 characters. (It will also be nice not to mess up with the code :) )"); 
+    if(!(username_textfield.value.length == 0) && !(username_textfield.value.length > 15)){
+        handleFormSubmit(); // Call the function to handle form submission
     }
-    else if (textfield.value.length == 0) { // Prevent form submission if the username is empty
-        event.preventDefault();
-    }
+}
 
-};
+
+function handleFormSubmit() {
+    saveLoginDataInSessionStorage(); // Save the username and skin in session storage
+    // Proceed to the main menu
+    window.location.href = "#main_menu";
+}
+
+function saveLoginDataInSessionStorage() {
+    const username = document.getElementById('username-textfield').value;
+    window.sessionStorage.setItem('username', username); // Save the username in session storage
+    window.sessionStorage.setItem('skin', skins[currentSkin]); // Save the current skin in session storage
+}
+
+
+
 function changeSkin(direction) {
     currentSkin += direction;
 
@@ -31,4 +41,4 @@ function onPageLoad() {
     skinImage.src = skins[currentSkin];
 }
 
-window.onload = onPageLoad; // Call the function when the page loads
+window.onload = onPageLoad(); // Call the function when the page loads

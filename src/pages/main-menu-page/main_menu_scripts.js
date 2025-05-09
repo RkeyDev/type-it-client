@@ -1,13 +1,54 @@
-let textfield = document.getElementById("room-code-textfield");
-let form = document.getElementById("room-code-form");
+let room_code_textfield = document.getElementById("room-code-textfield");
 
 
-form.onsubmit = function (event) {
-    if (textfield.value.length > 15) { // Prevent form submission if the room code is too long
-        event.preventDefault();
-        alert("Please enter a room code with less than 15 characters. (It will also be nice not to mess up with the code :) )"); 
+function joinRoom(){
+
+    if(!(room_code_textfield.value.length > 15) && !(room_code_textfield.value.length == 0)){
+        handleRoomJoin(); // Call the function to handle form submission
     }
-    else if (textfield.value.length == 0) { // Prevent form submission if the room code is empty
-        event.preventDefault();
+}
+
+function handleRoomJoin(){
+    alert("Function not implemented yet");
+}
+
+
+
+function createRoom(){
+    try{
+        const socket = new WebSocket("ws://localhost:8080");
+
+        //Get session storage data
+        const username = window.sessionStorage.getItem('username');
+        const skin = window.sessionStorage.getItem('skin');
+
+        //Create the data object to send to the server
+        const data = {
+            type: "user_join",
+            username: username,
+            skin: skin
+        };
+
+        
+        socket.addEventListener("open", () => {
+            sendSessionStorageData(socket,data);
+
+            // Redirect to the lobby page with the room ID
+            document.location.hash = `#lobby?id=${12345678}`; // TODO Replace with the actual room ID
+        });
+
+        socket.addEventListener("error", (err) => {
+            console.error("WebSocket error:", err);
+        });
+    }catch(err){
+        console.error("error:", err);
     }
+}
+
+function sendSessionStorageData(socket,data){
+    // Send the data to the server
+    // The data should be in JSON format
+    socket.send(JSON.stringify(data));
+
+    
 }

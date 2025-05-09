@@ -13,14 +13,14 @@
             <img src="/src/assets/Logo.png" alt="Logo" id="logo-image">
         </div>
         <div id="main-menu-buttons-container">
-            <form id="room-code-form">
+            <div id="room-code-form">
                 <div class="input-group">
-                    <input type="text" id="room-code-textfield"  name="room-code" placeholder="Enter Room Code..." maxlength="15">
+                    <input type="text" id="room-code-textfield" name="room-code" placeholder="Enter Room Code..." maxlength="15">
                 </div>
-                <button type="submit" id="join-room-button">Join Room</button>
-            </form>
+                <button id="join-room-button">Join Room</button>
+            </div>
             <button id="matchmaking-button">Matchmaking</button>
-            <button id="create-room-button">Create Room</button>
+            <button onclick="createRoom()" id="create-room-button">Create Room</button>
         </div>
     </div>
 

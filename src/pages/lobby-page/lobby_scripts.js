@@ -1,5 +1,7 @@
+const roomCode = document.getElementById("room-code-button");
+
 function copyRoomCode() {
-    const roomCode = document.getElementById("room-code-button");
+    
 
     // Check if the button currently displays the room code
     if (!roomCode.classList.contains("copied")) {
@@ -18,3 +20,10 @@ function copyRoomCode() {
         });
     }
 }
+const hash = window.location.hash.substring(1); // remove '#'
+const [route, queryString] = hash.split('?');  // split at '?'
+
+const hashParams = new URLSearchParams(queryString);
+const id = hashParams.get('id');
+
+roomCode.innerText = id;

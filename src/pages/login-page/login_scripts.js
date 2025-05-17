@@ -25,7 +25,6 @@ function saveLoginDataInSessionStorage() {
 }
 
 
-
 function changeSkin(direction) {
     currentSkin += direction;
 

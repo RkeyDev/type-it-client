@@ -27,8 +27,10 @@ async function handleRoomJoin(){
     }
 
     if(sendSessionStorageData(request)){
-        // Redirect to the lobby page with the room ID
-        document.location.hash = `#lobby?id=${room_code}`; 
+        const connection_status = await getMessageFromServer();
+        if (connection_status.type == "connection_status" && connection_status.status == "connected")
+            // Redirect to the lobby page with the room ID
+            document.location.hash = `#lobby?id=${room_code}`; 
     }
     
 }
@@ -38,7 +40,10 @@ async function createRoom(){
     try{
         
         const room_code = await getRoomCode();
-
+        if(room_code == null){
+            throw new Error("Failed to get room code from server.");
+        }
+        
         // Create the data object to send to the server
         const request = {
             type: "room_creation",
@@ -65,31 +70,25 @@ async function createRoom(){
             console.error("error:", err);
         }
 }
+
+
 async function getRoomCode() {
-    return new Promise((resolve, reject) => {
-        const request = { type: "get_room_code" };
-
-        // Send request
-        if(sendSessionStorageData(request)){
-
-            // Wait for response
-            const handler = (event) => {
-                try {
-                    const data = JSON.parse(event.data);
-                    if (data.type === "room_code") {
-                        socket.removeEventListener("message", handler); // Clean up
-                        resolve(data.room_code); // Return the code
-                    }
-                } catch (e) {
-                    reject(e);
-                }
-            };
-            // Listen for the server's response containing the room code
-            socket.addEventListener("message", handler);
+    const request = {
+        "type":"get_room_code"
+    }
+    sendSessionStorageData(request);
+    const data = await getMessageFromServer()
+    if(data.type == "room_code"){
+        try{
+            return data.room_code;
         }
+        catch(e){
+            throw e;
+        }
+    }
 
-        
-    });
+    return null;
+
 }
 
 

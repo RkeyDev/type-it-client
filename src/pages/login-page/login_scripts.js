@@ -1,4 +1,4 @@
-let username_textfield = document.getElementById("username-textfield");
+const username_textfield = document.getElementById("username-textfield");
 
 // This is temporary, will have to change the skins to be dynamic and not hardcoded when backend is ready
 let currentSkin = 0; 

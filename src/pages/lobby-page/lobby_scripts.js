@@ -20,6 +20,28 @@ function copyRoomCode() {
         });
     }
 }
+
+
+socket.onmessage = (event) => {
+
+  const data = JSON.parse(event.data);
+  if(data.type === "update_player_list") {
+    const playerList = document.getElementById("players-list");
+    const playerDataList = data.players;
+
+    playerList.innerHTML = ""; // Clear the existing list
+
+    playerDataList.forEach(player => {
+        playerList.innerHTML += `<div class="player-slot">
+                        <h1 class="player-name">${player.username}</h1>   
+                        <img src="${player.skin}" class="player-icon">
+                    </div>`;
+    });
+
+  }
+};
+
+
 const hash = window.location.hash.substring(1); // remove '#'
 const [route, queryString] = hash.split('?');  // split at '?'
 

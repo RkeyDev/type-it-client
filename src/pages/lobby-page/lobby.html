@@ -36,6 +36,17 @@
                             </div>
                             <label id="current-round">5</label>
                         </div>
+
+                        <div id="character-goal-container">
+                            <h2 id="character-goal-header">Character Goal</h2>
+                            <div id="character-goal-slider-container">
+                                <label id="character-goal-label">50</label>
+                                <input type="range" class="slider" min="50" max="1000" value="120" oninput="document.getElementById('current-character-goal').textContent = this.value">
+                                <label id="character-goal-label">1000</label>
+                            </div>
+                            <label id="current-character-goal">120</label>
+                        </div>
+
                         <div id="languages-dropdown-container">
                             <select id="languages-dropdown" name="languages">
                                 <option value="english">English</option>
@@ -52,13 +63,7 @@
 
             <div id="players-container">
                 <h1 id="players-title">Players</h1>
-                <div id="players-list">
-                    <div class="player-slot">
-                        <h1 class="player-name">Player1</h1>   
-                        <img src="/src/assets/skins/default-skin.png" alt="Player Icon" class="player-icon">
-                    </div>
-
-                </div>
+                <div id="players-list"></div>
             </div>
 
             </div>

@@ -1,62 +1,100 @@
-const roomCode = document.getElementById("room-code-button");
+// DOM Elements
+const roomCodeButton = document.getElementById("room-code-button");
+const playerListContainer = document.getElementById("players-list");
 
+// Extract room code from URL hash and display it
+const hash = window.location.hash.substring(1);
+const [route, queryString] = hash.split('?');
+const hashParams = new URLSearchParams(queryString);
+const roomId = hashParams.get('id');
+roomCodeButton.innerText = roomId;
+
+// Event listener for copying the room code to clipboard
+roomCodeButton.addEventListener("click", copyRoomCode);
+
+/**
+ * Copies the displayed room code to the clipboard
+ * and shows a confirmation message temporarily.
+ */
 function copyRoomCode() {
-    
+    if (roomCodeButton.classList.contains("copied")) return;
 
-    // Check if the button currently displays the room code
-    if (!roomCode.classList.contains("copied")) {
-        const roomCodeText = roomCode.innerText;
+    const roomCodeText = roomCodeButton.innerText;
 
-        navigator.clipboard.writeText(roomCodeText).then(() => {
-            roomCode.innerHTML = "<span class='copied-room-code'>Copied to clipboard!</span>";
-            roomCode.classList.add("copied"); // Add the copied state
+    // Copy the room code to clipboard, then update the button text
+    navigator.clipboard.writeText(roomCodeText).then(() => {
+        roomCodeButton.innerHTML = "<span class='copied-room-code'>Copied to clipboard!</span>";
+        roomCodeButton.classList.add("copied");
 
-            setTimeout(() => {
-                roomCode.innerHTML = roomCodeText; // Reset the button text to the original room code
-                roomCode.classList.remove("copied"); // Remove the copied state
-            }, 1200); // Reset text after 1.2 seconds
-        }).catch(err => {
-            console.error("Failed to copy room code: ", err);
-        });
-    }
-}
+        const delay = 1200; // milliseconds
 
-const roomData = sessionStorage.getItem("initialRoomData");
-if (roomData) {
-    const parsedRoomData = JSON.parse(roomData);
-    const playerDataList = JSON.parse(parsedRoomData.data.players);
-    updatePlayerList(playerDataList);
-    sessionStorage.removeItem("initialRoomData");
-}
-
-
-socket.onmessage = (event) => {
-
-  const data = JSON.parse(event.data);
-  if(data.type === "update_room") {
-    const playerDataList = JSON.parse(data.data.players);
-    
-    updatePlayerList(playerDataList);
-  }
-};
-
-
-function updatePlayerList(playerDataList){
-    const playerList = document.getElementById("players-list");
-    playerList.innerHTML = ""; // Clear the existing list
-
-    playerDataList.forEach(player => {
-        playerList.innerHTML += `<div class="player-slot">
-                        <h1 class="player-name">${player.username}</h1>   
-                        <img src="${player.skinPath}" class="player-icon">
-                    </div>`;
+        // Reset the button text after a short delay
+        setTimeout(() => {
+            roomCodeButton.innerText = roomCodeText;
+            roomCodeButton.classList.remove("copied");
+        }, delay);
+    }).catch(err => {
+        console.error("Failed to copy room code: ", err);
     });
 }
 
-const hash = window.location.hash.substring(1); // remove '#'
-const [route, queryString] = hash.split('?');  // split at '?'
+/**
+ * Updates the player list UI with the given player data.
+ * @param {Array} playerDataList - List of player objects to render.
+ */
+function updatePlayerList(playerDataList) {
+    playerListContainer.innerHTML = ""; // Clear existing entries
 
-const hashParams = new URLSearchParams(queryString);
-const id = hashParams.get('id');
+    playerDataList.forEach(player => {
+        const playerSlot = document.createElement("div");
+        playerSlot.className = "player-slot";
 
-roomCode.innerText = id;
+        const nameElement = document.createElement("h1");
+        nameElement.className = "player-name";
+        nameElement.textContent = player.username;
+
+        const skinElement = document.createElement("img");
+        skinElement.className = "player-icon";
+        skinElement.src = player.skinPath;
+
+        playerSlot.appendChild(nameElement);
+        playerSlot.appendChild(skinElement);
+        playerListContainer.appendChild(playerSlot);
+    });
+}
+
+/**
+ * Parses and loads initial room data from session storage (if available).
+ */
+function loadInitialRoomData() {
+    const roomData = sessionStorage.getItem("initialRoomData");
+    if (!roomData) return;
+
+    try {
+        const parsedRoomData = JSON.parse(roomData);
+        const playerDataList = JSON.parse(parsedRoomData.data.players);
+        updatePlayerList(playerDataList);
+    } catch (err) {
+        console.error("Failed to load room data from session:", err);
+    }
+
+    sessionStorage.removeItem("initialRoomData");
+}
+
+/**
+ * Handles incoming socket messages and updates room accordingly.
+ */
+socket.onmessage = (event) => {
+    try {
+        const data = JSON.parse(event.data);
+        if (data.type === "update_room") {
+            const playerDataList = JSON.parse(data.data.players);
+            updatePlayerList(playerDataList);
+        }
+    } catch (err) {
+        console.error("Failed to handle incoming message:", err);
+    }
+};
+
+// Run on page load
+loadInitialRoomData();

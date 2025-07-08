@@ -31,7 +31,11 @@ async function handleRoomJoin() {
         const response = await getMessageFromServer();
         console.log("Join room response:", response);
 
-        if (response.type === "join_room_succeeded") {
+        if (response.type === "update_room") {
+            // Save room data to session storage
+            sessionStorage.setItem("initialRoomData", JSON.stringify(response));
+
+            // Redirect to the lobby page with the room code
             document.location.hash = `#lobby?id=${response.data.roomCode}`;
         } else if (response.type === "join_room_failed") {
             alert("Couldn't join room. Please check the room code and try again.");
@@ -40,6 +44,7 @@ async function handleRoomJoin() {
         }
     }
 }
+
 
 async function createRoom() {
     try {
@@ -57,8 +62,10 @@ async function createRoom() {
             const response = await getMessageFromServer();
             console.log("Create room response:", response);
 
-            if (response.type === "create_room_succeed") {
+            if (response.type === "update_room") {
                 const room_code = response.data.roomCode;
+                // Save room data to session storage
+                sessionStorage.setItem("initialRoomData", JSON.stringify(response));
                 document.location.hash = `#lobby?id=${room_code}`;
             } else {
                 alert("Failed to create room.");
@@ -80,7 +87,7 @@ async function getRoomCode() {
     };
     sendSessionStorageData(request);
     const data = await getMessageFromServer();
-    if (data.type === "create_room_succeed") {
+    if (data.type === "update_room") {
         try {
             return data.data.roomCode;
         } catch (e) {

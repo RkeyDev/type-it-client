@@ -9,6 +9,31 @@ const skin = sessionStorage.getItem('skin');
 // Event listener for creating a room
 createRoomButton.addEventListener("click", createRoom);
 
+
+async function startMatchmaking(){
+    const request = startMatchmakingRequest();
+
+    if (!sendToServer(request)) return; // Ensure the request was sent successfully
+
+    const response = await getMessageFromServer();
+    console.log("Join room response:", response);
+
+    switch (response.type) {
+        case "update_room":
+            //  Successfully joined room
+            handleRoomUpdate(response);
+            break;
+        case "start_matchmaking_failed":
+            // Failed to join
+            alert("No available rooms. Please try again later.");
+            break;
+        default:
+            // Unexpected response
+            console.warn("Unexpected response:", response);
+    }
+}
+
+
 /**
  * Called when a player attempts to join a room.
  * Validates the room code length before proceeding.
@@ -77,24 +102,19 @@ async function createRoom() {
     }
 }
 
-/**
- * Asks the server for the current room code.
- * @returns {Promise<string|null>} - The room code if available.
- */
-async function getRoomCode() {
-    const request = { type: "get_room_code" };
-    sendToServer(request);
-    const response = await getMessageFromServer();
 
-    if (response.type === "update_room") {
-        try {
-            return response.data.roomCode;
-        } catch (e) {
-            throw e;
+function startMatchmakingRequest(){
+    return {
+        type: "start_matchmaking",
+        data: {
+            player: {
+                name: username,
+                skinPath: skin
+            }
         }
-    }
-    return null;
+    };
 }
+
 
 /**
  * Constructs the request object for joining a room.

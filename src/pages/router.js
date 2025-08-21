@@ -17,6 +17,11 @@ const routes = {
     css: 'lobby-page/styles.css',
     js: 'lobby-page/lobby_scripts.js'
   },
+  game: {
+    html: 'game-page/game.html',
+    css: 'game-page/styles.css',
+    js: 'game-page/game_scripts.js'
+  }
 };
 
 

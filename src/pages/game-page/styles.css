@@ -45,7 +45,7 @@
       border: none;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
       scrollbar-width: none; /* Hide scrollbar */
-      font-size: 50px;
+      font-size: 70px;
     }
 
     textarea::placeholder {
@@ -82,18 +82,9 @@
         color: white;
         white-space: nowrap;
         position: relative;
-        top: 30px;
+        top: 10px;
     }
 
-    /* Example player colors */
-    .p1 .circle { background: red; }
-    .p2 .circle { background: limegreen; }
-    .p3 .circle { background: dodgerblue; }
-    .p4 .circle { background: orchid; }
-    .p5 .circle { background: yellow; }
-    .p6 .circle { background: orange; }
-    .p7 .circle { background: turquoise; }
-    .p8 .circle { background: pink; }
 
 
 @media screen and (max-width: 1700px) {
@@ -122,7 +113,11 @@
       left: 150px;
       top: 80px;
     }
-
-
 }
 
+#game-waiting-text{
+    font-size: 50px;
+    color: white;
+    position: relative;
+    top: -20px;
+}

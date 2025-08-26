@@ -91,10 +91,32 @@ socket.onmessage = (event) => {
             const playerDataList = JSON.parse(data.data.players);
             updatePlayerList(playerDataList);
         }
+        else if (data.type === "game_started") {
+            window.location.href = `#game?id=${roomId}`;
+        }
     } catch (err) {
         console.error("Failed to handle incoming message:", err);
     }
 };
+
+
+const startButton = document.getElementById("start-game-button");
+let typingTime = document.getElementById("typing-time-slider").value;
+let characterGoal = document.getElementById("character-goal-slider").value;
+
+startButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    socket.send(JSON.stringify({ type: "start_game",
+         data: {
+            roomCode: roomId,
+            host: sessionStorage.getItem("username"),
+            settings: {
+                typingTime: typingTime,
+                characterGoal: characterGoal
+            }
+    } }));
+});
 
 // Run on page load
 loadInitialRoomData();

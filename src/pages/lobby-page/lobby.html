@@ -21,27 +21,18 @@
                             <h2 id="typing-time-header">Typing Time</h2>
                             <div id="typing-time-slider-container">
                                 <label id="time-label">5 sec</label>
-                                <input type="range" class="slider" min="5" max="120" value="60" oninput="document.getElementById('current-time').textContent = this.value + ' sec'">
+                                <input type="range" class="slider" min="5" max="120" value="60" oninput="document.getElementById('current-time').textContent = this.value + ' sec'" id="typing-time-slider">
                                 <label id="time-label">120 sec</label>
                             </div>
                             <label id="current-time">60 sec</label>
                         </div><br>
 
-                        <div id="game-rounds-container">
-                            <h2 id="rounds-header">Rounds</h2>
-                            <div id="game-rounds-slider-container">
-                                <label id="round-label">1</label>
-                                <input type="range" class="slider" min="1" max="30" value="5" oninput="document.getElementById('current-round').textContent = this.value">
-                                <label id="round-label">30</label>
-                            </div>
-                            <label id="current-round">5</label>
-                        </div>
 
                         <div id="character-goal-container">
                             <h2 id="character-goal-header">Character Goal</h2>
                             <div id="character-goal-slider-container">
                                 <label id="character-goal-label">50</label>
-                                <input type="range" class="slider" min="50" max="1000" value="120" oninput="document.getElementById('current-character-goal').textContent = this.value">
+                                <input type="range" class="slider" min="50" max="1000" value="120" oninput="document.getElementById('current-character-goal').textContent = this.value" id="character-goal-slider">
                                 <label id="character-goal-label">1000</label>
                             </div>
                             <label id="current-character-goal">120</label>

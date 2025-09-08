@@ -121,3 +121,13 @@
     position: relative;
     top: -20px;
 }
+
+
+#user-text-input.error::placeholder {
+  color: red;
+}
+
+#user-text-input.correct::placeholder {
+  color: green;
+}
+

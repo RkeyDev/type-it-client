@@ -13,6 +13,12 @@ socket.onmessage = (event) => {
             case "start_new_round":
                 startNewRound(data.data.question); // Display the round
                 break;
+            case "player_guessed_incorrectly":
+                handleIncorrectGuess(data.data);
+                break;
+            case "player_guessed_correctly":
+                handleCorrectGuess(data.data);
+                break;
             default:
                 console.warn("Unhandled message type:", data.type);
         }
@@ -39,6 +45,7 @@ function initializeGame() {
     const center = document.querySelector(".center");
     const gameWaitingText = document.getElementById("game-waiting-text");
 
+    
     if (!center) {
         console.error("Center container not found!");
         return;
@@ -137,6 +144,7 @@ function handleWordSubmission() {
         socket.send(JSON.stringify({
             type: "word_submission",
             data: {
+                roomCode: room_id,
                 sender: sessionStorage.getItem("username"),
                 word: userInput
             }
@@ -146,9 +154,45 @@ function handleWordSubmission() {
     }
 }
 
+
+function handleIncorrectGuess(data) {
+    const userTextInput = document.getElementById("user-text-input");
+    const oldPlaceholder = userTextInput.placeholder;
+
+    userTextInput.placeholder = "incorrect word";
+    userTextInput.classList.add("error");
+    userTextInput.disabled = true;
+
+    setTimeout(() => {
+        userTextInput.placeholder = oldPlaceholder;
+        userTextInput.classList.remove("error");
+        userTextInput.disabled = false;
+    }, 1000);
+}
+
+
+function handleCorrectGuess(data) {
+
+    if(data.playerName === sessionStorage.getItem("username")){ // Notify user of their correct guess
+        const userTextInput = document.getElementById("user-text-input");
+        const currentCharactersText = document.getElementById("current-characters");
+
+        userTextInput.placeholder = "correct word!";
+        userTextInput.classList.add("correct");
+        userTextInput.disabled = true;
+        currentCharactersText.textContent = data.currentTotalCharacters;
+
+
+    }else{ // Notify user that someone else guessed correctly
+        
+    }
+}
+
 // Extract room code from URL and start the game
 const hashTag = window.location.hash.substring(1);
 const [routeData, queryStr] = hashTag.split('?');
 const hashParameters = new URLSearchParams(queryStr);
 const room_id = hashParameters.get('id');
-if (room_id) startGame(room_id);
+if (room_id) 
+    startGame(room_id)
+

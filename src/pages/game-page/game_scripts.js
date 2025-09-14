@@ -151,16 +151,18 @@ function startNewRound(question) {
 
     if (timeLeftLabel) timeLeftLabel.textContent = timeToType;
 
-    // Create textarea for user input
-    const userTextInput = document.createElement("textarea");
-    userTextInput.id = "user-text-input";
-    userTextInput.placeholder = question; // Use question from server
-    userTextInput.value = "";
+    if (!document.getElementById("user-text-input")){
+        // Create textarea for user input
+        const userTextInput = document.createElement("textarea");
+        userTextInput.id = "user-text-input";
+        userTextInput.placeholder = question; // Use question from server
+        userTextInput.value = "";
 
-    // Clear previous content and append new textarea
-    center.innerHTML = "";
-    center.appendChild(userTextInput);
-
+        // Clear previous content and append new textarea
+        center.appendChild(userTextInput);
+    }
+    
+    
     listenForTextInput();
 }
 
@@ -229,14 +231,16 @@ function handleCorrectGuess(data) {
         const userTextInput = document.getElementById("user-text-input");
         const currentCharactersText = playerDiv.querySelector(".characters-count");
 
-        
+
         currentCharactersText.textContent = data.currentTotalCharacters;
 
 
     if(data.playerName === sessionStorage.getItem("username")){ // Notify user of their correct guess
-        userTextInput.placeholder = "correct word!";
+        userTextInput.placeholder = "correct answer!\n+" + data.currentTotalCharacters + " characters";
         userTextInput.classList.add("correct");
         userTextInput.disabled = true;
+        
+        
     }
 }
 

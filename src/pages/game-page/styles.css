@@ -72,12 +72,12 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 80px;
+  font-size: 30px;
   font-weight: bold;
   position: relative;
   top: -50px;
   height: 120px;
-  width: 110%;
+  width: 100%;
   resize: none;
   outline: none;
   background-color: #768EA9;
@@ -90,7 +90,7 @@ textarea {
 
 textarea::placeholder {
   color: white;
-  font-size: 70px;
+  font-size: 35px;
 }
 
 /* === Waiting text === */

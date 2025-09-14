@@ -42,8 +42,11 @@ function loadPlayers(){
     const playersContainer = document.getElementById("players-container");
     const playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
 
+    if(playersContainer.children.length > 0) return; // Players already loaded
+
     playersList.forEach((player, index) => {
         const playerDiv = document.createElement("div");
+        playerDiv.id = player.username;
         playerDiv.className = `player p${index + 1}`;
 
         const circleDiv = document.createElement("div");
@@ -112,6 +115,8 @@ function initializeGame() {
  * Calls onFinish when done
  */
 function startCountdown(container, onFinish) {
+    if(document.getElementById("round-countdown")) return; // Countdown already running
+
     const countdownElement = document.createElement("span");
     countdownElement.id = "round-countdown";
     countdownElement.style.fontSize = "2rem";
@@ -200,7 +205,7 @@ function handleWordSubmission() {
 }
 
 
-function handleIncorrectGuess(data) {
+function handleIncorrectGuess() {
     const userTextInput = document.getElementById("user-text-input");
     const oldPlaceholder = userTextInput.placeholder;
 
@@ -218,18 +223,20 @@ function handleIncorrectGuess(data) {
 
 function handleCorrectGuess(data) {
 
-    if(data.playerName === sessionStorage.getItem("username")){ // Notify user of their correct guess
+    
+        const playerDiv = document.getElementById(data.playerName);
+        
         const userTextInput = document.getElementById("user-text-input");
-        const currentCharactersText = document.getElementById("current-characters");
+        const currentCharactersText = playerDiv.querySelector(".characters-count");
 
-        userTextInput.placeholder = "correct word!";
-        userTextInput.classList.add("correct");
-        userTextInput.disabled = true;
+        
         currentCharactersText.textContent = data.currentTotalCharacters;
 
 
-    }else{ // Notify user that someone else guessed correctly
-        
+    if(data.playerName === sessionStorage.getItem("username")){ // Notify user of their correct guess
+        userTextInput.placeholder = "correct word!";
+        userTextInput.classList.add("correct");
+        userTextInput.disabled = true;
     }
 }
 

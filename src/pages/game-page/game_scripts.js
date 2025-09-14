@@ -37,6 +37,49 @@ function startGame(roomId) {
     }));
 }
 
+
+function loadPlayers(){
+    const playersContainer = document.getElementById("players-container");
+    const playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
+
+    playersList.forEach((player, index) => {
+        const playerDiv = document.createElement("div");
+        playerDiv.className = `player p${index + 1}`;
+
+        const circleDiv = document.createElement("div");
+        circleDiv.className = "circle";
+
+        const charactersCount = document.createElement("span");
+        charactersCount.className = "characters-count";
+        charactersCount.textContent = "0";
+        
+        const slash = document.createTextNode("/");
+        const charactersGoal = document.createElement("span");
+        charactersGoal.className = "characters-goal";
+        charactersGoal.textContent = "100";
+        
+        const img = document.createElement("img");
+        img.src = player.skinPath || "/assets/default-avatar.png"; // Default avatar if none provided
+        img.alt = `${player.name}'s avatar`;
+        img.style.width = "120%";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "name";
+        nameSpan.textContent = player.username;
+        circleDiv.appendChild(charactersCount);
+        circleDiv.appendChild(slash);
+        circleDiv.appendChild(charactersGoal);
+        circleDiv.appendChild(img);
+        circleDiv.appendChild(nameSpan);
+
+        playerDiv.appendChild(circleDiv);
+        playersContainer.appendChild(playerDiv);
+    });
+        
+}
+
+
+
 /**
  * Initializes the game on the client-side
  * Only shows a countdown; the server will start the round
@@ -50,6 +93,8 @@ function initializeGame() {
         console.error("Center container not found!");
         return;
     }
+
+    loadPlayers();
 
     // Remove waiting text if present
     if (gameWaitingText) {
@@ -195,4 +240,3 @@ const hashParameters = new URLSearchParams(queryStr);
 const room_id = hashParameters.get('id');
 if (room_id) 
     startGame(room_id)
-

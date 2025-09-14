@@ -38,14 +38,25 @@ function copyRoomCode() {
     });
 }
 
+
 /**
- * Updates the player list UI with the given player data.
+ * Updates the player list UI and stores the player data list in sessionStorage
  * @param {Array} playerDataList - List of player objects to render.
  */
 function updatePlayerList(playerDataList) {
     playerListContainer.innerHTML = ""; // Clear existing entries
 
+    // Create a list for session storage
+    const playersList = [];
+
     playerDataList.forEach(player => {
+        // Add player info to the list
+        playersList.push({
+            username: player.username,
+            skinPath: player.skinPath
+        });
+
+        // Render the player in the lobby
         const playerSlot = document.createElement("div");
         playerSlot.className = "player-slot";
 
@@ -61,7 +72,13 @@ function updatePlayerList(playerDataList) {
         playerSlot.appendChild(skinElement);
         playerListContainer.appendChild(playerSlot);
     });
+
+    // Save the players list to sessionStorage for the game page
+    sessionStorage.setItem("playersList", JSON.stringify(playersList));
 }
+
+
+
 
 /**
  * Parses and loads initial room data from session storage (if available).

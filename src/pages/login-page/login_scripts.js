@@ -40,4 +40,4 @@ function onPageLoad() {
     skinImage.src = skins[currentSkin];
 }
 
-window.onload = onPageLoad(); // Call the function when the page loads
+window.onload = onPageLoad; // Call the function when the page loads

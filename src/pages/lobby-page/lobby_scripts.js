@@ -118,19 +118,24 @@ socket.onmessage = (event) => {
 
 
 const startButton = document.getElementById("start-game-button");
-let typingTime = document.getElementById("typing-time-slider").value;
-let characterGoal = document.getElementById("character-goal-slider").value;
+
 
 startButton.addEventListener("click", (e) => {
+    
     e.preventDefault();
 
+    let typingTime = document.getElementById("typing-time-slider").value;
+    let characterGoal = document.getElementById("character-goal-slider").value;
+    let language = document.getElementById("languages-dropdown").value;
+    
     socket.send(JSON.stringify({ type: "start_game",
          data: {
             roomCode: roomId,
             host: sessionStorage.getItem("username"),
             settings: {
                 typingTime: typingTime,
-                characterGoal: characterGoal
+                characterGoal: characterGoal,
+                language: language
             }
     } }));
 });

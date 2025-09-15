@@ -1,3 +1,5 @@
+let roomSettings = {};
+
 /**
  * Handles incoming socket messages and updates game accordingly.
  */
@@ -6,8 +8,11 @@ socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
         console.log("Received data:", data);
 
+        
+
         switch (data.type) {
             case "game_started":
+                roomSettings = data.data.settings;
                 initializeGame(); // Show countdown only
                 break;
             case "start_new_round":
@@ -140,11 +145,30 @@ function startCountdown(container, onFinish) {
     }, 1000);
 }
 
+
+function startTimerCountdown() {
+    const timer = document.getElementById("time-left");
+    let timeLeft = parseInt(timer.innerText); // convert text to number
+
+    const interval = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(interval); // stop the countdown
+            timer.innerText = "0";
+            console.log("Time's up!");
+        } else {
+            timeLeft--;
+            timer.innerText = timeLeft;
+        }
+    }, 1000); // runs every 1000ms = 1 second
+}
+
+
 /**
  * Starts a new round by displaying the question in a textarea
  */
 function startNewRound(question) {
-    const timeToType = 60; // seconds to type
+    console.log(roomSettings);
+    const timeToType = roomSettings.typingTime; // seconds to type
     
     const center = document.querySelector(".center");
     const timeLeftLabel = document.getElementById("time-left");
@@ -162,10 +186,17 @@ function startNewRound(question) {
         center.appendChild(userTextInput);
     }
     
-    
+    // Start the game
+    startTimer();
     listenForTextInput();
 }
 
+function startTimer(){
+    //Starts the timer asynchronously
+    setTimeout(() => {
+        startTimerCountdown();
+    }, 0);
+}
 /**
  * Listens for user typing and Enter key
  */

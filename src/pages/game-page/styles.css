@@ -133,6 +133,19 @@ textarea::placeholder {
   color: green;
 }
 
+/* === Fade animation for center area === */
+.center.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+
+.center.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s;
+  pointer-events: auto;
+}
+
 /* === Desktop responsive adjustments (exclude mobile) === */
 @media screen and (min-width: 768px) and (max-width: 1200px) {
   .game-container {

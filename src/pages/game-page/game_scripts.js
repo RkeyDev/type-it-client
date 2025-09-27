@@ -6,12 +6,13 @@ let roomSettings = {};
 
 let questionPlacehoder = "";
 
+// Interval handle for the pre-round visual countdown
+let roundCountdownInterval = null;
+
 socket.onmessage = (event) => {
     try {
         const data = JSON.parse(event.data);
         console.log("Received data:", data);
-
-        
 
         switch (data.type) {
             case "game_started":
@@ -30,6 +31,13 @@ socket.onmessage = (event) => {
                 break;
             case "player_has_won":
                 handlePlayerHasWon(data.data);
+                break;
+            case "round_complete":
+                handleRoundComplete();
+                break;
+            case "player_left":
+                handlePlayerLeft(data.data);
+                break;
             default:
                 console.warn("Unhandled message type:", data.type);
         }
@@ -54,12 +62,56 @@ function handlePlayerHasWon(data) {
 
     const textInput = document.getElementById("user-text-input");
 
+	// Stop active timers/countdowns
+	if (typeof timerInterval !== "undefined" && timerInterval !== null) {
+		clearInterval(timerInterval);
+		timerInterval = null;
+	}
+	if (typeof roundCountdownInterval !== "undefined" && roundCountdownInterval !== null) {
+		clearInterval(roundCountdownInterval);
+		roundCountdownInterval = null;
+	}
+	const existingCountdown = document.getElementById("round-countdown");
+	if (existingCountdown) existingCountdown.remove();
+
+	// Disable typing immediately
+	if (textInput) {
+		textInput.disabled = true;
+	}
+
     // Create a new element to display the message
     const message = document.createElement("h1");
     message.textContent = `${playerName} has won!!`;
 
     // Replace the input with the message
     textInput.parentNode.replaceChild(message, textInput);
+}
+
+/**
+ * Handles when a round is complete
+ * Shows countdown before starting next round
+ */
+function handleRoundComplete() {
+    console.log("Round complete, starting countdown for next round...");
+    const center = document.querySelector(".center");
+    if (!center) {
+        console.error("Center container not found!");
+        return;
+    }
+
+    // Fade out, then clear input and start countdown
+    smoothCenterTransition(() => {
+        const userTextInput = document.getElementById("user-text-input");
+        if (userTextInput) userTextInput.remove();
+
+        startCountdown(center, () => {
+            console.log("Countdown finished, requesting server to start next round...");
+            socket.send(JSON.stringify({
+                type: "start_new_round",
+                data: { roomCode: room_id }
+            }));
+        });
+    });
 }
 
 
@@ -156,17 +208,27 @@ function startCountdown(container, onFinish) {
     let countdown = 5;
     countdownElement.textContent = countdown;
 
-    const countdownInterval = setInterval(() => {
+	// Clear any previous pre-round countdown interval
+	if (roundCountdownInterval !== null) {
+		clearInterval(roundCountdownInterval);
+		roundCountdownInterval = null;
+	}
+
+	const countdownInterval = setInterval(() => {
         countdown--;
         countdownElement.textContent = countdown;
 
         if (countdown <= 0) {
             clearInterval(countdownInterval);
+			roundCountdownInterval = null;
             countdownElement.remove();
 
             if (typeof onFinish === "function") onFinish();
         }
     }, 1000);
+
+	// Store so we can cancel when a player wins
+	roundCountdownInterval = countdownInterval;
 }
 
 
@@ -206,33 +268,50 @@ function startTimerCountdown() {
  * Starts a new round by displaying the question in a textarea
  */
 function startNewRound(question) {
-    console.log(roomSettings);
-    const timeToType = roomSettings.typingTime; // seconds to type
-    
-    const center = document.querySelector(".center");
-    const timeLeftLabel = document.getElementById("time-left");
+    smoothCenterTransition(() => {
+        console.log(roomSettings);
+        const timeToType = roomSettings.typingTime; // seconds to type
 
-    if (timeLeftLabel) timeLeftLabel.textContent = timeToType;
+        const center = document.querySelector(".center");
+        const timeLeftLabel = document.getElementById("time-left");
 
-    startTimerCountdown();
-    let userTextInput = document.getElementById("user-text-input");
-    if (!userTextInput){
-        // Create textarea for user input
-        userTextInput = document.createElement("textarea");
+        if (timeLeftLabel) timeLeftLabel.textContent = timeToType;
 
-        // Clear previous content and append new textarea
-        center.appendChild(userTextInput);
-    }
-    userTextInput.classList = ""; // Reset class list
-    userTextInput.disabled = false;
-    userTextInput.id = "user-text-input";
-    userTextInput.placeholder = question; // Use question from server
-    userTextInput.value = "";
-    
-    
-    listenForTextInput();
+        startTimerCountdown();
+        let userTextInput = document.getElementById("user-text-input");
+        if (!userTextInput){
+            // Create textarea for user input
+            userTextInput = document.createElement("textarea");
+            center.appendChild(userTextInput);
+        }
+        userTextInput.classList = ""; // Reset class list
+        userTextInput.disabled = false;
+        userTextInput.id = "user-text-input";
+        userTextInput.placeholder = question; // Use question from server
+        userTextInput.value = "";
+
+        listenForTextInput();
+    });
 }
 
+
+/**
+ * Fades out the center area, then calls callback, then fades in
+ */
+function smoothCenterTransition(callback) {
+    const center = document.querySelector(".center");
+    if (!center) return callback();
+
+    center.classList.add("fade-out");
+    setTimeout(() => {
+        callback();
+        center.classList.remove("fade-out");
+        center.classList.add("fade-in");
+        setTimeout(() => {
+            center.classList.remove("fade-in");
+        }, 500);
+    }, 500);
+}
 
 /**
  * Listens for user typing and Enter key
@@ -309,6 +388,24 @@ function handleCorrectGuess(data) {
         userTextInput.classList.add("correct");
         userTextInput.disabled = true;
     }
+}
+
+/**
+ * Removes a player from the UI and updates sessionStorage
+ * @param {Object} data - { username: string }
+ */
+function handlePlayerLeft(data) {
+    const { username } = data;
+    // Remove from DOM
+    const playerDiv = document.getElementById(username);
+    if (playerDiv && playerDiv.parentNode) {
+        playerDiv.parentNode.removeChild(playerDiv);
+    }
+
+    // Remove from sessionStorage playersList
+    let playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
+    playersList = playersList.filter(player => player.username !== username);
+    sessionStorage.setItem("playersList", JSON.stringify(playersList));
 }
 
 

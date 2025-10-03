@@ -30,8 +30,10 @@ socket.onmessage = (event) => {
                 break;
             case "player_has_won":
                 handlePlayerHasWon(data.data);
+                break;
             case "player_left":
                 handlePlayerLeft(data.data);
+                break;
             default:
                 console.warn("Unhandled message type:", data.type);
         }

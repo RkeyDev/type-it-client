@@ -296,34 +296,54 @@
         sessionStorage.setItem("playersList", JSON.stringify(playersList));
     }
 
+
+    function handleReturnToLobby(data) {
+    // Remove winner overlay if present
+    const winnerOverlay = document.getElementById("winner-overlay");
+    if (winnerOverlay) {
+        winnerOverlay.remove();
+    }
+
+    // Optionally, you could also remove the user text input
+    const userTextInput = document.getElementById("user-text-input");
+    if (userTextInput) userTextInput.remove();
+
+    // Redirect to lobby hash
+    if (data && data.roomCode) {
+        document.location.hash = `#lobby?id=${data.roomCode}`;
+    } else {
+        console.warn("No room code provided for returning to lobby.");
+    }
+}
+
     socket.onmessage = function(event) {
         try {
-            const data = JSON.parse(event.data);
-            console.log("Received data:", data);
+            const response = JSON.parse(event.data);
+            console.log("Received data:", response);
 
-            switch (data.type) {
+            switch (response.type) {
                 case "game_started":
-                    roomSettings = data.data.settings;
+                    roomSettings = response.data.settings;
                     initializeGame();
                     break;
                 case "start_new_round":
-                    questionPlacehoder = data.data.question;
-                    startNewRound(data.data.question);
+                    questionPlacehoder = response.data.question;
+                    startNewRound(response.data.question);
                     break;
                 case "player_guessed_incorrectly":
                     handleIncorrectGuess();
                     break;
                 case "player_guessed_correctly":
-                    handleCorrectGuess(data.data);
+                    handleCorrectGuess(response.data);
                     break;
                 case "player_has_won":
-                    handlePlayerHasWon(data.data);
+                    handlePlayerHasWon(response.data);
                     break;
                 case "player_left":
-                    handlePlayerLeft(data.data);
+                    handlePlayerLeft(response.data);
                     break;
                 case "return_to_lobby":
-                    document.location.hash = `#lobby?id=${data.data.roomCode}`;
+                    handleReturnToLobby(response.data);
                     break;
                 default:
                     console.warn("Unhandled message type:", data.type);

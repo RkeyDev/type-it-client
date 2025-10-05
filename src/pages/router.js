@@ -24,28 +24,32 @@ const routes = {
   }
 };
 
+// Detect if the page was refreshed
+if (performance.getEntriesByType("navigation")[0].type === "reload") {
+  // Clear session data and redirect to index.html
+  sessionStorage.clear();
+  localStorage.clear(); // optional – remove this line if you want to keep localStorage
+  window.location.href = "index.html";
+}
 
 async function loadPage() {
-  
   window.location.hash = window.location.hash || '#login'; // Set default hash if none exists
   const hash = location.hash.slice(1).split('?')[0]; // Get the hash without the query string
   const route = routes[hash] || routes['login'];
-
 
   const html = await fetch(route.html).then(res => res.text());
   app.innerHTML = html;
   style.href = route.css;
 
-  // Remove the old js script if it exists
+  // Remove the old JS script if it exists
   const oldScript = document.getElementById('page-script');
   if (oldScript) oldScript.remove();
 
-  const script = document.createElement('script'); // Create a new script element
-
-  //Load the new js script
+  // Load the new JS script
+  const script = document.createElement('script');
   script.src = route.js;
   script.id = 'page-script';
-  script.async = true;  
+  script.async = true;
   document.body.appendChild(script);
 }
 

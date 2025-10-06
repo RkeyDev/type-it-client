@@ -6,7 +6,10 @@
     function startGame(roomId) {
         socket.send(JSON.stringify({
             type: "initialize_game",
-            data: { roomCode: roomId }
+            data: { 
+                roomCode: roomId,
+                username: sessionStorage.getItem("username")
+             }
         }));
     }
 
@@ -114,7 +117,7 @@
             console.log("Countdown finished, requesting server to start first round...");
             socket.send(JSON.stringify({
                 type: "start_new_round",
-                data: { roomCode: room_id }
+                data: { roomCode: room_id, username: sessionStorage.getItem("username") | ""}
             }));
         });
     }
@@ -304,7 +307,7 @@
         winnerOverlay.remove();
     }
 
-    // Optionally, you could also remove the user text input
+    // Remove the user text input
     const userTextInput = document.getElementById("user-text-input");
     if (userTextInput) userTextInput.remove();
 

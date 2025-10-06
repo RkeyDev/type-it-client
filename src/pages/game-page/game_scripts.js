@@ -22,35 +22,18 @@
 
         const overlay = document.createElement("div");
         overlay.id = "winner-overlay";
-        overlay.style.position = "fixed";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100vw";
-        overlay.style.height = "100vh";
-        overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-        overlay.style.backdropFilter = "blur(8px)";
-        overlay.style.display = "flex";
-        overlay.style.flexDirection = "column";
-        overlay.style.justifyContent = "center";
-        overlay.style.alignItems = "center";
-        overlay.style.zIndex = "9999";
+
 
         const img = document.createElement("img");
+        img.id = "winner-avatar";
         img.src = playerSkin;
         img.alt = `${playerName}'s avatar`;
-        img.style.width = "200px";
-        img.style.height = "200px";
-        img.style.borderRadius = "50%";
-        img.style.objectFit = "cover";
-        img.style.marginBottom = "20px";
-        img.style.border = "4px solid gold";
+        
 
         const message = document.createElement("h1");
+        message.id = "win-message";
         message.textContent = `${playerName} has won!!`;
-        message.style.color = "gold";
-        message.style.fontSize = "4rem";
-        message.style.textAlign = "center";
-        message.style.textShadow = "2px 2px 8px #000";
+        
 
         overlay.appendChild(img);
         overlay.appendChild(message);
@@ -127,24 +110,11 @@
 
         const overlay = document.createElement("div");
         overlay.id = "round-countdown-overlay";
-        overlay.style.position = "fixed";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100vw";
-        overlay.style.height = "100vh";
-        overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-        overlay.style.backdropFilter = "blur(8px)";
-        overlay.style.display = "flex";
-        overlay.style.justifyContent = "center";
-        overlay.style.alignItems = "center";
-        overlay.style.zIndex = "9999";
+
 
         const countdownElement = document.createElement("span");
         countdownElement.id = "round-countdown";
-        countdownElement.style.fontSize = "8rem";
-        countdownElement.style.fontWeight = "bold";
-        countdownElement.style.color = "#fff";
-        countdownElement.style.textAlign = "center";
+        
         overlay.appendChild(countdownElement);
 
         document.body.appendChild(overlay);

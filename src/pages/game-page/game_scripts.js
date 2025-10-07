@@ -4,9 +4,6 @@
     let timerInterval = null;
     let roomId = null;
 
-    // ===========================
-    // WebSocket & Game Initialization
-    // ===========================
     function startGame(roomId) {
         socket.send(JSON.stringify({
             type: "initialize_game",
@@ -20,8 +17,6 @@
     socket.onmessage = function (event) {
         try {
             const response = JSON.parse(event.data);
-            console.log("Received data:", response);
-
             switch (response.type) {
                 case "game_started":
                     roomSettings = response.data.settings;
@@ -46,8 +41,6 @@
                 case "return_to_lobby":
                     handleReturnToLobby(response.data);
                     break;
-                default:
-                    console.warn("Unhandled message type:", response.type);
             }
         } catch (err) {
             console.error("Failed to handle incoming message:", err);
@@ -60,9 +53,6 @@
     roomId = hashParameters.get('id');
     if (roomId) startGame(roomId);
 
-    // ===========================
-    // UI Helpers
-    // ===========================
     function createElement(tag, options = {}, children = []) {
         const el = document.createElement(tag);
         Object.entries(options).forEach(([key, value]) => {
@@ -85,15 +75,11 @@
         return center;
     }
 
-    // ===========================
-    // Game Initialization
-    // ===========================
     function initializeGame() {
         const center = getOrCreateCenter();
         loadPlayers();
         const waitingText = document.getElementById("game-waiting-text");
         if (waitingText) center.removeChild(waitingText);
-
         startCountdown(center, () => {
             console.log("Countdown finished, server is starting first round...");
         });
@@ -102,10 +88,8 @@
     function loadPlayers() {
         const container = document.getElementById("players-container");
         if (!container) return;
-
         const playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
         if (container.children.length > 0) return;
-
         playersList.forEach((player, index) => {
             const circleDiv = createElement("div", { className: "circle" }, [
                 createElement("span", { className: "characters-count", textContent: "0" }),
@@ -114,25 +98,19 @@
                 createElement("img", { src: player.skinPath || "/assets/default-avatar.png", alt: `${player.username}'s avatar`, style: "width:120%;" }),
                 createElement("span", { className: "name", textContent: player.username })
             ]);
-
             const playerDiv = createElement("div", { id: player.username, className: `player p${index + 1}` }, [circleDiv]);
             container.appendChild(playerDiv);
         });
     }
 
-    // ===========================
-    // Countdown Functions
-    // ===========================
     function startCountdown(container, onFinish) {
         if (document.getElementById("round-countdown-overlay")) return;
-
         const countdownElement = document.createElement("span");
         countdownElement.id = "round-countdown";
         countdownElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
         countdownElement.style.display = "inline-block";
         countdownElement.style.fontSize = "5rem";
         countdownElement.style.opacity = 0;
-
         const overlay = document.createElement("div");
         overlay.id = "round-countdown-overlay";
         overlay.style.position = "fixed";
@@ -145,11 +123,8 @@
         overlay.style.justifyContent = "center";
         overlay.style.background = "rgba(0,0,0,0.5)";
         overlay.appendChild(countdownElement);
-
         document.body.appendChild(overlay);
-
         let countdown = 6;
-
         function updateCountdown() {
             countdown--;
             countdownElement.style.opacity = 0;
@@ -159,30 +134,23 @@
                 countdownElement.style.opacity = 1;
                 countdownElement.style.transform = "scale(1)";
             }, 100);
-
             if (countdown <= 0) {
                 clearInterval(interval);
                 setTimeout(() => overlay.remove(), 300);
                 if (typeof onFinish === "function") onFinish();
             }
         }
-
-        // initial show
         countdownElement.textContent = countdown - 1;
         countdownElement.style.opacity = 1;
         countdownElement.style.transform = "scale(1)";
-
         const interval = setInterval(updateCountdown, 1000);
     }
-
 
     function startTimerCountdown() {
         const timer = document.getElementById("time-left");
         if (!timer) return;
         let timeLeft = parseInt(timer.innerText, 10);
-
         if (timerInterval !== null) clearInterval(timerInterval);
-
         timerInterval = setInterval(() => {
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
@@ -196,39 +164,28 @@
         }, 1000);
     }
 
-    // ===========================
-    // Round Handling
-    // ===========================
     function startNewRound(question) {
         const timeToType = roomSettings.typingTime || 60;
         const center = getOrCreateCenter();
-
         const timerLabel = document.getElementById("time-left");
         if (timerLabel) timerLabel.textContent = timeToType;
-
         if (timerInterval !== null) {
             clearInterval(timerInterval);
             timerInterval = null;
         }
-
         const existingCountdown = document.getElementById("round-countdown-overlay");
         if (existingCountdown) existingCountdown.remove();
-
         startTimerCountdown();
-
         let userInput = document.getElementById("user-text-input");
         if (!userInput) {
             userInput = createElement("textarea");
             center.appendChild(userInput);
         }
-
         userInput.className = "";
         userInput.disabled = false;
         userInput.id = "user-text-input";
         userInput.placeholder = question;
         userInput.value = "";
-
-        // Smooth slide-up + fade-in animation
         userInput.style.transition = "transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease";
         userInput.style.opacity = 0;
         userInput.style.transform = "translateY(20px) scale(0.95)";
@@ -236,18 +193,14 @@
             userInput.style.opacity = 1;
             userInput.style.transform = "translateY(0) scale(1)";
         });
-
         questionPlaceholder = question;
         listenForTextInput();
         userInput.focus();
     }
 
-
-
     function listenForTextInput() {
         const userInput = document.getElementById("user-text-input");
         if (!userInput) return;
-
         document.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -259,7 +212,6 @@
     function handleWordSubmission() {
         const userInput = document.getElementById("user-text-input");
         if (!userInput) return;
-
         const word = userInput.value.toLowerCase().trim();
         if (word) {
             socket.send(JSON.stringify({
@@ -274,17 +226,12 @@
         }
     }
 
-    // ===========================
-    // Guess Handling
-    // ===========================
     function handleIncorrectGuess() {
         const userInput = document.getElementById("user-text-input");
         if (!userInput) return;
-
         userInput.placeholder = "incorrect word";
         userInput.classList.add("error");
         userInput.disabled = true;
-
         setTimeout(() => {
             userInput.placeholder = questionPlaceholder;
             userInput.classList.remove("error");
@@ -295,14 +242,11 @@
     function handleCorrectGuess(data) {
         const playerDiv = document.getElementById(data.playerName);
         if (!playerDiv) return;
-
         const userInput = document.getElementById("user-text-input");
         const charactersCount = playerDiv.querySelector(".characters-count");
         let previous = parseInt(charactersCount.textContent, 10) || 0;
         let current = parseInt(data.currentTotalCharacters, 10) || 0;
-
         charactersCount.textContent = current;
-
         if (data.playerName === sessionStorage.getItem("username")) {
             const wordLength = current - previous;
             userInput.placeholder = `correct answer!\n+${wordLength} characters`;
@@ -311,28 +255,28 @@
         }
     }
 
-    // ===========================
-    // Player & Winner Handling
-    // ===========================
     function handlePlayerHasWon(data) {
         const playerName = data.username;
         const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "/src/assets/skins/default-skin.png";
-
         const textInput = document.getElementById("user-text-input");
         if (textInput) textInput.remove();
-
         const overlay = createElement("div", { id: "winner-overlay" }, [
             createElement("img", { id: "winner-avatar", src: playerSkin, alt: `${playerName}'s avatar` }),
             createElement("h1", { id: "win-message", textContent: `${playerName} has won!!` })
         ]);
-
         document.body.appendChild(overlay);
     }
 
     function handlePlayerLeft(data) {
         const playerDiv = document.getElementById(data.username);
-        if (playerDiv && playerDiv.parentNode) playerDiv.parentNode.removeChild(playerDiv);
-
+        if (playerDiv) {
+            playerDiv.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+            playerDiv.style.opacity = 0;
+            playerDiv.style.transform = "scale(0.7)";
+            setTimeout(() => {
+                if (playerDiv.parentNode) playerDiv.parentNode.removeChild(playerDiv);
+            }, 400);
+        }
         let playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
         playersList = playersList.filter(player => player.username !== data.username);
         sessionStorage.setItem("playersList", JSON.stringify(playersList));
@@ -341,10 +285,8 @@
     function handleReturnToLobby(data) {
         const winnerOverlay = document.getElementById("winner-overlay");
         if (winnerOverlay) winnerOverlay.remove();
-
         const userInput = document.getElementById("user-text-input");
         if (userInput) userInput.remove();
-
         if (data && data.roomCode) {
             document.location.hash = `#lobby?id=${data.roomCode}`;
         } else {

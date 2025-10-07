@@ -93,7 +93,7 @@
         playersList.forEach((player, index) => {
             const circleDiv = createElement("div", { className: "circle" }, [
                 createElement("span", { className: "characters-count", textContent: "0" }),
-                document.createTextNode("/"),
+                createElement("span", {textContent: "/"}),
                 createElement("span", { className: "characters-goal", textContent: roomSettings.characterGoal }),
                 createElement("img", { src: player.skinPath, alt: `${player.username}'s avatar`, style: "width:120%;" }),
                 createElement("span", { className: "name", textContent: player.username })

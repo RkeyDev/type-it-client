@@ -239,6 +239,50 @@
         }, 1000);
     }
 
+    // ==========================
+    // CONFETTI GENERATOR
+    // ==========================
+    function spawnConfettiFromElement(element, amount = 25) {
+        if (!element) return;
+        const rect = element.getBoundingClientRect();
+        const originX = rect.left + rect.width / 2;
+        const originY = rect.top + rect.height / 2;
+        for (let i = 0; i < amount; i++) {
+            const confetti = document.createElement("div");
+            confetti.className = "confetti-particle";
+            confetti.style.position = "fixed";
+            confetti.style.left = `${originX}px`;
+            confetti.style.top = `${originY}px`;
+            confetti.style.width = "8px";
+            confetti.style.height = "8px";
+            confetti.style.borderRadius = "2px";
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+            confetti.style.pointerEvents = "none";
+            confetti.style.opacity = "1";
+            document.body.appendChild(confetti);
+
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 4 + Math.random() * 4;
+            const dx = Math.cos(angle) * velocity;
+            const dy = Math.sin(angle) * velocity;
+            let y = originY, x = originX, life = 0;
+
+            const fall = () => {
+                life += 1;
+                x += dx;
+                y += dy + life * 0.1;
+                confetti.style.transform = `translate(${x - originX}px, ${y - originY}px) rotate(${life * 10}deg)`;
+                confetti.style.opacity = `${1 - life / 60}`;
+                if (life < 60) {
+                    requestAnimationFrame(fall);
+                } else {
+                    confetti.remove();
+                }
+            };
+            requestAnimationFrame(fall);
+        }
+    }
+
     function handleCorrectGuess(data) {
         const playerDiv = document.getElementById(data.playerName);
         if (!playerDiv) return;
@@ -253,6 +297,9 @@
             userInput.classList.add("correct");
             userInput.disabled = true;
         }
+        // Confetti burst from their skin
+        const skin = playerDiv.querySelector("img");
+        if (skin) spawnConfettiFromElement(skin);
     }
 
     function handlePlayerHasWon(data) {
@@ -265,6 +312,7 @@
             createElement("h1", { id: "win-message", textContent: `${playerName} has won!!` })
         ]);
         document.body.appendChild(overlay);
+        
     }
 
     function handlePlayerLeft(data) {

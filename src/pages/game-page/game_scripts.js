@@ -126,23 +126,55 @@
     function startCountdown(container, onFinish) {
         if (document.getElementById("round-countdown-overlay")) return;
 
-        const countdownElement = createElement("span", { id: "round-countdown" });
-        const overlay = createElement("div", { id: "round-countdown-overlay" }, [countdownElement]);
+        const countdownElement = document.createElement("span");
+        countdownElement.id = "round-countdown";
+        countdownElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+        countdownElement.style.display = "inline-block";
+        countdownElement.style.fontSize = "5rem";
+        countdownElement.style.opacity = 0;
+
+        const overlay = document.createElement("div");
+        overlay.id = "round-countdown-overlay";
+        overlay.style.position = "fixed";
+        overlay.style.top = 0;
+        overlay.style.left = 0;
+        overlay.style.width = "100%";
+        overlay.style.height = "100%";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.background = "rgba(0,0,0,0.5)";
+        overlay.appendChild(countdownElement);
+
         document.body.appendChild(overlay);
 
-        let countdown = 5;
-        countdownElement.textContent = countdown;
+        let countdown = 6;
 
-        const interval = setInterval(() => {
+        function updateCountdown() {
             countdown--;
-            countdownElement.textContent = countdown;
+            countdownElement.style.opacity = 0;
+            countdownElement.style.transform = "scale(0.5)";
+            setTimeout(() => {
+                countdownElement.textContent = countdown === 1 ? "Type It!" : countdown - 1;
+                countdownElement.style.opacity = 1;
+                countdownElement.style.transform = "scale(1)";
+            }, 100);
+
             if (countdown <= 0) {
                 clearInterval(interval);
-                overlay.remove();
+                setTimeout(() => overlay.remove(), 300);
                 if (typeof onFinish === "function") onFinish();
             }
-        }, 1000);
+        }
+
+        // initial show
+        countdownElement.textContent = countdown - 1;
+        countdownElement.style.opacity = 1;
+        countdownElement.style.transform = "scale(1)";
+
+        const interval = setInterval(updateCountdown, 1000);
     }
+
 
     function startTimerCountdown() {
         const timer = document.getElementById("time-left");

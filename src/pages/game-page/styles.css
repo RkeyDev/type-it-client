@@ -229,3 +229,47 @@ html, body {
   color: #fff;
   text-align: center;
 }
+
+#time-left {
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: bold;
+  color: gold;
+  text-align: center;
+  display: inline-block;
+  transform: translateY(-50px) scale(0.5);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
+}
+
+#time-left.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+#time-left.flip {
+  animation: flipDigit 0.4s ease forwards;
+}
+
+#time-left {
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: inline-block;
+  transform: translateY(-40px) scale(0.8);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
+}
+
+#time-left.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+@keyframes numberBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.3); }
+  50% { transform: scale(1); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}

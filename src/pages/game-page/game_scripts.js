@@ -149,20 +149,28 @@
     function startTimerCountdown() {
         const timer = document.getElementById("time-left");
         if (!timer) return;
+
+        timer.classList.add("show"); // initial bounce-in
+
         let timeLeft = parseInt(timer.innerText, 10);
         if (timerInterval !== null) clearInterval(timerInterval);
+
         timerInterval = setInterval(() => {
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                timerInterval = null;
                 timer.innerText = "0";
-                console.log("Time's up!");
             } else {
                 timeLeft--;
+
+                // Smooth bounce animation per number
+                timer.style.animation = "none"; // reset
+                void timer.offsetWidth; // force reflow
                 timer.innerText = timeLeft;
+                timer.style.animation = "numberBounce 0.4s ease";
             }
         }, 1000);
     }
+
 
     function startNewRound(question) {
         const timeToType = roomSettings.typingTime || 60;
@@ -232,10 +240,12 @@
         userInput.placeholder = "incorrect word";
         userInput.classList.add("error");
         userInput.disabled = true;
+
         setTimeout(() => {
             userInput.placeholder = questionPlaceholder;
             userInput.classList.remove("error");
             userInput.disabled = false;
+            userInput.focus();
         }, 1000);
     }
 

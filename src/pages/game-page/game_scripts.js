@@ -85,34 +85,32 @@
     }
 
     function initializeGame() {
-        const center = document.querySelector(".center");
-        if (!center) {
-            console.error("Center container not found!");
-            return;
-        }
-
-        loadPlayers();
-
-        const gameWaitingText = document.getElementById("game-waiting-text");
-        if (gameWaitingText) center.removeChild(gameWaitingText);
-
-        startCountdown(center, () => {
-            console.log("Countdown finished, requesting server to start first round...");
-            socket.send(JSON.stringify({
-                type: "start_new_round",
-                data: { roomCode: room_id, username: sessionStorage.getItem("username") | ""}
-            }));
-        });
+    let center = document.querySelector(".center");
+    if (!center) {
+        center = document.createElement("div");
+        center.className = "center";
+        document.body.appendChild(center); // append it!
     }
+
+    loadPlayers();
+
+    const gameWaitingText = document.getElementById("game-waiting-text");
+    if (gameWaitingText) center.removeChild(gameWaitingText);
+
+    startCountdown(center, () => {
+        console.log("Countdown finished, server is starting first round...");
+    });
+}
+
 
     function startCountdown(container, onFinish) {
         if(document.getElementById("round-countdown-overlay")) return;
 
-        const overlay = document.createElement("div");
+        let overlay = document.createElement("div");
         overlay.id = "round-countdown-overlay";
 
 
-        const countdownElement = document.createElement("span");
+        let countdownElement = document.createElement("span");
         countdownElement.id = "round-countdown";
         
         overlay.appendChild(countdownElement);
@@ -148,8 +146,6 @@
                 timerInterval = null;
                 timer.innerText = "0";
 
-                const userTextInput = document.getElementById("user-text-input");
-                if (userTextInput) userTextInput.disabled = true;
 
                 console.log("Time's up!");
             } else {
@@ -162,7 +158,10 @@
     function startNewRound(question) {
         const timeToType = roomSettings.typingTime || 60;
         const center = document.querySelector(".center");
-        if (!center) return;
+        if (!center) {
+            center = document.createElement("div");
+            center.className = "center";
+        };
 
         const timeLeftLabel = document.getElementById("time-left");
         if (timeLeftLabel) timeLeftLabel.textContent = timeToType;

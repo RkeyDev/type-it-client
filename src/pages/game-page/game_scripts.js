@@ -95,7 +95,7 @@
                 createElement("span", { className: "characters-count", textContent: "0" }),
                 document.createTextNode("/"),
                 createElement("span", { className: "characters-goal", textContent: roomSettings.characterGoal }),
-                createElement("img", { src: player.skinPath || "/assets/default-avatar.png", alt: `${player.username}'s avatar`, style: "width:120%;" }),
+                createElement("img", { src: player.skinPath, alt: `${player.username}'s avatar`, style: "width:120%;" }),
                 createElement("span", { className: "name", textContent: player.username })
             ]);
             const playerDiv = createElement("div", { id: player.username, className: `player p${index + 1}` }, [circleDiv]);
@@ -314,7 +314,7 @@
 
     function handlePlayerHasWon(data) {
         const playerName = data.username;
-        const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "/src/assets/skins/default-skin.png";
+        const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "/src/assets/skins/deafult_yellow_skin.webp";
         const textInput = document.getElementById("user-text-input");
         if (textInput) textInput.remove();
         const overlay = createElement("div", { id: "winner-overlay" }, [

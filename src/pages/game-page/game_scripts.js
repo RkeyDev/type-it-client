@@ -228,10 +228,21 @@
         userInput.placeholder = question;
         userInput.value = "";
 
+        // Smooth slide-up + fade-in animation
+        userInput.style.transition = "transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease";
+        userInput.style.opacity = 0;
+        userInput.style.transform = "translateY(20px) scale(0.95)";
+        requestAnimationFrame(() => {
+            userInput.style.opacity = 1;
+            userInput.style.transform = "translateY(0) scale(1)";
+        });
+
         questionPlaceholder = question;
         listenForTextInput();
         userInput.focus();
     }
+
+
 
     function listenForTextInput() {
         const userInput = document.getElementById("user-text-input");

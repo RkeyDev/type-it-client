@@ -21,6 +21,10 @@ body {
     margin: 0;
     overflow: hidden;
 }
+
+#logo{
+    width: 50%;
+}
 #logo-image{
     margin: 0 auto;
     display: block;

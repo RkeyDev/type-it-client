@@ -3,24 +3,24 @@ const style = document.getElementById('page-style');
 
 const routes = {
   login: {
-    html: 'login-page/login.html',
-    css: 'login-page/styles.css',
-    js: 'login-page/login_scripts.js'
+    html: '/src/pages/login-page/login.html',
+    css: '/src/pages/login-page/styles.css',
+    js: '/src/pages/login-page/login_scripts.js'
   },
   main_menu: {
-    html: 'main-menu-page/main_menu.html',
-    css: 'main-menu-page/styles.css',
-    js: 'main-menu-page/main_menu_scripts.js'
+    html: '/src/pages/main-menu-page/main_menu.html',
+    css: '/src/pages/main-menu-page/styles.css',
+    js: '/src/pages/main-menu-page/main_menu_scripts.js'
   },
   lobby: {
-    html: 'lobby-page/lobby.html',
-    css: 'lobby-page/styles.css',
-    js: 'lobby-page/lobby_scripts.js'
+    html: '/src/pages/lobby-page/lobby.html',
+    css: '/src/pages/lobby-page/styles.css',
+    js: '/src/pages/lobby-page/lobby_scripts.js'
   },
   game: {
-    html: 'game-page/game.html',
-    css: 'game-page/styles.css',
-    js: 'game-page/game_scripts.js'
+    html: '/src/pages/game-page/game.html',
+    css: '/src/pages/game-page/styles.css',
+    js: '/src/pages/game-page/game_scripts.js'
   }
 };
 

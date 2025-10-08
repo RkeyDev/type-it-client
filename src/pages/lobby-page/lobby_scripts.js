@@ -4,6 +4,7 @@
   let playerListContainer = null;
   let startButton = null;
   let form = null;
+  let isHost = false;
 
   function copyRoomCode(){
     if (!roomCodeButton) return;
@@ -43,6 +44,16 @@
     sessionStorage.setItem("playersList", JSON.stringify(playersList));
   }
 
+  function setSettingsDisabled(){
+    const form = document.querySelector("form");
+    form.remove();
+
+    const room_settings_container = document.getElementById("room-settings-container");
+    let host_starting_game_h1 = document.createElement("h1");
+    host_starting_game_h1.innerText = "Waiting for the host to start the game...";
+    room_settings_container.appendChild(host_starting_game_h1)
+  }
+
   function loadPlayersFromSessionOrInitialData() {
     const storedPlayers = sessionStorage.getItem("playersList");
     if (storedPlayers) {
@@ -55,7 +66,6 @@
       return;
     }
 
-    // fallback to initialRoomData
     const roomDataStr = sessionStorage.getItem("initialRoomData");
     if (!roomDataStr) return;
 
@@ -65,9 +75,18 @@
         ? JSON.parse(parsedRoomData.data.players)
         : parsedRoomData.data.players;
       updatePlayerList(playerDataList);
+
       if (!roomId && parsedRoomData.data && parsedRoomData.data.roomCode)
         roomId = parsedRoomData.data.roomCode;
       if (roomCodeButton) roomCodeButton.innerText = roomId || roomCodeButton.innerText || "Error";
+
+      const currentUser = sessionStorage.getItem("username");
+      const hostUser = parsedRoomData.data.host || (playerDataList.length > 0 ? playerDataList[0].username : null);
+      isHost = currentUser === hostUser;
+
+      if(!isHost)
+        setSettingsDisabled();
+
     } catch (err) {
       console.error("Failed to load room data from session:", err);
     }
@@ -84,6 +103,11 @@
         updatePlayerList(playerDataList);
       } else if (data.type === "game_started") {
         window.location.href = `#game?id=${roomId}`;
+      } else if (data.type === "room_info") {
+        // Update host info dynamically
+        const currentUser = sessionStorage.getItem("username");
+        isHost = currentUser === data.data.host;
+        setSettingsDisabled(!isHost);
       }
     } catch (err) {
       console.error("Failed to handle incoming message:", err);
@@ -91,6 +115,7 @@
   }
 
   function submitStart(){
+    if (!isHost) return;
     const typingTimeEl = document.getElementById("typing-time-slider");
     const characterGoalEl = document.getElementById("character-goal-slider");
     const languageEl = document.getElementById("languages-dropdown");

@@ -435,6 +435,12 @@
     // Triggered when the server resets the game state
     // =============================
     function handleReturnToLobby(data) {
+        if(data.host === sessionStorage.getItem("username")){
+            sessionStorage.setItem("host","true")
+        }
+        else{
+            sessionStorage.setItem("host","false");
+        }
         const winnerOverlay = document.getElementById("winner-overlay");
         if (winnerOverlay) winnerOverlay.remove();
 

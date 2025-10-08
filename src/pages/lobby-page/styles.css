@@ -500,3 +500,87 @@
         padding: 14px;
     }
 }
+
+
+
+/* Waiting wrapper floating effect */
+.waiting-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+    width: 65%;
+    text-align: center;
+    gap: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: floatWrapper 3s ease-in-out infinite;
+}
+
+/* Header fade in + slide */
+.waiting-header {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+    animation: fadeInUp 1.2s ease forwards;
+}
+
+/* Dots container */
+.waiting-dots {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+/* Animated dots with gradient flow */
+.waiting-dots .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ffffff, #f1fefb, #d2fff5);
+    background-size: 200% 200%;
+    animation: pulseGradient 1.5s infinite ease-in-out, moveDots 1.5s infinite;
+    opacity: 0.6;
+}
+
+.waiting-dots .dot-2 { animation-delay: 0.25s; }
+.waiting-dots .dot-3 { animation-delay: 0.5s; }
+
+/* Header fade-in + slide up */
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Gradient pulse animation for dots */
+@keyframes pulseGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Dot scaling animation */
+@keyframes moveDots {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.6; }
+    40% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Floating wrapper effect */
+@keyframes floatWrapper {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1366px) {
+    .waiting-wrapper { width: 60%; height: 35%; gap: 15px; }
+    .waiting-header { font-size: 1.5rem; }
+    .waiting-dots .dot { width: 14px; height: 14px; }
+}
+
+@media (max-width: 1024px) {
+    .waiting-wrapper { width: 90%; height: 30%; gap: 12px; }
+    .waiting-header { font-size: 1.3rem; }
+    .waiting-dots .dot { width: 12px; height: 12px; }
+}

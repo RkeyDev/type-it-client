@@ -4,7 +4,6 @@
   let playerListContainer = null;
   let startButton = null;
   let form = null;
-  let isHost = false;
 
   function copyRoomCode(){
     if (!roomCodeButton) return;
@@ -29,6 +28,7 @@
         username: player.username,
         skinPath: player.skinPath
       });
+
       const playerSlot = document.createElement("div");
       playerSlot.className = "player-slot";
       const nameElement = document.createElement("h1");
@@ -44,16 +44,6 @@
     sessionStorage.setItem("playersList", JSON.stringify(playersList));
   }
 
-  function setSettingsDisabled(){
-    const form = document.querySelector("form");
-    form.remove();
-
-    const room_settings_container = document.getElementById("room-settings-container");
-    let host_starting_game_h1 = document.createElement("h1");
-    host_starting_game_h1.innerText = "Waiting for the host to start the game...";
-    room_settings_container.appendChild(host_starting_game_h1)
-  }
-
   function loadPlayersFromSessionOrInitialData() {
     const storedPlayers = sessionStorage.getItem("playersList");
     if (storedPlayers) {
@@ -66,6 +56,7 @@
       return;
     }
 
+    // fallback to initialRoomData
     const roomDataStr = sessionStorage.getItem("initialRoomData");
     if (!roomDataStr) return;
 
@@ -75,18 +66,9 @@
         ? JSON.parse(parsedRoomData.data.players)
         : parsedRoomData.data.players;
       updatePlayerList(playerDataList);
-
       if (!roomId && parsedRoomData.data && parsedRoomData.data.roomCode)
         roomId = parsedRoomData.data.roomCode;
       if (roomCodeButton) roomCodeButton.innerText = roomId || roomCodeButton.innerText || "Error";
-
-      const currentUser = sessionStorage.getItem("username");
-      const hostUser = parsedRoomData.data.host || (playerDataList.length > 0 ? playerDataList[0].username : null);
-      isHost = currentUser === hostUser;
-
-      if(!isHost)
-        setSettingsDisabled();
-
     } catch (err) {
       console.error("Failed to load room data from session:", err);
     }
@@ -103,11 +85,6 @@
         updatePlayerList(playerDataList);
       } else if (data.type === "game_started") {
         window.location.href = `#game?id=${roomId}`;
-      } else if (data.type === "room_info") {
-        // Update host info dynamically
-        const currentUser = sessionStorage.getItem("username");
-        isHost = currentUser === data.data.host;
-        setSettingsDisabled(!isHost);
       }
     } catch (err) {
       console.error("Failed to handle incoming message:", err);
@@ -115,7 +92,6 @@
   }
 
   function submitStart(){
-    if (!isHost) return;
     const typingTimeEl = document.getElementById("typing-time-slider");
     const characterGoalEl = document.getElementById("character-goal-slider");
     const languageEl = document.getElementById("languages-dropdown");
@@ -159,7 +135,9 @@
     if (form) form.addEventListener("submit", onStartSubmit);
     if (startButton) startButton.addEventListener("click", onStartClick);
     if (window.socket && socket.addEventListener) socket.addEventListener("message", onSocketMessage);
-
+    if(sessionStorage.getItem("host")==="false")
+      setSettingsDisabled();
+    
     loadPlayersFromSessionOrInitialData();
   }
 
@@ -169,6 +147,34 @@
     if (startButton) startButton.removeEventListener("click", onStartClick);
     if (window.socket && socket.removeEventListener) socket.removeEventListener("message", onSocketMessage);
   }
+
+  function setSettingsDisabled() {
+    const form = document.querySelector("form");
+    if (form) form.remove();
+
+    const roomSettingsContainer = document.getElementById("room-settings-container");
+    roomSettingsContainer.innerHTML = "";
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "waiting-wrapper";
+
+    const header = document.createElement("h2");
+    header.className = "waiting-header";
+    header.innerText = "Waiting for the host to start the game...";
+
+    const dots = document.createElement("div");
+    dots.className = "waiting-dots";
+
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement("div");
+        dot.className = `dot dot-${i+1}`;
+        dots.appendChild(dot);
+    }
+
+    wrapper.appendChild(header);
+    wrapper.appendChild(dots);
+    roomSettingsContainer.appendChild(wrapper);
+}
 
   window.__cleanup = destroy;
   init();

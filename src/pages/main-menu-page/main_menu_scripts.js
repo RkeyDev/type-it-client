@@ -96,6 +96,7 @@ async function createRoom() {
         socket.addEventListener("error", (err) => {
             console.error("WebSocket error:", err);
         });
+        sessionStorage.setItem("host","true");
 
     } catch (err) {
         console.error("Error:", err);
@@ -122,6 +123,7 @@ function startMatchmakingRequest(){
  * @returns {object} - The request object.
  */
 function createJoinRoomRequest(code) {
+    sessionStorage.setItem("host","false")
     return {
         type: "join_room",
         data: {
@@ -155,6 +157,7 @@ function createCreateRoomRequest() {
  * @param {object} response - The response from the server.
  */
 function handleRoomUpdate(response) {
+    sessionStorage.setItem("host","false");
     sessionStorage.setItem("initialRoomData", JSON.stringify(response));
     const roomCode = response.data.roomCode;
     document.location.hash = `#lobby?id=${roomCode}`;

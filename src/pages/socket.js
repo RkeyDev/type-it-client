@@ -1,5 +1,4 @@
-const socket = new WebSocket("ws://localhost:8080");
-
+const socket = new WebSocket("wss://type-it-backend.onrender.com");
 
 window.socket = socket;
 

@@ -176,7 +176,7 @@
             countdownElement.style.transform = "scale(0.5)";
 
             setTimeout(() => {
-                if(countdown-1>0){
+                if(countdown-1>=0){
                     countdownElement.textContent = countdown === 1 ? "Type It!" : countdown - 1;
                     countdownElement.style.opacity = 1;
                     countdownElement.style.transform = "scale(1)";

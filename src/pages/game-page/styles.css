@@ -261,6 +261,50 @@ html, body {
   transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
 }
 
+.circle {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  text-align: center;
+  vertical-align: top;
+  font-family: inherit;
+}
+
+.circle .avatar-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.circle .progress-row {
+  display: inline-block;
+  white-space: nowrap;
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.circle .progress-row span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.circle .name {
+  display: block;
+  margin-top: 6px;
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 #time-left.show {
   transform: translateY(0) scale(1);
   opacity: 1;

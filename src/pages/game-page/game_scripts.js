@@ -123,21 +123,30 @@
         const container = document.getElementById("players-container");
         if (!container) return;
         const playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
-        if (container.children.length > 0) return; // avoid reloading if already exists
+        if (container.children.length > 0) return;
 
         playersList.forEach((player, index) => {
-            // Each player shown with a circular progress counter and skin image
-            const circleDiv = createElement("div", { className: "circle" }, [
+            const progressRow = createElement("div", { className: "progress-row" }, [
                 createElement("span", { className: "characters-count", textContent: "0" }),
-                createElement("span", { textContent: "/" }),
-                createElement("span", { className: "characters-goal", textContent: roomSettings.characterGoal }),
-                createElement("img", { src: player.skinPath, alt: `${player.username}'s avatar`, style: "width:120%;" }),
-                createElement("span", { className: "name", textContent: player.username })
+                createElement("span", { className: "divider", textContent: "/" }),
+                createElement("span", { className: "characters-goal", textContent: roomSettings.characterGoal })
             ]);
+
+            const imgEl = createElement("img", { src: player.skinPath, alt: `${player.username}'s avatar`, className: "avatar-img" });
+
+            const nameSpan = createElement("span", { className: "name", textContent: player.username });
+
+            const circleDiv = createElement("div", { className: "circle" }, [
+                progressRow,
+                imgEl,
+                nameSpan
+            ]);
+
             const playerDiv = createElement("div", { id: player.username, className: `player p${index + 1}` }, [circleDiv]);
             container.appendChild(playerDiv);
         });
     }
+
 
     // =============================
     // Displays countdown overlay before each round

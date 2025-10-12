@@ -410,7 +410,7 @@
     // =============================
     function handlePlayerHasWon(data) {
         const playerName = data.username;
-        const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "/src/assets/skins/deafult_yellow_skin.webp";
+        const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "./src/assets/skins/deafult_yellow_skin.webp";
         const textInput = document.getElementById("user-text-input");
         if (textInput) textInput.remove();
 

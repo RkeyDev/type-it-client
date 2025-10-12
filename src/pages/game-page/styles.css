@@ -264,11 +264,12 @@ html, body {
 .circle {
   position: relative;
   display: inline-block;
-  width: 120px;
+  width: clamp(80px, 3vw, 80px);
   text-align: center;
   vertical-align: top;
   font-family: inherit;
 }
+
 
 .circle .avatar-img {
   display: block;
@@ -276,7 +277,9 @@ html, body {
   height: auto;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
+
 
 .circle .progress-row {
   display: inline-block;
@@ -316,4 +319,38 @@ html, body {
   50% { transform: scale(1); }
   70% { transform: scale(1.2); }
   100% { transform: scale(1); }
+}
+
+/* Handle smaller desktop resolutions (e.g. 720p or less) */
+@media screen and (max-height: 850px) {
+  html, body {
+    overflow-y: auto;
+  }
+
+  .game-container {
+    height: auto !important;
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  #players-container {
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+}
+
+@media screen and (max-height: 700px) {
+  #players-container {
+    transform: scale(0.8);
+  }
+
+  #user-text-input {
+    transform: scale(0.9);
+  }
+
+  #time-left {
+    font-size: 1.2rem;
+  }
 }

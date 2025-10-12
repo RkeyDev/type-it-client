@@ -1,6 +1,6 @@
-const socket = new WebSocket("wss//respectable-crow-rkeydev-11f1364e.koyeb.app/");
+const socket = new WebSocket("wss//contemporary-freddi-rkeydev-f3aca4d7.koyeb.app/");
 
-//wss//respectable-crow-rkeydev-11f1364e.koyeb.app/
+//wss//contemporary-freddi-rkeydev-f3aca4d7.koyeb.app/
 //ws://localhost:8080
 
 window.socket = socket;

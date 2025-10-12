@@ -129,6 +129,29 @@
     const [route, queryString] = hash.split('?');
     const hashParams = new URLSearchParams(queryString || '');
     roomId = hashParams.get('id') || null;
+  const matchmakingToggle = document.getElementById("matchmaking-toggle");
+  if (matchmakingToggle) {
+      matchmakingToggle.addEventListener("change", () => {
+        const toggleLabel = document.getElementById('matchmaking-toggle-label');
+
+        
+          if (!window.socket || socket.readyState !== WebSocket.OPEN) {
+              console.warn("Socket not open");
+              return;
+          }
+
+          toggleLabel.textContent = matchmakingToggle.checked ? 'On' : 'Off';
+          const username = sessionStorage.getItem("username") || "";
+          socket.send(JSON.stringify({
+              type: "toggle_matchmaking",
+              data: {
+                  allow_matchmaking: matchmakingToggle.checked.toString(),
+                  username: username,
+                  roomCode: roomId
+              }
+          }));
+      });
+  }
 
     if (roomCodeButton) roomCodeButton.innerText = roomId || "Error";
     if (roomCodeButton) roomCodeButton.addEventListener("click", copyRoomCode);

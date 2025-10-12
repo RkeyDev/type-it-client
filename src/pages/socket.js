@@ -1,4 +1,4 @@
-const socket = new WebSocket("ws://localhost:8080");
+const socket = new WebSocket("wss//respectable-crow-rkeydev-11f1364e.koyeb.app/");
 
 //wss//respectable-crow-rkeydev-11f1364e.koyeb.app/
 //ws://localhost:8080

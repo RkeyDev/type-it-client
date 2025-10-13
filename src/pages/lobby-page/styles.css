@@ -443,7 +443,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #ffffff;
     transition: background-color 0.4s;
     border-radius: 34px;
 
@@ -456,14 +456,14 @@
     width: 28px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: #418b8f;
     transition: transform 0.4s;
     border-radius: 50%;
 
 }
 
 .switch input:checked + .slider-toggle {
-    background-color: #A9B170;
+    background-color: #87a977;
     
 }
 

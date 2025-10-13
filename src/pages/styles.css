@@ -16,6 +16,7 @@ body{
     height: auto;
     position: fixed;
     top: clamp(12px, 3vh, 24px);
+    z-index: 999999999;
 }
 
 

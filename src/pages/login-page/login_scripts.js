@@ -3,18 +3,10 @@ const username_textfield = document.getElementById("username-textfield");
 // Temporary hardcoded skins list
 let currentSkin = 0;
 let skins = [
-    "./src/assets/skins/deafult_yellow_skin.webp",
-    "./src/assets/skins/deafult_blue_skin.webp",
-    "./src/assets/skins/deafult_green_skin.webp",
-    "./src/assets/skins/deafult_purple_skin.webp",
-    "./src/assets/skins/deafult_red_skin.webp",
-    "./src/assets/skins/glasses-suit-skin.png",
-    "./src/assets/skins/alien-skin.png",
-    "./src/assets/skins/checkered_skin.webp",
-    "./src/assets/skins/earth_skin.webp",
-    "./src/assets/skins/skin_nerd_1.webp",
-    "./src/assets/skins/skin_smile.webp",
-    "./src/assets/skins/watermelon2_skin.webp"
+    "./src/assets/skins/Smiley_Skin.webp",
+    "./src/assets/skins/Alien_Skin.webp",
+    "./src/assets/skins/CEO_Skin.webp",
+    "./src/assets/skins/STC_Skin.webp"
 ];
 
 function validateForm() {

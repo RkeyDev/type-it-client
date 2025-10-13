@@ -10,7 +10,7 @@ let skins = [
 ];
 
 function validateForm() {
-    if (username_textfield.value.length > 0 && username_textfield.value.length <= 15) {
+    if (username_textfield.value.trim().length > 0 && username_textfield.value.length <= 10 && username_textfield.value) {
         handleFormSubmit();
     }
 }

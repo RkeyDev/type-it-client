@@ -37,6 +37,7 @@ function changeSkin(direction) {
 
     const skinImage = document.getElementById("skin-image");
     skinImage.src = skins[currentSkin];
+    button_press_sound.play();
 }
 
 function onPageLoad() {

@@ -7,9 +7,10 @@ html, body {
 
 /* Desktop-first responsive styles for login page (no mobile rules) */
 #logo-image{
-    margin: 0 auto;
+    margin: auto;
+    padding-left: 15px;
     display: block;
-    width: clamp(160px, 18vw, 260px);
+    width: clamp(160px, 18vw, 270px);
     height: auto;
 }
 
@@ -20,6 +21,24 @@ html, body {
     position: relative;
     top: clamp(85px, 6vh, 64px);
 }
+
+#privacy-policy-link {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    font-size: clamp(14px, 1.5vw, 18px);
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+#privacy-policy-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
 
 #username-textfield{
     position: relative;

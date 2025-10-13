@@ -15,5 +15,18 @@
   </main>
   <script src="./src/pages/socket.js"></script>
   <script src="./src/pages/router.js"></script>
+  <script>
+    sessionStorage.clear();
+    const button_press_sound = new Audio("./src/assets/sounds/button-press-sound.mp3");
+    window.addEventListener("click",(event)=>{
+      const target = event.target;
+          button_press_sound.playbackRate = 2;
+      if(target.tagName === "BUTTON" || target.tagName === "SELECT" || target.tagName === "A" || target.tagName === "INPUT" && ["button", "submit", "reset","checkbox"].includes(target.type)){
+        button_press_sound.currentTime = 0;
+        button_press_sound.play();
+      }
+      
+    });
+  </script>
 </body>
 </html>

@@ -5,6 +5,10 @@
     let timerInterval = null;       // Reference to the timer interval for countdown control
     let roomId = null;              // Current room's unique identifier
 
+    const countdown_sound = new Audio("./src/assets/sounds/countdown-sound.mp3");
+    const start_game_sound = new Audio("./src/assets/sounds/game-start-sound-effect.mp3");
+    const new_round_sound = new Audio("./src/assets/sounds/new_round_sound.mp3");
+
     // =============================
     // Sends a request to the server to start the game
     // =============================
@@ -109,6 +113,8 @@
         const waitingText = document.getElementById("game-waiting-text");
         if (waitingText) center.removeChild(waitingText);
 
+        countdown_sound.currentTime = 0;
+        countdown_sound.play();
         // Start a countdown before first round begins
         startCountdown(center, () => {
             console.log("Countdown finished, server is starting first round...");
@@ -180,7 +186,18 @@
 
         // Animates the countdown text each second
         function updateCountdown() {
-            countdown--;
+            countdown--; // Reduce countdown time
+
+            if (countdown>1){
+                countdown_sound.currentTime = 0;
+                countdown_sound.play();
+            }
+            else if (countdown == 1){
+                start_game_sound.play();
+            }
+            else if(countdown == 0){
+                new_round_sound.play();
+            }
             countdownElement.style.opacity = 0;
             countdownElement.style.transform = "scale(0.5)";
 
@@ -238,6 +255,9 @@
     // Also triggers the per-round countdown timer
     // =============================
     function startNewRound(question) {
+        
+        
+
         const timeToType = roomSettings.typingTime || 60;
         const center = getOrCreateCenter();
         const timerLabel = document.getElementById("time-left");
@@ -395,10 +415,16 @@
         charactersCount.textContent = current;
 
         if (data.playerName === sessionStorage.getItem("username")) {
+            //Placeholder to correct guess text
             const wordLength = current - previous;
             userInput.placeholder = `correct answer!\n+${wordLength} characters`;
             userInput.classList.add("correct");
             userInput.disabled = true;
+            
+            //Play correct guess sound
+            let correct_guess_sound = new Audio('./src/assets/sounds/correct-guess-sound.mp3');
+            correct_guess_sound.playbackRate = 1.5;
+            correct_guess_sound.play();
         }
 
         const skin = playerDiv.querySelector("img");

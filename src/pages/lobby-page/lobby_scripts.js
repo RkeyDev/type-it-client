@@ -4,7 +4,23 @@
   let playerListContainer = null;
   let startButton = null;
   let form = null;
+  const slider_move_sound = new Audio('./src/assets/sounds/slider-move-sound.mp3');
+  const typingTimeEl = document.getElementById("typing-time-slider");
+  const characterGoalEl = document.getElementById("character-goal-slider");
 
+  slider_move_sound.volume = 0.3;
+
+
+  typingTimeEl.addEventListener("input", () => {
+    // Restart and play sound
+    slider_move_sound.play();
+  });
+
+  characterGoalEl.addEventListener("input", () => {
+    // Restart and play sound
+    slider_move_sound.play();
+  });
+  
   function copyRoomCode(){
     if (!roomCodeButton) return;
     if (roomCodeButton.classList.contains("copied")) return;
@@ -92,8 +108,9 @@
   }
 
   function submitStart(){
-    const typingTimeEl = document.getElementById("typing-time-slider");
-    const characterGoalEl = document.getElementById("character-goal-slider");
+    
+
+    
     const languageEl = document.getElementById("languages-dropdown");
     const typingTime = typingTimeEl ? typingTimeEl.value : 60;
     const characterGoal = characterGoalEl ? characterGoalEl.value : 120;

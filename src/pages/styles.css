@@ -12,7 +12,7 @@ body{
 }
 
 #logo-image{
-    width: clamp(160px, 18vw, 260px);
+    width: clamp(160px, 18vw, 270px);
     height: auto;
     position: fixed;
     top: clamp(12px, 3vh, 24px);

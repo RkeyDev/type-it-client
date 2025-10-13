@@ -1,0 +1,164 @@
+/* Desktop-first responsive styles for main menu (no mobile rules) */
+/* Hide scrollbars for this page (desktop) */
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#logo{
+    width: 50%;
+}
+#logo-image{
+    margin: 0 auto;
+    display: block;
+    width: clamp(160px, 18vw, 260px);
+    height: auto;
+    position: static !important;
+    top: auto !important;
+    transform: translateX(clamp(60px, 21.5vw, 160px));
+    margin-bottom: clamp(16px, 3vh, 32px);
+}
+
+#room-code-textfield{
+    position: static;
+    top: 0;
+    height: clamp(44px, 6vh, 60px);
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    padding: clamp(10px, 1.2vw, 14px);
+    margin: 0;
+    outline: none;
+    background-color: #768EA9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    color: white;
+}
+#main-menu-buttons-container{
+    width: min(92vw, 560px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 4vh, 48px);
+    position: static;
+    top: 0;
+}
+
+
+#room-code-textfield::placeholder {
+    color: white;
+    font-size: clamp(18px, 2.2vw, 25px);
+}
+
+#join-room-button{
+    font-size: clamp(18px, 2.2vw, 25px);
+    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
+    width: clamp(260px, 60%, 520px);
+    height: clamp(44px, 6vh, 60px);
+    border-radius: 8px;
+    border: none;
+    background-color: #9C73BC;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: static;
+    left: 0;
+    top: 0;
+    margin: 0 auto;
+}
+
+#join-room-button:hover{
+    background-color: #8c6ca5;
+    transition: background-color 0.3s ease;
+}
+
+#matchmaking-button{
+    font-size: clamp(18px, 2.2vw, 25px);
+    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
+    width: 100%;
+    height: clamp(52px, 7vh, 72px);
+    border-radius: 8px;
+    border: none;
+    background-color: #96B1A9;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: static;
+    left: 0;
+    top: 0;
+}
+
+#matchmaking-button:hover{
+    background-color: #7fada0;
+    transition: background-color 0.3s ease;
+}
+
+#create-room-button{
+    font-size: clamp(18px, 2.2vw, 25px);
+    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
+    width: 100%;
+    height: clamp(52px, 7vh, 72px);
+    border-radius: 8px;
+    border: none;
+    background-color: #A9B170;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: static;
+    left: 0;
+    top: 0;
+}
+
+#create-room-button:hover{
+    background-color: #9cae5f;
+    transition: background-color 0.3s ease;
+}
+
+/* Desktop and tablet: adjust join button to be slightly narrower and add spacing */
+@media (min-width: 600px) {
+    #logo-image {
+        transform: translateX(clamp(60px, 21.5vw, 160px));
+        margin-top: clamp(8px, 2vh, 24px);
+        margin-bottom: clamp(24px, 5vh, 72px);
+    }
+    #room-code-form {
+        margin-bottom: clamp(24px, 6vh, 80px);
+    }
+    #main-menu-buttons-container {
+        gap: clamp(28px, 5vh, 56px);
+    }
+    #join-room-button {
+        width: clamp(220px, 48%, 420px);
+        margin: clamp(10px, 1.6vh, 18px) auto 0;
+    }
+    #matchmaking-button,
+    #create-room-button {
+        margin: 0 auto;
+        width: clamp(240px, 68%, 500px);
+    }
+}

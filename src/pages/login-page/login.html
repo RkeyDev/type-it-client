@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/pages/styles.css">
+    <link rel="stylesheet" href="./src/pages/login-page/styles.css">
+    <title>Type It!</title>
+</head>
+<body>
+    <div id="page-container">
+        <div id="logo">
+            <a href="./index.html"><img src="./src/assets/Logo.png" alt="Logo" id="logo-image"></a>
+        </div>
+        <div id="login-form-container">
+            <div id="login-form">
+                <div class="input-group">
+                    <input type="text" id="username-textfield" name="username" placeholder="Enter Your Nickname..." maxlength="15">
+                </div>
+                <div id="change-skin-container">
+                    <button type="button" class="arrow-button" onclick="changeSkin(-1)"> <img  src="./src/assets/Arrow-Left.png" alt="Change Skin" ></button>
+                    <img src="./src/assets/skins/deafult_yellow_skin.webp" alt="Skin" id="skin-image">
+                    <button type="button" class="arrow-button" onclick="changeSkin(1)"> <img src="./src/assets/Arrow-Right.png" alt="Change Skin"> </button> 
+                </div>
+                <button onclick="validateForm()" id="submit-button">Continue</button>
+            </div>
+        </div>
+    </div>
+     <script src="login_scripts.js"></script>
+</body>
+</html>

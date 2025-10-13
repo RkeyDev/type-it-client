@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/pages/styles.css">
+    <link rel="stylesheet" href="./src/pages/main-menu-page/styles.css">
+    <title>Type It!</title>
+</head>
+<body>
+    <div id="main-menu-container">
+        <div id="logo">
+            <a href="./index.html"><img src="./src/assets/Logo.png" alt="Logo" id="logo-image"></a>
+        </div>
+        <div id="main-menu-buttons-container">
+            <div id="room-code-form">
+                <div class="input-group">
+                    <input type="text" id="room-code-textfield" name="room-code" placeholder="Enter Room Code..." maxlength="15">
+                </div>
+                <button onclick="joinRoom()" id="join-room-button">Join Room</button>
+            </div>
+            <button id="matchmaking-button" onclick="startMatchmaking()">Matchmaking</button>
+            <button id="create-room-button">Create Room</button>
+        </div>
+    </div>
+
+    <script src="main_menu_scripts.js"></script>
+</body>
+</html>

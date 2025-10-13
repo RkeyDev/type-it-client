@@ -1,0 +1,83 @@
+
+html, body {
+    margin: -5px;
+    padding: 0;
+    overflow: hidden; /* disables both vertical & horizontal scrolling */
+}
+
+/* Desktop-first responsive styles for login page (no mobile rules) */
+#logo-image{
+    margin: 0 auto;
+    display: block;
+    width: clamp(160px, 18vw, 260px);
+    height: auto;
+}
+
+#login-form{
+    width: min(82vw, 400px);
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    top: clamp(85px, 6vh, 64px);
+}
+
+#username-textfield{
+    position: relative;
+    top: clamp(12px, 3vh, 40px);
+    width: 100%;
+    height: clamp(40px, 5.5vh, 56px);
+    border-radius: 8px;
+    border: none;
+    padding: clamp(10px, 1.2vw, 14px);
+    margin-bottom: clamp(56px, 3vh, 32px);
+    outline: none;
+    background-color: #768EA9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    color: white;
+    }
+    
+    #username-textfield::placeholder {
+        color: white;
+        font-size: clamp(18px, 2.2vw, 25px);
+    }
+    
+#submit-button{
+    font-size: clamp(18px, 2.2vw, 25px);
+    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
+    margin-top: clamp(85px, 1.2vh, 16px);
+    width: 100%;
+    height: clamp(40px, 5.5vh, 56px);
+    border-radius: 8px;
+    border: none;
+    background-color: #96B1A9;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 0;
+}
+
+
+#submit-button:hover{
+    background-color: #7fada0;
+    transition: background-color 0.3s ease;
+}
+
+#change-skin-container {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 1vw, 16px);
+    margin-top: clamp(16px, 4vh, 48px);
+    min-height: clamp(72px, 14vh, 160px);
+}
+
+.arrow-button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+}

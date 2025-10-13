@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./src/pages/styles.css">
+  <link rel="stylesheet" href="./src/pages/game-page/styles.css">
+  <title>Type It!</title>
+</head>
+
+<body>
+  <div id="main-menu-container">
+    <div id="logo">
+      <a href="./index.html"><img src="./src/assets/Logo.png" alt="Logo" id="logo-image"></a>
+    </div>
+
+    <div id="scale-wrapper"> 
+      <div class="game-container">
+        
+        
+
+        <!-- Players -->
+         <div id="players-container"></div>
+
+        <!-- Center stage (waiting text, countdown, word gains, question box) -->
+        <div class="center">
+          <!-- Timer -->
+          <span class="timer">
+            <span id="time-left" style="font-size: 72px;"></span>
+          </span>
+          <span id="game-waiting-text">Waiting to start...</span>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <!-- Game logic -->
+  <script src="game_scripts.js" defer></script>
+</body>
+</html>

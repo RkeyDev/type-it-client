@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/pages/styles.css">
+    <link rel="stylesheet" href="./src/pages/lobby-page/styles.css">
+    <title>Type It!</title>
+</head>
+<body>
+    <div id="lobby-container">
+        <a href="./index.html"><img src="./src/assets/Logo.png" alt="Logo" id="logo-image"></a>
+
+        <div id="room-code-container">
+            <h1 id="room-code-text">Room Code</h1>
+            <button id="room-code-button">Error</button>
+        </div>
+
+        <div id="room-settings-players-wrapper">
+            <div id="room-settings-container">
+                <form id="room-settings-form">
+
+                    <div id="typing-time-container">
+                        <h2 id="typing-time-header">Typing Time</h2>
+                        <div id="typing-time-slider-container">
+                            <label id="time-label">5 sec</label>
+                            <input type="range" class="slider" min="5" max="120" value="60" 
+                                   oninput="document.getElementById('current-time').textContent = this.value + ' sec'" 
+                                   id="typing-time-slider">
+                            <label id="time-label">120 sec</label>
+                        </div>
+                        <label id="current-time">60 sec</label>
+                    </div><br>
+
+                    <div id="character-goal-container">
+                        <h2 id="character-goal-header">Character Goal</h2>
+                        <div id="character-goal-slider-container">
+                            <label id="character-goal-label">50</label>
+                            <input type="range" class="slider" min="50" max="1000" value="120" 
+                                   oninput="document.getElementById('current-character-goal').textContent = this.value" 
+                                   id="character-goal-slider">
+                            <label id="character-goal-label">1000</label>
+                        </div>
+                        <label id="current-character-goal">120</label>
+                    </div>
+
+                    <div id="toggle-matchmaking-container">
+                        <h2 id="toggle-matchmaking-header">Matchmaking</h2>
+                        <label class="switch">
+                            <input type="checkbox" id="matchmaking-toggle">
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <span id="matchmaking-toggle-label">Off</span>
+                    </div>
+
+                    <div id="languages-dropdown-container">
+                        <select id="languages-dropdown" name="languages">
+                            <option value="english">English</option>
+                            <option value="hebrew">Hebrew</option>
+                            <option value="german">German</option>
+                        </select>
+                    </div>
+
+                    <div id="start-game-button-container">
+                        <input type="button" id="start-game-button" value="Start">
+                    </div>
+
+                </form>
+            </div>
+
+            <div id="players-container">
+                <h1 id="players-title">Players</h1>
+                <div id="players-list"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

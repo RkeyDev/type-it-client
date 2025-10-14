@@ -8,7 +8,9 @@
     const countdown_sound = new Audio("./src/assets/sounds/countdown-sound.mp3");
     const start_game_sound = new Audio("./src/assets/sounds/game-start-sound-effect.mp3");
     const new_round_sound = new Audio("./src/assets/sounds/new_round_sound.mp3");
-
+    const wrong_guess_sound = new Audio("./src/assets/sounds/wrong-guess-sound.mp3");
+    const someone_guessed_correctly_sound = new Audio("./src/assets/sounds/someone-guessed-correctly-sound.mp3");
+    
     // =============================
     // Sends a request to the server to start the game
     // =============================
@@ -340,10 +342,12 @@
     function handleIncorrectGuess() {
         const userInput = document.getElementById("user-text-input");
         if (!userInput) return;
+        wrong_guess_sound.currentTime = 0;
+        wrong_guess_sound.play();
         userInput.placeholder = "incorrect word";
         userInput.classList.add("error");
         userInput.disabled = true;
-
+        
         setTimeout(() => {
             userInput.placeholder = questionPlaceholder;
             userInput.classList.remove("error");
@@ -425,6 +429,9 @@
             let correct_guess_sound = new Audio('./src/assets/sounds/correct-guess-sound.mp3');
             correct_guess_sound.playbackRate = 1.5;
             correct_guess_sound.play();
+        }
+        else{
+            someone_guessed_correctly_sound.play();
         }
 
         const skin = playerDiv.querySelector("img");

@@ -19,4 +19,8 @@ body{
     z-index: 999999999;
 }
 
-
+@media (max-width: 1000px) {
+    h1,h2,h3,h4,label,p,span,button,input,textarea,select{
+        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+}

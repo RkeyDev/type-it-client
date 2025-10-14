@@ -25,7 +25,7 @@ async function startMatchmaking(){
             break;
         case "start_matchmaking_failed":
             // Failed to join
-            alert("No available rooms. Please try again later.");
+            showCustomAlert("Looks like all rooms are unavailable right now! Try again in a moment — or pick a new nickname if someone’s already using yours.");
             break;
         default:
             // Unexpected response
@@ -64,13 +64,36 @@ async function handleRoomJoin(roomCode) {
             break;
         case "join_room_failed":
             // Failed to join
-            alert("Couldn't join room. Please check the room code and try again.");
+            showCustomAlert("We couldn’t get you into that room! Double-check the code — or try a new nickname if someone’s already using yours.");
             break;
         default:
             // Unexpected response
             console.warn("Unexpected response:", response);
     }
 }
+
+
+function showCustomAlert(message) {
+    const alertBox = document.getElementById('custom-alert');
+    const messageElement = document.getElementById('alert-message');
+    const closeButton = document.getElementById('close-alert');
+
+    messageElement.textContent = message;
+    alertBox.classList.remove('hidden');
+
+    // Close alert on click
+    closeButton.onclick = () => {
+        alertBox.classList.add('hidden');
+    };
+
+    // Also close when clicking outside the box
+    alertBox.onclick = (e) => {
+        if (e.target === alertBox) {
+            alertBox.classList.add('hidden');
+        }
+    };
+}
+
 
 /**
  * Sends a create room request and handles the server response.
@@ -89,7 +112,7 @@ async function createRoom() {
             handleRoomUpdate(response);
         } else {
             // Failed to create room
-            alert("Failed to create room.");
+            showCustomAlert("Hmm… something went wrong while creating your room. Try again!");
         }
 
         // Log WebSocket errors

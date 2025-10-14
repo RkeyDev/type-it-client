@@ -26,7 +26,7 @@
           <span class="timer">
             <span id="time-left" style="font-size: 72px;"></span>
           </span>
-          <span id="game-waiting-text">Waiting to start...</span>
+          <span id="game-waiting-text" class="waiting-text">Waiting to start...</span>
         </div>
       </div>
     </div> 
@@ -34,5 +34,16 @@
 
   <!-- Game logic -->
   <script src="game_scripts.js" defer></script>
+  <script>
+  const waitingText = document.getElementById("game-waiting-text");
+  const baseText = "Waiting to start";
+  let dots = 0;
+
+  setInterval(() => {
+    dots = (dots + 1) % 4;
+    waitingText.textContent = baseText + ".".repeat(dots);
+  }, 600);
+</script>
+
 </body>
 </html>

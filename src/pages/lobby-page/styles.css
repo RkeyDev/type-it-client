@@ -109,7 +109,15 @@
     z-index: 20;
     pointer-events: auto;
 }
-
+#character-goal-slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    z-index: 20;
+    pointer-events: auto;
+}
 .slider {
     flex: 1;
     margin: 0 10px;
@@ -529,4 +537,117 @@
     #languages-dropdown-container { top: 74%; transform: translate(-50%, 0%); padding: 14px; }
     #start-game-button { width: 120px; height: 44px; font-size: 18px; }
     #start-game-button-container { top: 83%; transform: translate(-50%, 0%); padding: 14px; }
+}
+
+
+@media (max-width: 1000px) {
+   #room-code-text{
+    position: relative;
+    top: 50px;
+    font-size: 30px;
+   }
+
+   #room-code-container{
+    left: 35%;
+   }
+
+   #players-title{
+    font-size: 30px;
+   }
+
+   .player-icon{
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: -15px;
+   }
+   .player-name{
+    font-size: 16px;
+   }
+   .player-slot{
+    height: 30px;
+    left: -25px;
+   }
+   #room-code-button{
+    position: relative;
+    top: 25px;
+    width: 70%;
+   }
+
+   #room-settings-container{
+    width: 70%;
+    position: fixed;
+    left: 10px;
+   }
+
+   
+#typing-time-container {
+    top: 30%;
+    left: 40%;
+}
+#time-label {
+    font-size: 20px;
+    position: relative;
+    top: 15px;
+}
+
+#typing-time-slider{
+    left: -5%;
+}
+
+#typing-time-header{
+    left: -10%;
+}
+
+#current-time{
+    font-size: 25px;
+    top: 100%;
+    left: -7%;
+}
+
+
+ #character-goal-container {
+    top: 50%; /* match typing-time-container top for size consistency */
+    left: 40%;
+}
+#character-goal-header {
+    left: -10%;
+    top: 0px;
+}
+#character-goal-label {
+    font-size: 20px; /* same as #time-label */
+    position: relative;
+    top: 15px;
+    
+}
+#character-goal-slider {
+    width: 160px; /* same as #typing-time-slider in small screens */
+    height: 5px;  /* same as typing time slider height */
+    left: -2%;    /* match typing time slider left offset */
+}
+#current-character-goal {
+    font-size: 25px; /* same as #current-time */
+    position: relative;
+    top: 100%;
+    left: -7%;
+}
+#character-goal-slider-container {
+    display: flex;           /* same as typing-time-slider-container */
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    }
+
+
+#toggle-matchmaking-container{
+    top: 65%;
+    left: 35%;
+}
+#languages-dropdown-container{
+    left: 35%;
+}
+
+#start-game-button-container{
+    left: 35%;
+}
 }

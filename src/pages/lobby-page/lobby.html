@@ -36,14 +36,15 @@
                     <div id="character-goal-container">
                         <h2 id="character-goal-header">Character Goal</h2>
                         <div id="character-goal-slider-container">
-                            <label id="character-goal-label">50</label>
-                            <input type="range" class="slider" min="50" max="1000" value="120" 
-                                   oninput="document.getElementById('current-character-goal').textContent = this.value" 
-                                   id="character-goal-slider">
-                            <label id="character-goal-label">1000</label>
+                            <label class="slider-label">50</label> <!-- min label -->
+                            <input type="range" class="slider" min="50" max="1000" value="120"
+                                oninput="document.getElementById('current-character-goal').textContent = this.value"
+                                id="character-goal-slider">
+                            <label class="slider-label">1000</label> <!-- max label -->
                         </div>
                         <label id="current-character-goal">120</label>
                     </div>
+
 
                     <div id="toggle-matchmaking-container">
                         <h2 id="toggle-matchmaking-header">Matchmaking</h2>

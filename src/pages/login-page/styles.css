@@ -100,3 +100,28 @@ html, body {
     border: none;
     outline: none;
 }
+
+@media (max-width: 1000px) {
+    .arrow-img{
+        width: 100px;
+        
+    }
+
+    #login-form-container{
+        position: relative;
+        top: 90px;
+    }
+
+    #privacy-policy-link{
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        color: white;
+        font-size: clamp(18px, 1.5vw, 18px);
+        text-decoration: none;
+        opacity: 0.8;
+    }
+
+}

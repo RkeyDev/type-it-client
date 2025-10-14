@@ -280,6 +280,42 @@ html, body {
   border: 2px solid rgba(0, 0, 0, 0.112);
 }
 
+.waiting-text {
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 20px rgba(252, 252, 252, 0.4);
+  animation: pulseGlow 2s ease-in-out infinite, floatText 3s ease-in-out infinite;
+  margin-top: 20px;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
+                 0 0 20px rgba(255, 255, 255, 0.568),
+                 0 0 30px rgba(255, 255, 255, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 25px rgba(215, 215, 215, 0.9),
+                 0 0 40px rgba(142, 142, 142, 0.6),
+                 0 0 50px rgba(202, 202, 202, 0.4);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes floatText {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
 
 .circle .progress-row {
   display: inline-block;

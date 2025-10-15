@@ -104,10 +104,10 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: clamp(18px, 2vw, 30px);
+  font-size: clamp(18px, 2.3vw, 25px);
   font-weight: bold;
   height: clamp(72px, 10vh, 120px);
-  width: 100%;
+  width: 120%;
   resize: none;
   outline: none;
   background-color: #768EA9;
@@ -120,7 +120,7 @@ html, body {
 
 #user-text-input::placeholder {
   color: white;
-  font-size: clamp(20px, 2.3vw, 35px);
+  font-size: clamp(18px, 2.3vw, 25px);
 }
 
 /* === Waiting text === */

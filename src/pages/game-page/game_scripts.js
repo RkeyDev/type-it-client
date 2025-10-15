@@ -116,6 +116,7 @@
         if (waitingText) center.removeChild(waitingText);
 
         countdown_sound.currentTime = 0;
+        countdown_sound.volume = 0.5;
         countdown_sound.play();
         // Start a countdown before first round begins
         startCountdown(center, () => {

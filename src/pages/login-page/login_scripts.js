@@ -6,7 +6,9 @@ let skins = [
     "./src/assets/skins/Smiley_Skin.webp",
     "./src/assets/skins/Alien_Skin.webp",
     "./src/assets/skins/CEO_Skin.webp",
-    "./src/assets/skins/STC_Skin.webp"
+    "./src/assets/skins/STC_Skin.webp",
+    "./src/assets/skins/Nerdy_Skin.webp",
+    "./src/assets/skins/Cowboy_Skin.webp"
 ];
 
 function validateForm() {

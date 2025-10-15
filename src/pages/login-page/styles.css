@@ -10,7 +10,7 @@ html, body {
     margin: auto;
     padding-left: 15px;
     display: block;
-    width: clamp(160px, 18vw, 270px);
+    width: clamp(180px, 18vw, 270px);
     height: auto;
 }
 
@@ -94,7 +94,9 @@ html, body {
     margin-top: clamp(16px, 4vh, 48px);
     min-height: clamp(72px, 14vh, 160px);
 }
-
+#skin-image{
+    width: 45%;
+}
 .arrow-button{
     background-color: transparent;
     border: none;

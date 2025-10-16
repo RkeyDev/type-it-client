@@ -106,7 +106,8 @@ html, body {
 
 @media (max-width: 1080px) {
     .arrow-img{
-        width: 100px;
+        width: 100%;
+        
         
     }
 
@@ -115,6 +116,11 @@ html, body {
         top: 90px;
     }
 
+    .arrow-button{
+        position: relative;
+        
+    }
+    
     #privacy-policy-link{
         position: fixed;
         bottom: 30px;

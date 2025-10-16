@@ -3,6 +3,7 @@ html, body {
     margin: -5px;
     padding: 0;
     overflow: hidden; /* disables both vertical & horizontal scrolling */
+    
 }
 
 /* Desktop-first responsive styles for login page (no mobile rules) */
@@ -103,7 +104,7 @@ html, body {
     outline: none;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1080px) {
     .arrow-img{
         width: 100px;
         

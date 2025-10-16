@@ -90,6 +90,7 @@ html, body {
 
 /* === Timer (directly above user input) === */
 .timer {
+  font-size: 72px;
   order: 0;
   font-size: clamp(28px, 3.5vw, 56px);
   color: white;
@@ -263,7 +264,7 @@ html, body {
 .circle {
   position: relative;
   display: inline-block;
-  width: clamp(80px, 3vw, 80px);
+  width: clamp(110px, 3vw, 80px);
   text-align: center;
   vertical-align: top;
   font-family: inherit;
@@ -375,16 +376,140 @@ html, body {
   }
 }
 
-@media screen and (max-height: 700px) {
+/* === Mobile-specific adjustments only (max-width: 767px) === */
+@media screen and (max-width: 1080px) {
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    gap: 16px; /* slightly larger gap between rows */
+    padding: 52px 0;
+  }
+
   #players-container {
-    transform: scale(0.8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 26px; /* larger horizontal + vertical spacing */
+    width: 100%;
+    transform: scale(1);
+    padding-bottom: 12px; /* extra space at bottom so last row isn't too close to center */
+  }
+
+  .player {
+    flex: 0 0 48%; /* Two per row on small screens */
+    max-width: 20%;
+    margin-bottom: 30%; /* increase vertical spacing between stacked players */
+    
+  }
+
+  .circle {
+    width: clamp(60px, 15vw, 80px);
+    height: clamp(60px, 15vw, 80px);
+  }
+
+  .circle .name {
+    font-size: clamp(12px, 4vw, 16px);
+  }
+
+  .center {
+    width: 95%;
+    margin-top: -20px; /* more space between players and center area */
   }
 
   #user-text-input {
-    transform: scale(0.9);
+    width: 95%;
+    font-size: clamp(14px, 4vw, 20px);
+    min-height: 50px;
   }
 
-  #time-left {
-    font-size: 1.2rem;
+  .timer {
+    font-size: clamp(24px, 10vw, 48px);
+    margin-bottom: 8px;
+  }
+
+  #winner-avatar {
+    width: clamp(100px, 35vw, 160px);
+    height: clamp(100px, 35vw, 160px);
+  }
+
+  #win-message {
+    font-size: clamp(20px, 10vw, 48px);
+  }
+
+  #round-countdown {
+    font-size: clamp(36px, 15vw, 100px);
+  }
+}
+
+
+@media (max-width: 400px) {
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    gap: 16px; /* slightly larger gap between rows */
+    padding: 52px 0;
+  }
+
+  #players-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 26px; /* larger horizontal + vertical spacing */
+    width: 100%;
+    transform: scale(1);
+    padding-bottom: 12px; /* extra space at bottom so last row isn't too close to center */
+  }
+
+  .player {
+    flex: 0 0 48%; /* Two per row on small screens */
+    max-width: 20%;
+    margin-bottom: 10%; /* increase vertical spacing between stacked players */
+    
+  }
+
+  .circle {
+    width: clamp(60px, 15vw, 80px);
+    height: clamp(60px, 15vw, 80px);
+  }
+
+  .circle .name {
+    font-size: clamp(12px, 4vw, 16px);
+  }
+
+  .center {
+    width: 95%;
+    margin-top: -5px; /* more space between players and center area */
+  }
+
+  #user-text-input {
+    width: 95%;
+    font-size: clamp(14px, 4vw, 20px);
+    min-height: 50px;
+  }
+
+  #winner-avatar {
+    width: clamp(100px, 35vw, 160px);
+    height: clamp(100px, 35vw, 160px);
+  }
+
+  #win-message {
+    font-size: clamp(20px, 10vw, 48px);
+  }
+
+
+  #round-countdown {
+    font-size: clamp(36px, 15vw, 100px);
+  }
+
+  #time-left{
+    font-size: 25px;
   }
 }

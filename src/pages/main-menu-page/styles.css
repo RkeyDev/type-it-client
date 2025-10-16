@@ -214,7 +214,7 @@ body {
   to { opacity: 1; transform: scale(1); }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1080px) {
     #main-menu-container {
         display: flex;
         flex-direction: column;

@@ -9,6 +9,9 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
     min-height: 100vh;
+    overflow: hidden !important;     /* disables scrollbars */
+  overscroll-behavior: none;       /* prevents scroll chaining */
+  touch-action: none;              /* disables touch-based scrolling on mobile */
 }
 
 #logo-image{

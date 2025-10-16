@@ -540,7 +540,7 @@
 }
 
 
-@media (max-width: 1000px) {
+@media (max-width: 1080px) {
    #room-code-text{
     position: relative;
     top: 50px;
@@ -556,13 +556,13 @@
    }
 
    .player-icon{
-    width: 30px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
     position: relative;
-    left: -15px;
+    left: -5px;
    }
    .player-name{
-    font-size: 16px;
+    font-size: 17px;
    }
    .player-slot{
     height: 30px;
@@ -648,6 +648,62 @@
 }
 
 #start-game-button-container{
+    left: 35%;
+}
+}
+
+
+@media (max-width:400px) {
+    .player-name{
+        font-size: 14px;
+    }
+    #typing-time-container {
+        top: 35%;
+        left: 40%;
+    }
+    #character-goal-container {
+        top: 55%; /* match typing-time-container top for size consistency */
+        left: 38%;
+    }
+    #toggle-matchmaking-container{
+    top: 70%;
+    left: 35%;
+}
+
+    #languages-dropdown-container{
+    top: 75%;
+    left: 35%;
+}
+    #start-game-button-container{
+    top: 85%;
+    left: 35%;
+}
+}
+
+
+@media (max-width:380px) {
+    .player-name{
+        font-size: 14px;
+    }
+    #typing-time-container {
+        top: 40%;
+        left: 40%;
+    }
+    #character-goal-container {
+        top: 60%; /* match typing-time-container top for size consistency */
+        left: 36.5%;
+    }
+    #toggle-matchmaking-container{
+    top: 75%;
+    left: 35%;
+}
+
+    #languages-dropdown-container{
+    top: 80%;
+    left: 35%;
+}
+    #start-game-button-container{
+    top: 90%;
     left: 35%;
 }
 }

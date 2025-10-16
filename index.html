@@ -50,43 +50,60 @@
   </script>
 </head>
 
-<body>
+<body style="visibility: hidden;">
 
 
   <div class="background-shapes"></div>
   <script>
-    const container = document.querySelector('.background-shapes');
+  const container = document.querySelector('.background-shapes');
 const symbols = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
                  'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
                  '?','!','#','$','%','&','*','@','+','-'];
 
-const SYMBOL_COUNT = 50; // number of symbols floating at once
+const SYMBOL_COUNT = 100; // number of symbols floating at once
 
 // Only run once
 if (!window.typeItBackgroundInitialized) {
     window.typeItBackgroundInitialized = true;
 
+    // Pre-generate floating symbols
     for (let i = 0; i < SYMBOL_COUNT; i++) {
         const div = document.createElement('div');
         const size = Math.random() * 40 + 20;
         const left = Math.random() * 100;
-        const delay = Math.random() * 20; // start at random time in animation
-        const duration = Math.random() * 20 + 15; // animation duration
+        const delay = Math.random() * 20; // start at random point in animation
+        const duration = Math.random() * 20 + 15;
         const symbol = symbols[Math.floor(Math.random() * symbols.length)];
 
         div.textContent = symbol;
         div.style.fontSize = `${size}px`;
         div.style.left = `${left}%`;
         div.style.animationDuration = `${duration}s`;
-        div.style.animationDelay = `-${delay}s`; // negative delay spreads symbols across animation
+        div.style.animationDelay = `-${delay}s`; // spreads symbols across animation
         container.appendChild(div);
     }
+
+    function createSymbol() {
+        const div = document.createElement('div');
+        const size = Math.random() * 40 + 20;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 20 + 15;
+        const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+
+        div.textContent = symbol;
+        div.style.fontSize = `${size}px`;
+        div.style.left = `${left}%`;
+        div.style.animationDuration = `${duration}s`;
+        div.style.animationDelay = `0s`;
+        container.appendChild(div);
+
+        // Remove after animation to avoid DOM clutter
+        setTimeout(() => container.removeChild(div), duration * 1000);
+    }
+
+    setInterval(createSymbol, 1000); // create one new symbol every 1 second
 }
 
-
-
-// Continuously create symbols
-setInterval(createSymbol, 500); // every 0.5s
 
   </script>
   <main id="app">

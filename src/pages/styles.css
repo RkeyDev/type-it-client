@@ -40,7 +40,7 @@ body{
 
 .background-shapes div {
     position: absolute;
-    color: rgba(255, 255, 255, 0.284);
+    color: rgb(0, 255, 140);
     user-select: none;
     animation-name: float;
     animation-timing-function: linear;

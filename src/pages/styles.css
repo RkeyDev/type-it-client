@@ -1,14 +1,29 @@
-/* Desktop typography scales with viewport while preserving readability */
+body {
+    min-height: 100vh;
+    background: linear-gradient(45deg, #6a9db3, #5196bc, #3a8ec6, #2e85ce, #3879d3, #4672d0, #546acc, #6062c7, #6360be, #665fb5, #675dad, #685ca4);
+    background-size: 200% 200%; /* allows movement */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    animation: gradientShift 60s ease-in-out infinite; /* very slow subtle shift */
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Keep all other CSS from before */
 h1,h2,h3,h4,label,p,span,button,input,textarea,select{
     font-family: "Just Another Hand", cursive;
     font-size: clamp(18px, 2.2vw, 25px);
     color: white;
-}
-body{
-    background-image: linear-gradient(to right top, #6a9db3, #5196bc, #3a8ec6, #2e85ce, #3879d3, #4672d0, #546acc, #6062c7, #6360be, #665fb5, #675dad, #685ca4);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
 }
 
 #logo-image{
@@ -23,4 +38,30 @@ body{
     h1,h2,h3,h4,label,p,span,button,input,textarea,select{
         font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+}
+
+.background-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background-shapes div {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.226);
+    user-select: none;
+    animation-name: float;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0.2; }
+    50% { opacity: 0.15; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0.2; }
 }

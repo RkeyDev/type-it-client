@@ -82,7 +82,7 @@ async function loadPage() {
   } catch (err) {
     console.error(err);
     app.innerHTML = '<p style="color:red;text-align:center;">Failed to load page.</p>';
-    app.style.visibility = 'visible';
+    document.body.style.visibility = 'visible';
   }
 }
 

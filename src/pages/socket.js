@@ -1,6 +1,6 @@
-const socket = new WebSocket("wss://contemporary-freddi-rkeydev-f3aca4d7.koyeb.app/");
+const socket = new WebSocket("wss://type-it-backend.onrender.com");
 
-//wss://contemporary-freddi-rkeydev-f3aca4d7.koyeb.app/
+//wss://type-it-backend.onrender.com
 //ws://localhost:8080
 
 window.socket = socket;

@@ -38,6 +38,7 @@ html, body {
   width: min(95vw, 1500px);
   height: min(90vh, 950px);
   box-sizing: border-box;
+
 }
 
 /* === Players container fix === */
@@ -161,6 +162,7 @@ html, body {
     height: min(92vh, 860px);
     gap: clamp(12px, 2.5vw, 36px);
   }
+
 }
 
 @media screen and (min-width: 1201px) and (max-width: 1600px) {
@@ -467,6 +469,18 @@ html, body {
     transform: scale(1);
     padding-bottom: 12px; /* extra space at bottom so last row isn't too close to center */
   }
+  /* === Laptop vertical offset fix === */
+@media screen and (min-width: 1024px) and (max-width: 1600px) {
+  #scale-wrapper {
+    align-items: flex-start;
+    padding-top: 4vh; /* move container slightly down from top */
+  }
+
+  .game-container {
+    transform: translateY(-8vh);
+  }
+}
+
 
   .player {
     flex: 0 0 48%; /* Two per row on small screens */

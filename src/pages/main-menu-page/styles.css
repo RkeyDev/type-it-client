@@ -19,7 +19,9 @@ body {
     min-height: 100vh;
     height: 100vh;
     margin: 0;
-    overflow: hidden;
+    overflow: hidden !important;     /* disables scrollbars */
+    overscroll-behavior: none;       /* prevents scroll chaining */
+    touch-action: none;
 }
 
 #logo{

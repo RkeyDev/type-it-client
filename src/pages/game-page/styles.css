@@ -1,7 +1,9 @@
 /* === Page scroll disabling (game page only) === */
 html, body {
   height: 100%;
-  overflow: hidden;
+  overflow: hidden !important;     /* disables scrollbars */
+  overscroll-behavior: none;       /* prevents scroll chaining */
+  touch-action: none; 
 }
 
 /* Hide scrollbars cross-browser */
@@ -279,6 +281,17 @@ html, body {
   height: auto;
   border-radius: 50%;
   object-fit: cover;
+}
+
+@media (max-width:1730px){
+  .circle {
+    margin-top: -10%;
+    
+  }
+
+  .center{
+    margin-top: -20%;
+  }
 }
 
 .waiting-text {

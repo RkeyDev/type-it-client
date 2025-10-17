@@ -2,8 +2,9 @@
 html, body {
     margin: -5px;
     padding: 0;
-    overflow: hidden; /* disables both vertical & horizontal scrolling */
-    
+    overflow: hidden !important;     /* disables scrollbars */
+    overscroll-behavior: none;       /* prevents scroll chaining */
+    touch-action: none;
 }
 
 /* Desktop-first responsive styles for login page (no mobile rules) */
@@ -109,7 +110,7 @@ html, body {
 
 @media (max-width: 1920px) {
     #privacy-policy-link{
-        top: 95%;
+        top: 92%;
     }
     #submit-button{
         margin-top: 10%;

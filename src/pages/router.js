@@ -69,7 +69,16 @@ async function loadPage() {
     await waitForCss(route.css);
 
     // Inject HTML after CSS is ready
+    app.style.opacity = "0";
     app.innerHTML = html;
+
+    // Force reflow
+    void app.offsetHeight;
+
+    app.style.transition = "opacity 0.25s ease";
+    app.style.opacity = "1";
+
+    // Show everything only after fade-in starts
     document.body.style.visibility = 'visible';
 
     // Inject page JS

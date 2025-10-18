@@ -18,7 +18,7 @@ html, body {
 
 #login-form{
     width: min(82vw, 400px);
-    margin: 0 auto;
+    margin: 2.5% auto;
     display: block;
     position: relative;
     top: clamp(85px, 6vh, 64px);
@@ -109,11 +109,18 @@ html, body {
 
 
 @media (max-width: 1920px) {
+    
     #privacy-policy-link{
         top: 92%;
     }
     #submit-button{
         margin-top: 10%;
+    }
+}
+
+@media (max-width: 1500px){
+    #login-form{
+        margin: -2.5% auto;
     }
 }
 

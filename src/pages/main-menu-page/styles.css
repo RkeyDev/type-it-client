@@ -112,6 +112,10 @@ body {
     top: 0;
 }
 
+#room-code-textfield.error::placeholder{
+    color: #c94b35;
+}
+
 #matchmaking-button:hover{
     background-color: #7fada0;
     transition: background-color 0.3s ease;

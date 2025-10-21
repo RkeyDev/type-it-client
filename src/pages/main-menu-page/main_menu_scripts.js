@@ -43,6 +43,17 @@ function joinRoom() {
     if (code.length > 0 && code.length <= 15) {
         handleRoomJoin(code);
     }
+    else{
+        roomCodeField.classList.add("error");
+        error_sound.currentTime = 0;
+        error_sound.play();
+        setTimeout(() => {
+            roomCodeField.placeholder = "Enter Room Code...";
+            roomCodeField.classList.remove("error");
+            roomCodeField.disabled = false;
+            roomCodeField.focus();
+        }, 400);
+    }
 }
 
 /**

@@ -1,4 +1,5 @@
 const username_textfield = document.getElementById("username-textfield");
+const error_sound = new Audio("./src/assets/sounds/wrong-guess-sound.mp3");
 
 let currentSkin = 0;
 const skins = [
@@ -16,6 +17,17 @@ const skins = [
 function validateForm() {
     if (username_textfield.value.trim().length > 0 && username_textfield.value.length <= 10) {
         handleFormSubmit();
+    }
+    else{
+        username_textfield.classList.add("error");
+        error_sound.currentTime = 0;
+        error_sound.play();
+        setTimeout(() => {
+            username_textfield.placeholder = "Enter Your Nickname...";
+            username_textfield.classList.remove("error");
+            username_textfield.disabled = false;
+            username_textfield.focus();
+        }, 400);
     }
 }
 

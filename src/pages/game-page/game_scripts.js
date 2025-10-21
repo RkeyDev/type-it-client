@@ -1,19 +1,16 @@
 (function () {
-    // Core state variables used across the game session
-    let roomSettings = {};          // Stores settings for the current room (time limit, goal, etc.)
-    let questionPlaceholder = "";   // Stores the current question text to restore placeholder after incorrect guess
-    let timerInterval = null;       // Reference to the timer interval for countdown control
-    let roomId = null;              // Current room's unique identifier
+    let roomSettings = {};
+    let questionPlaceholder = "";
+    let timerInterval = null;
+    let roomId = null;
+    let gameInitialized = false;
 
     const countdown_sound = new Audio("./src/assets/sounds/countdown-sound.mp3");
     const start_game_sound = new Audio("./src/assets/sounds/game-start-sound-effect.mp3");
     const new_round_sound = new Audio("./src/assets/sounds/new_round_sound.mp3");
     const wrong_guess_sound = new Audio("./src/assets/sounds/wrong-guess-sound.mp3");
     const someone_guessed_correctly_sound = new Audio("./src/assets/sounds/someone-guessed-correctly-sound.mp3");
-    
-    // =============================
-    // Sends a request to the server to start the game
-    // =============================
+
     function startGame(roomId) {
         socket.send(JSON.stringify({
             type: "initialize_game",
@@ -24,41 +21,42 @@
         }));
     }
 
-    // =============================
-    // Main WebSocket message listener
-    // Routes every server message to its handler
-    // =============================
     socket.onmessage = function (event) {
         try {
             const response = JSON.parse(event.data);
             switch (response.type) {
                 case "game_started":
-                    // Server confirms the game has started
                     roomSettings = response.data.settings;
                     initializeGame();
                     break;
                 case "start_new_round":
-                    // Server sends a new question for players to type
-                    questionPlaceholder = response.data.question;
-                    startNewRound(response.data.question);
+                    const data = response.data;
+                    if (!gameInitialized) {
+                        const checkReady = setInterval(() => {
+                            if (gameInitialized) {
+                                clearInterval(checkReady);
+                                questionPlaceholder = data.question;
+                                startNewRound(data.question);
+                            }
+                        }, 100);
+                    } else {
+                        questionPlaceholder = data.question;
+                        startNewRound(data.question);
+                    }
                     break;
                 case "player_guessed_incorrectly":
                     handleIncorrectGuess();
                     break;
                 case "player_guessed_correctly":
-                    // Updates progress UI for whoever guessed right
                     handleCorrectGuess(response.data);
                     break;
                 case "player_has_won":
-                    // Game ended, show winner screen
                     handlePlayerHasWon(response.data);
                     break;
                 case "player_left":
-                    // Remove player from UI and session data
                     handlePlayerLeft(response.data);
                     break;
                 case "return_to_lobby":
-                    // Move everyone back to the lobby screen
                     handleReturnToLobby(response.data);
                     break;
             }
@@ -67,19 +65,12 @@
         }
     };
 
-    // =============================
-    // Automatically join game based on hash URL (e.g. #game?id=12345)
-    // =============================
     const hashTag = window.location.hash.substring(1);
     const [routeData, queryStr] = hashTag.split('?');
     const hashParameters = new URLSearchParams(queryStr);
     roomId = hashParameters.get('id');
     if (roomId) startGame(roomId);
 
-    // =============================
-    // Utility for DOM creation with attributes and children
-    // Simplifies repetitive element building
-    // =============================
     function createElement(tag, options = {}, children = []) {
         const el = document.createElement(tag);
         Object.entries(options).forEach(([key, value]) => {
@@ -93,9 +84,6 @@
         return el;
     }
 
-    // =============================
-    // Ensures the main container exists for placing game elements
-    // =============================
     function getOrCreateCenter() {
         let center = document.querySelector(".center");
         if (!center) {
@@ -105,29 +93,18 @@
         return center;
     }
 
-    // =============================
-    // Initializes game UI once the game officially starts
-    // Loads players, removes waiting text, triggers pre-round countdown
-    // =============================
     function initializeGame() {
         const center = getOrCreateCenter();
         loadPlayers();
         const waitingText = document.getElementById("game-waiting-text");
-        if (waitingText) center.removeChild(waitingText);
-
+        if (waitingText && waitingText.parentNode) waitingText.remove();
+        gameInitialized = true;
         countdown_sound.currentTime = 0;
         countdown_sound.volume = 0.5;
         countdown_sound.play();
-        // Start a countdown before first round begins
-        startCountdown(center, () => {
-            console.log("Countdown finished, server is starting first round...");
-        });
+        startCountdown(center, () => {});
     }
 
-    // =============================
-    // Renders player avatars and progress bars into the game UI
-    // Uses stored player list from sessionStorage
-    // =============================
     function loadPlayers() {
         const container = document.getElementById("players-container");
         if (!container) return;
@@ -142,35 +119,21 @@
             ]);
 
             const imgEl = createElement("img", { src: player.skinPath, alt: `${player.username}'s avatar`, className: "avatar-img" });
-
             const nameSpan = createElement("span", { className: "name", textContent: player.username });
-
-            const circleDiv = createElement("div", { className: "circle" }, [
-                progressRow,
-                imgEl,
-                nameSpan
-            ]);
-
+            const circleDiv = createElement("div", { className: "circle" }, [progressRow, imgEl, nameSpan]);
             const playerDiv = createElement("div", { id: player.username, className: `player p${index + 1}` }, [circleDiv]);
             container.appendChild(playerDiv);
         });
     }
 
-
-    // =============================
-    // Displays countdown overlay before each round
-    // Handles fade/scale transitions between numbers
-    // =============================
     function startCountdown(container, onFinish) {
         if (document.getElementById("round-countdown-overlay")) return;
-
         const countdownElement = document.createElement("span");
         countdownElement.id = "round-countdown";
         countdownElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
         countdownElement.style.display = "inline-block";
         countdownElement.style.fontSize = "5rem";
         countdownElement.style.opacity = 0;
-
         const overlay = document.createElement("div");
         overlay.id = "round-countdown-overlay";
         overlay.style.position = "fixed";
@@ -184,34 +147,27 @@
         overlay.style.background = "rgba(0,0,0,0.5)";
         overlay.appendChild(countdownElement);
         document.body.appendChild(overlay);
-
         let countdown = 6;
 
-        // Animates the countdown text each second
         function updateCountdown() {
-            countdown--; // Reduce countdown time
-
-            if (countdown>1){
+            countdown--;
+            if (countdown > 1) {
                 countdown_sound.currentTime = 0;
                 countdown_sound.play();
-            }
-            else if (countdown == 1){
+            } else if (countdown == 1) {
                 start_game_sound.play();
-            }
-            else if(countdown == 0){
+            } else if (countdown == 0) {
                 new_round_sound.play();
             }
             countdownElement.style.opacity = 0;
             countdownElement.style.transform = "scale(0.5)";
-
             setTimeout(() => {
-                if(countdown-1>=0){
+                if (countdown - 1 >= 0) {
                     countdownElement.textContent = countdown === 1 ? "Type It!" : countdown - 1;
                     countdownElement.style.opacity = 1;
                     countdownElement.style.transform = "scale(1)";
                 }
             }, 100);
-
             if (countdown <= 0) {
                 clearInterval(interval);
                 setTimeout(() => overlay.remove(), 300);
@@ -225,26 +181,18 @@
         const interval = setInterval(updateCountdown, 1000);
     }
 
-    // =============================
-    // Manages the visible timer during a typing round
-    // Handles per-second decrement with a small bounce animation
-    // =============================
     function startTimerCountdown() {
         const timer = document.getElementById("time-left");
         if (!timer) return;
-
         timer.classList.add("show");
         let timeLeft = parseInt(timer.innerText, 10);
         if (timerInterval !== null) clearInterval(timerInterval);
-
         timerInterval = setInterval(() => {
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 timer.innerText = "0";
             } else {
                 timeLeft--;
-
-                // Reset CSS animation so it replays each tick
                 timer.style.animation = "none";
                 void timer.offsetWidth;
                 timer.innerText = timeLeft;
@@ -253,37 +201,23 @@
         }, 1000);
     }
 
-    // =============================
-    // Starts a new round by displaying the question and enabling input
-    // Also triggers the per-round countdown timer
-    // =============================
     function startNewRound(question) {
-        
-        
-
         const timeToType = roomSettings.typingTime || 60;
         const center = getOrCreateCenter();
         const timerLabel = document.getElementById("time-left");
         if (timerLabel) timerLabel.textContent = timeToType;
-
         if (timerInterval !== null) {
             clearInterval(timerInterval);
             timerInterval = null;
         }
-
         const existingCountdown = document.getElementById("round-countdown-overlay");
         if (existingCountdown) existingCountdown.remove();
-
         startTimerCountdown();
-
-        // Prepare and animate the input box into view
         let userInput = document.getElementById("user-text-input");
         if (!userInput) {
             userInput = createElement("textarea");
             center.appendChild(userInput);
         }
-
-        //Setup the textarea attributes
         userInput.className = "";
         userInput.disabled = false;
         userInput.id = "user-text-input";
@@ -292,20 +226,15 @@
         userInput.style.transition = "transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease";
         userInput.style.opacity = 0;
         userInput.style.transform = "translateY(20px) scale(0.95)";
-
         requestAnimationFrame(() => {
             userInput.style.opacity = 1;
             userInput.style.transform = "translateY(0) scale(1)";
         });
-
         questionPlaceholder = question;
         listenForTextInput();
         userInput.focus();
     }
 
-    // =============================
-    // Detects Enter key and triggers submission
-    // =============================
     function listenForTextInput() {
         const userInput = document.getElementById("user-text-input");
         if (!userInput) return;
@@ -317,9 +246,6 @@
         });
     }
 
-    // =============================
-    // Sends player’s typed word to the server for validation
-    // =============================
     function handleWordSubmission() {
         const userInput = document.getElementById("user-text-input");
         if (!userInput) return;
@@ -337,9 +263,6 @@
         }
     }
 
-    // =============================
-    // Displays feedback for incorrect guess and re-enables input after short delay
-    // =============================
     function handleIncorrectGuess() {
         const userInput = document.getElementById("user-text-input");
         if (!userInput) return;
@@ -348,7 +271,6 @@
         userInput.placeholder = "incorrect word";
         userInput.classList.add("error");
         userInput.disabled = true;
-        
         setTimeout(() => {
             userInput.placeholder = questionPlaceholder;
             userInput.classList.remove("error");
@@ -357,16 +279,11 @@
         }, 1000);
     }
 
-    // =============================
-    // Creates visual confetti burst from given element (usually the winner's avatar)
-    // Each particle has its own randomized trajectory
-    // =============================
     function spawnConfettiFromElement(element, amount = 25) {
         if (!element) return;
         const rect = element.getBoundingClientRect();
         const originX = rect.left + rect.width / 2;
         const originY = rect.top + rect.height / 2;
-
         for (let i = 0; i < amount; i++) {
             const confetti = document.createElement("div");
             confetti.className = "confetti-particle";
@@ -380,74 +297,52 @@
             confetti.style.pointerEvents = "none";
             confetti.style.opacity = "1";
             document.body.appendChild(confetti);
-
-            // Randomized trajectory and spin for each particle
             const angle = Math.random() * Math.PI * 2;
             const velocity = 4 + Math.random() * 4;
             const dx = Math.cos(angle) * velocity;
             const dy = Math.sin(angle) * velocity;
             let y = originY, x = originX, life = 0;
-
             const fall = () => {
                 life += 1;
                 x += dx;
                 y += dy + life * 0.1;
                 confetti.style.transform = `translate(${x - originX}px, ${y - originY}px) rotate(${life * 10}deg)`;
                 confetti.style.opacity = `${1 - life / 60}`;
-                if (life < 60) {
-                    requestAnimationFrame(fall);
-                } else {
-                    confetti.remove();
-                }
+                if (life < 60) requestAnimationFrame(fall);
+                else confetti.remove();
             };
             requestAnimationFrame(fall);
         }
     }
 
-    // =============================
-    // Updates progress bar when a player types correctly
-    // Also triggers confetti and visual feedback
-    // =============================
     function handleCorrectGuess(data) {
         const playerDiv = document.getElementById(data.playerName);
         if (!playerDiv) return;
-
         const userInput = document.getElementById("user-text-input");
         const charactersCount = playerDiv.querySelector(".characters-count");
-
         let previous = parseInt(charactersCount.textContent, 10) || 0;
         let current = parseInt(data.currentTotalCharacters, 10) || 0;
         charactersCount.textContent = current;
-
         if (data.playerName === sessionStorage.getItem("username")) {
-            //Placeholder to correct guess text
             const wordLength = current - previous;
             userInput.placeholder = `correct answer!\n+${wordLength} characters`;
             userInput.classList.add("correct");
             userInput.disabled = true;
-            
-            //Play correct guess sound
             let correct_guess_sound = new Audio('./src/assets/sounds/correct-guess-sound.mp3');
             correct_guess_sound.playbackRate = 1.5;
             correct_guess_sound.play();
-        }
-        else{
+        } else {
             someone_guessed_correctly_sound.play();
         }
-
         const skin = playerDiv.querySelector("img");
         if (skin) spawnConfettiFromElement(skin);
     }
 
-    // =============================
-    // Shows the winner overlay with the player's avatar and name
-    // =============================
     function handlePlayerHasWon(data) {
         const playerName = data.username;
         const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "./src/assets/skins/deafult_yellow_skin.webp";
         const textInput = document.getElementById("user-text-input");
         if (textInput) textInput.remove();
-
         const overlay = createElement("div", { id: "winner-overlay" }, [
             createElement("img", { id: "winner-avatar", src: playerSkin, alt: `${playerName}'s avatar` }),
             createElement("h1", { id: "win-message", textContent: `${playerName} has won!!` })
@@ -455,10 +350,6 @@
         document.body.appendChild(overlay);
     }
 
-    // =============================
-    // Smoothly removes player from UI when they leave mid-game
-    // Updates the stored player list as well
-    // =============================
     function handlePlayerLeft(data) {
         const playerDiv = document.getElementById(data.username);
         if (playerDiv) {
@@ -469,29 +360,21 @@
                 if (playerDiv.parentNode) playerDiv.parentNode.removeChild(playerDiv);
             }, 400);
         }
-
         let playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
         playersList = playersList.filter(player => player.username !== data.username);
         sessionStorage.setItem("playersList", JSON.stringify(playersList));
     }
 
-    // =============================
-    // Cleans up and redirects back to the lobby
-    // Triggered when the server resets the game state
-    // =============================
     function handleReturnToLobby(data) {
-        if(data.host === sessionStorage.getItem("username")){
-            sessionStorage.setItem("host","true")
-        }
-        else{
-            sessionStorage.setItem("host","false");
+        if (data.host === sessionStorage.getItem("username")) {
+            sessionStorage.setItem("host", "true");
+        } else {
+            sessionStorage.setItem("host", "false");
         }
         const winnerOverlay = document.getElementById("winner-overlay");
         if (winnerOverlay) winnerOverlay.remove();
-
         const userInput = document.getElementById("user-text-input");
         if (userInput) userInput.remove();
-
         if (data && data.roomCode) {
             document.location.hash = `#lobby?id=${data.roomCode}`;
         } else {

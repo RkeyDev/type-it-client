@@ -12,7 +12,7 @@ const skins = [
     "./src/assets/skins/Cowboy_Skin.webp",
     "./src/assets/skins/Sombrero_Skin.webp",
     "./src/assets/skins/Snowman_Skin.webp",
-    "src/assets/skins/Pumpkin_Skin.webp"
+    "./src/assets/skins/Pumpkin_Skin.webp"
 ];
 
 function validateForm() {

@@ -8,25 +8,14 @@ const routes = {
   game: { html: './src/pages/game-page/game.html', css: './src/pages/game-page/styles.css', js: './src/pages/game-page/game_scripts.js' }
 };
 
-async function waitForCss(href) {
+async function loadCss(href) {
   return new Promise((resolve, reject) => {
-    const currentHref = style.getAttribute('href')?.split('?')[0];
-    if (currentHref === href && style.sheet) return resolve();
-
-    style.href = `${href}?v=${Date.now()}`;
-
-    let attempts = 0;
-    const checkLoaded = () => {
-      try {
-        if (style.sheet) return resolve();
-      } catch(e) {
-        // Some browsers throw if sheet not loaded yet
-      }
-      attempts++;
-      if (attempts > 50) return reject(new Error('CSS failed to load'));
-      setTimeout(checkLoaded, 50);
-    };
-    checkLoaded();
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `${href}?v=${Date.now()}`;
+    link.onload = () => resolve(link);
+    link.onerror = () => reject(new Error('Failed to load CSS: ' + href));
+    document.head.appendChild(link);
   });
 }
 
@@ -40,21 +29,27 @@ async function loadPage() {
   const route = routes[hash] || routes['login'];
 
   try {
-    const res = await fetch(route.html, { cache: 'no-store' });
-    const html = await res.text();
+    app.style.opacity = '0';
+
+    const [htmlRes, cssLink] = await Promise.all([
+      fetch(route.html, { cache: 'no-store' }),
+      loadCss(route.css)
+    ]);
+
+    const html = await htmlRes.text();
 
     const oldScript = document.getElementById('page-script');
     if (oldScript) oldScript.remove();
 
-    await waitForCss(route.css);
+    const oldLinks = document.querySelectorAll('link[data-router-css]');
+    oldLinks.forEach(l => l.remove());
+    cssLink.dataset.routerCss = true;
 
-    app.style.opacity = "0";
     app.innerHTML = html;
 
-    window.scrollTo(0, 0);
-    void app.offsetHeight; // Force reflow for transition
-    app.style.transition = "opacity 0.25s ease";
-    app.style.opacity = "1";
+    void app.offsetHeight;
+    app.style.transition = 'opacity 0.25s ease';
+    app.style.opacity = '1';
     document.body.style.visibility = 'visible';
 
     const script = document.createElement('script');

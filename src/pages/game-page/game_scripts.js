@@ -5,6 +5,7 @@
     let roomId = null;
     let gameInitialized = false;
 
+    const correct_guess_sound = new Audio('./src/assets/sounds/correct-guess-sound.mp3');
     const countdown_sound = new Audio("./src/assets/sounds/countdown-sound.mp3");
     const start_game_sound = new Audio("./src/assets/sounds/game-start-sound-effect.mp3");
     const new_round_sound = new Audio("./src/assets/sounds/new_round_sound.mp3");
@@ -328,7 +329,8 @@
             userInput.placeholder = `correct answer!\n+${wordLength} characters`;
             userInput.classList.add("correct");
             userInput.disabled = true;
-            let correct_guess_sound = new Audio('./src/assets/sounds/correct-guess-sound.mp3');
+            
+            correct_guess_sound.currentTime = 0;
             correct_guess_sound.playbackRate = 1.5;
             correct_guess_sound.play();
         } else {

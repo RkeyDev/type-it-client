@@ -16,8 +16,7 @@
         socket.send(JSON.stringify({
             type: "initialize_game",
             data: {
-                roomCode: roomId,
-                username: sessionStorage.getItem("username")
+                roomCode: roomId
             }
         }));
     }

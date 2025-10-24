@@ -21,7 +21,7 @@ async function loadCss(href) {
 
 async function loadPage() {
   if (window.__cleanup) {
-    try { window.__cleanup(); } catch(e) {}
+    try { window.__cleanup(); } catch (e) {}
     window.__cleanup = null;
   }
 
@@ -58,15 +58,29 @@ async function loadPage() {
     script.onload = () => console.log(`${route.js} loaded`);
     document.body.appendChild(script);
 
-  } catch(err) {
+  } catch (err) {
     console.error(err);
     app.innerHTML = '<p style="color:red;text-align:center;">Failed to load page.</p>';
     document.body.style.visibility = 'visible';
   }
 }
 
+// Detect page refresh and auto-redirect to #login
+function detectPageRefresh() {
+  const navEntries = performance.getEntriesByType('navigation');
+  const wasReloaded = navEntries.length > 0
+    ? navEntries[0].type === 'reload'
+    : performance.navigation.type === performance.navigation.TYPE_RELOAD;
+
+  if (wasReloaded) {
+    console.log('Page was refreshed, redirecting to login...');
+    location.hash = '#login';
+  }
+}
+
 window.addEventListener('hashchange', loadPage);
 window.addEventListener('load', () => {
+  detectPageRefresh();
   if (!location.hash) location.hash = '#login';
   loadPage();
 });

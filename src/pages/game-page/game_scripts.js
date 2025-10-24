@@ -223,6 +223,11 @@
         userInput.id = "user-text-input";
         userInput.placeholder = question;
         userInput.value = "";
+
+        // Return all character-count texts to white
+        document.querySelectorAll(".progress-row span").forEach(el => el.style.color = "white");
+ 
+
         userInput.style.transition = "transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease";
         userInput.style.opacity = 0;
         userInput.style.transform = "translateY(20px) scale(0.95)";
@@ -323,6 +328,9 @@
         let previous = parseInt(charactersCount.textContent, 10) || 0;
         let current = parseInt(data.currentTotalCharacters, 10) || 0;
         charactersCount.textContent = current;
+        playerDiv.querySelectorAll(".progress-row span").forEach(span => {
+        span.style.color = "limegreen";
+    });
         if (data.playerName === sessionStorage.getItem("username")) {
             const wordLength = current - previous;
             userInput.placeholder = `correct answer!\n+${wordLength} characters`;

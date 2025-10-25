@@ -5,7 +5,7 @@
   let startButton = null;
   let form = null;
   const roomSettingsContainer = document.getElementById("room-settings-container");
-  const room_settings_form = document.getElementById("room-settings-form");
+  let room_settings_form = document.getElementById("room-settings-form");
   let roomSettingsContainerBackup = roomSettingsContainer.innerHTML;
 
   const slider_move_sound = new Audio('./src/assets/sounds/slider-move-sound.mp3');
@@ -185,14 +185,22 @@
     }
   }
 
-function setPlayerToHost() {
-  if (roomSettingsContainerBackup !== null) {
-    roomSettingsContainer.innerHTML = roomSettingsContainerBackup;
+  function setPlayerToHost() {
+    // restore the original room settings form if it was cleared
+    if (!document.getElementById("room-settings-form")) {
+      roomSettingsContainer.innerHTML = roomSettingsContainerBackup;
+    }
+
+    // reselect the form after restoring
+    room_settings_form = document.getElementById("room-settings-form");
     room_settings_form.style.visibility = "visible";
+
     sessionStorage.setItem("host", "true");
-    rebindRoomSettingsEvents(); //Rebind listeners
+
+    // rebind all events to the new DOM
+    rebindRoomSettingsEvents();
   }
-}
+
 
 
   function submitStart() {
@@ -289,7 +297,7 @@ function setPlayerToHost() {
 
   function setSettingsDisabled() {
     const form = document.querySelector("form");
-    if (form) form.remove();
+    if (form) form.style.visibility = "hidden";
 
     
     roomSettingsContainer.innerHTML = "";

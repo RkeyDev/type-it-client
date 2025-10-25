@@ -4,7 +4,8 @@
   let playerListContainer = null;
   let startButton = null;
   let form = null;
-  let roomSettingsContainerBackup = document.getElementById("room-settings-container").innerHTML;
+  const roomSettingsContainer = document.getElementById("room-settings-container");
+  let roomSettingsContainerBackup = roomSettingsContainer.innerHTML;
 
   const slider_move_sound = new Audio('./src/assets/sounds/slider-move-sound.mp3');
   const typingTimeEl = document.getElementById("typing-time-slider");
@@ -185,7 +186,8 @@
 
 function setPlayerToHost() {
   if (roomSettingsContainerBackup !== null) {
-    document.getElementById("room-settings-container").innerHTML = roomSettingsContainerBackup;
+    roomSettingsContainer.innerHTML = roomSettingsContainerBackup;
+    roomSettingsContainer.style.visibility = "visible";
     sessionStorage.setItem("host", "true");
     rebindRoomSettingsEvents(); //Rebind listeners
   }
@@ -269,6 +271,9 @@ function setPlayerToHost() {
 
     if (sessionStorage.getItem("host") === "false")
       setSettingsDisabled();
+    else
+      roomSettingsContainer.style.visibility = "visible";
+      
 
     loadPlayersFromSessionOrInitialData();
   }
@@ -285,9 +290,9 @@ function setPlayerToHost() {
     const form = document.querySelector("form");
     if (form) form.remove();
 
-    const roomSettingsContainer = document.getElementById("room-settings-container");
+    
     roomSettingsContainer.innerHTML = "";
-
+    roomSettingsContainer.style.visibility = "visible";
     const wrapper = document.createElement("div");
     wrapper.className = "waiting-wrapper";
 

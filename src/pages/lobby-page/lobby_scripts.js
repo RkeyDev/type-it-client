@@ -5,6 +5,7 @@
   let startButton = null;
   let form = null;
   const roomSettingsContainer = document.getElementById("room-settings-container");
+  const room_settings_form = document.getElementById("room-settings-form");
   let roomSettingsContainerBackup = roomSettingsContainer.innerHTML;
 
   const slider_move_sound = new Audio('./src/assets/sounds/slider-move-sound.mp3');
@@ -187,7 +188,7 @@
 function setPlayerToHost() {
   if (roomSettingsContainerBackup !== null) {
     roomSettingsContainer.innerHTML = roomSettingsContainerBackup;
-    roomSettingsContainer.style.visibility = "visible";
+    room_settings_form.style.visibility = "visible";
     sessionStorage.setItem("host", "true");
     rebindRoomSettingsEvents(); //Rebind listeners
   }
@@ -272,7 +273,7 @@ function setPlayerToHost() {
     if (sessionStorage.getItem("host") === "false")
       setSettingsDisabled();
     else
-      roomSettingsContainer.style.visibility = "visible";
+      room_settings_form.style.visibility = "visible";
       
 
     loadPlayersFromSessionOrInitialData();
@@ -292,7 +293,7 @@ function setPlayerToHost() {
 
     
     roomSettingsContainer.innerHTML = "";
-    roomSettingsContainer.style.visibility = "visible";
+    room_settings_form.style.visibility = "visible";
     const wrapper = document.createElement("div");
     wrapper.className = "waiting-wrapper";
 

@@ -250,3 +250,18 @@ html, body {
         top: -1%;
     }
 }
+
+@media (max-width: 480px) {
+    #tutorial-box {
+        width: 95%;
+        height: auto;
+        padding: 10px;
+    }
+    #tutorial-text {
+        font-size: 14px;
+    }
+    #tutorial-image {
+        width:50%;
+        max-width: none;
+    }
+}

@@ -63,7 +63,7 @@ const username_textfield = document.getElementById("username-textfield");
 
 
         function updateTutorialStep() {
-            
+            tutorialContainer.style.visibility = "visible";
             const step = tutorialSteps[currentTutorialIndex];
             tutorialText.textContent = step.text;
 

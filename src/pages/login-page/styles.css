@@ -1,14 +1,13 @@
-
 html, body {
     margin: -5px;
     padding: 0;
-    overflow: hidden !important;     /* disables scrollbars */
-    overscroll-behavior: none;       /* prevents scroll chaining */
+    overflow: hidden !important;
+    overscroll-behavior: none;
     touch-action: none;
 }
 
-/* Desktop-first responsive styles for login page (no mobile rules) */
-#logo-image{
+/* Login Page */
+#logo-image {
     margin: auto;
     padding-left: 15px;
     display: block;
@@ -16,12 +15,12 @@ html, body {
     height: auto;
 }
 
-#login-form{
+#login-form {
     width: min(82vw, 400px);
     margin: 2.5% auto;
     display: block;
     position: relative;
-    top: clamp(85px, 6vh, 64px);
+    top: clamp(64px, 6vh, 85px);
 }
 
 #privacy-policy-link {
@@ -41,8 +40,7 @@ html, body {
     text-decoration: underline;
 }
 
-
-#username-textfield{
+#username-textfield {
     position: relative;
     top: clamp(12px, 3vh, 40px);
     width: 100%;
@@ -50,26 +48,26 @@ html, body {
     border-radius: 8px;
     border: none;
     padding: clamp(10px, 1.2vw, 14px);
-    margin-bottom: clamp(56px, 3vh, 32px);
+    margin-bottom: clamp(32px, 3vh, 56px);
     outline: none;
     background-color: #768EA9;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
     color: white;
-    }
+}
 
-    #username-textfield.error::placeholder{
-        color: #c94b35;
-    }
-    
-    #username-textfield::placeholder {
-        color: white;
-        font-size: clamp(18px, 2.2vw, 25px);
-    }
-    
-#submit-button{
+#username-textfield.error::placeholder {
+    color: #c94b35;
+}
+
+#username-textfield::placeholder {
+    color: white;
+    font-size: clamp(18px, 2.2vw, 25px);
+}
+
+#submit-button {
     font-size: clamp(18px, 2.2vw, 25px);
     padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
-    margin-top: clamp(85px, 1.2vh, 16px);
+    margin-top: clamp(16px, 1.2vh, 85px);
     width: 100%;
     height: clamp(40px, 5.5vh, 56px);
     border-radius: 8px;
@@ -85,8 +83,7 @@ html, body {
     left: 0;
 }
 
-
-#submit-button:hover{
+#submit-button:hover {
     background-color: #7fada0;
     transition: background-color 0.3s ease;
 }
@@ -101,61 +98,14 @@ html, body {
     min-height: clamp(72px, 14vh, 160px);
 }
 
-#skin-image{
+#skin-image {
     width: 45%;
 }
 
-.arrow-button{
+.arrow-button {
     background-color: transparent;
     border: none;
     outline: none;
-}
-
-
-@media (max-width: 1920px) {
-    
-    #privacy-policy-link{
-        top: 92%;
-    }
-    #submit-button{
-        margin-top: 10%;
-    }
-}
-
-@media (max-width: 1500px){
-    #login-form{
-        margin: -2.5% auto;
-    }
-}
-
-@media (max-width: 1080px) {
-    .arrow-img{
-        width: 100%;
-        
-    }
-
-    #login-form-container{
-        position: relative;
-        top: 90px;
-    }
-
-    .arrow-button{
-        position: relative;
-        
-    }
-    
-    #privacy-policy-link{
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        color: white;
-        font-size: clamp(18px, 1.5vw, 18px);
-        text-decoration: none;
-        opacity: 0.8;
-    }
-
 }
 
 /* Tutorial Floating Window */
@@ -172,27 +122,11 @@ html, body {
     justify-content: center;
     z-index: 99999999;
     transition: opacity 0.3s ease;
+    
 }
 
 #tutorial-container.hidden {
     display: none;
-}
-
-#tutorial-box {
-    background-color: #31394a;
-    border-radius: 20px;
-    padding: 20px;
-    width: 1600px;       /* fixed width */
-    height: 700px;      /* fixed height */
-    color: white;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(0,0,0,0.6);
-    position: relative;
-    overflow: hidden;   /* prevents content overflow from resizing box */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
 }
 
 
@@ -207,25 +141,43 @@ html, body {
     cursor: pointer;
 }
 
+#tutorial-box {
+    background-color: #31394a;
+    border-radius: 20px;
+    padding: clamp(15px, 2vw, 30px);
+    width: clamp(300px, 90%, 1600px);
+    max-height: 90vh;       /* limit height to viewport */
+    color: white;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
 #tutorial-text {
-    font-size: clamp(36px, 1.8vw, 22px);
+    font-size: clamp(14px, 2vw, 36px);
     margin-bottom: 20px;
 }
 
 #tutorial-image {
-    position: absolute; /* anchor inside the container */
-    top: 55%;           /* vertical center */
-    left: 50%;          /* horizontal center */
-    transform: translate(-50%, -50%); /* center exactly */
-    width: 60%;
+    width: 100%;
+    max-width: 1500px;
     height: auto;
     border-radius: 12px;
+    display: block;
+    margin: 0 auto 20px auto; /* 20px margin below for controls */
 }
 
+
 #tutorial-controls {
+    position: relative;      /* let it flow naturally under image */
     display: flex;
     justify-content: center;
     gap: 40px;
+    margin-top: 10px;        /* optional spacing above controls */
 }
 
 #tutorial-controls button {
@@ -244,31 +196,72 @@ html, body {
     height: auto;
 }
 
-@media (max-width: 1500px) {
-    #tutorial-box{
-        width: 900px;       /* fixed width */
-        height: 500px;      /* fixed height */
+/* Media Queries */
+@media (max-width: 1920px) {
+    #privacy-policy-link {
+        top: 92%;
     }
-    
-
-    #tutorial-text{
-        font-size: 27px;
+    #submit-button {
+        margin-top: 10%;
     }
 }
 
-@media (max-width: 1080px) {
-    #tutorial-box{
-        width: 300px;       /* fixed width */
-        height: 600px;      /* fixed height */
-    
+@media (max-width: 1500px) {
+    #login-form {
+        margin: -2.5% auto;
     }
-    #tutorial-text{
+    #tutorial-box {
+        width: clamp(300px, 80%, 900px);
+        height: clamp(400px, 60%, 500px);
+    }
+    #tutorial-text {
+        font-size: clamp(14px, 2vw, 27px);
+    }
+    
+}
+
+@media (max-width: 1080px) {
+    .arrow-img {
+        width: 100%;
+    }
+    #login-form-container {
+        position: relative;
+        top: 90px;
+    }
+    .arrow-button {
+        position: relative;
+    }
+    #privacy-policy-link {
+        bottom: 30px;
+        font-size: clamp(14px, 1.5vw, 18px);
+    }
+    #tutorial-box {
+        width: 90%;
+        height: auto;
+    }
+    #tutorial-text {
         font-size: 15px;
     }
-    #tutorial-container{
-        font-size: 20px;
+    #tutorial-image {
+        width: 100%;
     }
-    #tutorial-image{
-        width: 120%;
+
+    #tutorial-close{
+        top: -1%;
+    }
+}
+
+@media (max-width: 480px) {
+    #tutorial-box {
+        width: 95%;
+        height: auto;
+        padding: 10px;
+    }
+    #tutorial-text {
+        font-size: 14px;
+    }
+    #tutorial-image {
+        width: 100%;
+        max-width: none;
     }
 }

@@ -75,7 +75,7 @@ const username_textfield = document.getElementById("username-textfield");
 
                 if (isMobile) {
                     const dotIndex = step.image.lastIndexOf(".");
-                    if (step.image.slice(0, dotIndex) != "./src/assets/logo")
+                    if (step.image.slice(0, dotIndex) != "./src/assets/Logo")
                         imagePath = step.image.slice(0, dotIndex) + "-mobile" + step.image.slice(dotIndex);
                     else
                         tutorialImage.style.width = "60%";
@@ -177,7 +177,7 @@ const username_textfield = document.getElementById("username-textfield");
 
             // Check if the tutorial has already been seen
             const tutorialSeen = getCookie("tutorial-seen");
-            if (tutorialSeen === "true") {
+            if (tutorialSeen !== "true") {
                 tutorialContainer.classList.add("hidden");
                 document.body.style.visibility = "visible";
             } else {

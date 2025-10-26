@@ -636,6 +636,7 @@ body{
 
 #typing-time-slider{
     left: -5%;
+    width: 150px;
 }
 
 #typing-time-header{
@@ -756,4 +757,28 @@ body{
     top: 90%;
     left: 35%;
 }
+}
+@media (max-width: 480px) {
+  .player-slot {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto; 
+    padding: 0.5px;
+    border-radius: 15%;
+  }
+
+  .player-icon {
+    width: 80px;  
+    height: 80px;
+    margin-bottom: 0px; /* space between avatar and username */
+    left: -5%;
+}
+
+  .player-name {
+    font-size: 18px; 
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+  }
 }

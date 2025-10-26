@@ -1,11 +1,26 @@
 const app = document.getElementById('app');
-const style = document.getElementById('page-style');
 
 const routes = {
-  login: { html: './src/pages/login-page/login.html', css: './src/pages/login-page/styles.css', js: './src/pages/login-page/login_scripts.js' },
-  main_menu: { html: './src/pages/main-menu-page/main_menu.html', css: './src/pages/main-menu-page/styles.css', js: './src/pages/main-menu-page/main_menu_scripts.js' },
-  lobby: { html: './src/pages/lobby-page/lobby.html', css: './src/pages/lobby-page/styles.css', js: './src/pages/lobby-page/lobby_scripts.js' },
-  game: { html: './src/pages/game-page/game.html', css: './src/pages/game-page/styles.css', js: './src/pages/game-page/game_scripts.js' }
+  login: {
+    html: './src/pages/login-page/login.html',
+    css: './src/pages/login-page/styles.css',
+    js: './src/pages/login-page/login_scripts.js'
+  },
+  main_menu: {
+    html: './src/pages/main-menu-page/main_menu.html',
+    css: './src/pages/main-menu-page/styles.css',
+    js: './src/pages/main-menu-page/main_menu_scripts.js'
+  },
+  lobby: {
+    html: './src/pages/lobby-page/lobby.html',
+    css: './src/pages/lobby-page/styles.css',
+    js: './src/pages/lobby-page/lobby_scripts.js'
+  },
+  game: {
+    html: './src/pages/game-page/game.html',
+    css: './src/pages/game-page/styles.css',
+    js: './src/pages/game-page/game_scripts.js'
+  }
 };
 
 async function loadCss(href) {
@@ -13,6 +28,7 @@ async function loadCss(href) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = `${href}?v=${Date.now()}`;
+    link.dataset.routerCss = true;
     link.onload = () => resolve(link);
     link.onerror = () => reject(new Error('Failed to load CSS: ' + href));
     document.head.appendChild(link);
@@ -21,7 +37,7 @@ async function loadCss(href) {
 
 async function loadPage() {
   if (window.__cleanup) {
-    try { window.__cleanup(); } catch (e) {}
+    try { window.__cleanup(); } catch (e) { console.warn('Cleanup failed:', e); }
     window.__cleanup = null;
   }
 
@@ -38,15 +54,13 @@ async function loadPage() {
 
     const html = await htmlRes.text();
 
+    document.querySelectorAll('link[data-router-css]').forEach(l => l.remove());
+    document.head.appendChild(cssLink);
+
     const oldScript = document.getElementById('page-script');
     if (oldScript) oldScript.remove();
 
-    const oldLinks = document.querySelectorAll('link[data-router-css]');
-    oldLinks.forEach(l => l.remove());
-    cssLink.dataset.routerCss = true;
-
     app.innerHTML = html;
-
     void app.offsetHeight;
     app.style.transition = 'opacity 0.25s ease';
     app.style.opacity = '1';
@@ -55,9 +69,30 @@ async function loadPage() {
     const script = document.createElement('script');
     script.src = `${route.js}?v=${Date.now()}`;
     script.id = 'page-script';
-    script.onload = () => console.log(`${route.js} loaded`);
-    document.body.appendChild(script);
 
+    // Critical part: wait until script defines its init function, then call it
+    script.onload = async () => {
+      console.log(`${route.js} loaded`);
+
+      // Wait until onPageLoad is available (some scripts wrap code)
+      for (let i = 0; i < 50; i++) {
+        if (typeof window.onPageLoad === 'function') break;
+        await new Promise(r => setTimeout(r, 50));
+      }
+
+      // Safely call it if defined
+      if (typeof window.onPageLoad === 'function') {
+        try {
+          window.onPageLoad();
+        } catch (err) {
+          console.error('Error running onPageLoad():', err);
+        }
+      } else {
+        console.warn('No onPageLoad() found in', route.js);
+      }
+    };
+
+    document.body.appendChild(script);
   } catch (err) {
     console.error(err);
     app.innerHTML = '<p style="color:red;text-align:center;">Failed to load page.</p>';
@@ -65,7 +100,6 @@ async function loadPage() {
   }
 }
 
-// Detect page refresh and auto-redirect to #login
 function detectPageRefresh() {
   const navEntries = performance.getEntriesByType('navigation');
   const wasReloaded = navEntries.length > 0

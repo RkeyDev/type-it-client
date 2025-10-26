@@ -51,7 +51,7 @@ const username_textfield = document.getElementById("username-textfield");
             },
             { 
                 text: "Good Luck!", 
-                image: "./src/assets/logo.png" 
+                image: "./src/assets/Logo.png" 
             }
         ];
 

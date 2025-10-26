@@ -177,7 +177,7 @@ const username_textfield = document.getElementById("username-textfield");
 
             // Check if the tutorial has already been seen
             const tutorialSeen = getCookie("tutorial-seen");
-            if (tutorialSeen !== "true") {
+            if (tutorialSeen === "true") {
                 tutorialContainer.classList.add("hidden");
                 document.body.style.visibility = "visible";
             } else {

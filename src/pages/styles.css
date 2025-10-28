@@ -56,3 +56,46 @@ body{
     100% { transform: translateY(-20vh) rotate(360deg); opacity: 0.2; }
 }
 
+
+#right-banner-ad-container {
+    position: fixed;  /* stays in viewport */
+    top: 50%;          /* start in the middle */
+    right: 18px;       /* keep same margin as your widget */
+    transform: translateY(-50%); /* center vertically */
+    z-index: 9999;     /* make sure it’s on top */
+}
+
+#left-banner-ad-container {
+    position: fixed;  /* stays in viewport */
+    top: 50%;          /* start in the middle */
+    left: 18px;       /* keep same margin as your widget */
+    transform: translateY(-50%); /* center vertically */
+    z-index: 9999;     /* make sure it’s on top */
+}
+
+#mobile-screens-ad-container{
+    display: none;
+}
+
+@media (max-width:1500px) {
+    #left-banner-ad-container ,
+    #right-banner-ad-container{
+        height: 80%;
+        top: 55%;
+    }
+    #left-banner-ad-container iframe,
+    #right-banner-ad-container iframe{
+        max-height: 100%;
+        height: 100%;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    /* Hide left banner on mobile */
+    #left-banner-ad-container,#right-banner-ad-container {
+        display: none;
+    }
+
+
+}

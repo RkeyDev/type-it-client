@@ -458,6 +458,13 @@ html, body {
   #round-countdown {
     font-size: clamp(36px, 15vw, 100px);
   }
+
+      #mobile-screens-ad-container{
+    display: flex;
+    position: fixed;
+    top: 75%;
+    left: 5%;
+}
 }
 
 

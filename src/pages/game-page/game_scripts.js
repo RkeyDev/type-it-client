@@ -11,7 +11,7 @@
     const new_round_sound = new Audio("./src/assets/sounds/new_round_sound.mp3");
     const wrong_guess_sound = new Audio("./src/assets/sounds/wrong-guess-sound.mp3");
     const someone_guessed_correctly_sound = new Audio("./src/assets/sounds/someone-guessed-correctly-sound.mp3");
-
+    
     function startGame(roomId) {
         socket.send(JSON.stringify({
             type: "initialize_game",

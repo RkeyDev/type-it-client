@@ -782,3 +782,8 @@ body{
     overflow: visible;
   }
 }
+
+
+#right-banner-ad-container{
+    visibility: hidden;
+}

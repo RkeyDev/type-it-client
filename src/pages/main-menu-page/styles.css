@@ -221,7 +221,12 @@ body {
 }
 
 @media (max-width: 1080px) {
-    
+    #mobile-screens-ad-container{
+    display: flex;
+    position: fixed;
+    top: 0%;
+    left: 5%;
+}
     #main-menu-container {
         display: flex;
         flex-direction: column;

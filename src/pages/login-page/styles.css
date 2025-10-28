@@ -249,6 +249,12 @@ html, body {
     #tutorial-close{
         top: -1%;
     }
+        #mobile-screens-ad-container{
+    display: flex;
+    position: fixed;
+    top: 75%;
+    left: 5%;
+}
 }
 
 @media (max-width: 480px) {
@@ -265,3 +271,5 @@ html, body {
         max-width: none;
     }
 }
+
+

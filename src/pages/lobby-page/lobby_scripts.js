@@ -66,22 +66,6 @@
     sessionStorage.setItem("playersList", JSON.stringify(playersList));
   }
 
-  function updateRoomSettingsFromServer(data) {
-    if (!data || sessionStorage.getItem("host") !== "true") return;
-
-    if (typingTimeEl && data.typingTime !== undefined)
-      typingTimeEl.value = data.typingTime;
-
-    if (characterGoalEl && data.characterGoal !== undefined)
-      characterGoalEl.value = data.characterGoal;
-
-    if (matchmakingToggle && data.matchMaking !== undefined) {
-      matchmakingToggle.checked = data.matchMaking === true || data.matchMaking === "true";
-      if (matchmakingToggleLabel)
-        matchmakingToggleLabel.textContent = matchmakingToggle.checked ? "On" : "Off";
-    }
-  }
-
 
   function rebindRoomSettingsEvents() {
   // re-select new elements
@@ -155,7 +139,6 @@
       if (roomCodeButton)
         roomCodeButton.innerText = roomId || roomCodeButton.innerText || "Error";
 
-      updateRoomSettingsFromServer(parsedRoomData.data);
     } catch (err) {
       console.error("Failed to load room data from session:", err);
     }
@@ -172,7 +155,6 @@
           : data.data.players;
 
         updatePlayerList(playerDataList);
-        updateRoomSettingsFromServer(data.data);
 
       } else if (data.type === "game_started") {
         window.location.href = `#game?id=${roomId}`;

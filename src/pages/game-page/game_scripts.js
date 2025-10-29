@@ -357,19 +357,125 @@
         }
         const skin = playerDiv.querySelector("img");
         if (skin) spawnConfettiFromElement(skin);
+        let players = JSON.parse(sessionStorage.getItem("playersList") || "[]");
+        const me = players.find(p => p.username === data.playerName);
+        if (me) me.totalCharacters = data.currentTotalCharacters;
+        sessionStorage.setItem("playersList", JSON.stringify(players));
     }
 
     function handlePlayerHasWon(data) {
-        const playerName = data.username;
-        const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "./src/assets/skins/deafult_yellow_skin.webp";
-        const textInput = document.getElementById("user-text-input");
-        if (textInput) textInput.remove();
-        const overlay = createElement("div", { id: "winner-overlay" }, [
-            createElement("img", { id: "winner-avatar", src: playerSkin, alt: `${playerName}'s avatar` }),
-            createElement("h1", { id: "win-message", textContent: `${playerName} has won!!` })
-        ]);
-        document.body.appendChild(overlay);
+    const playerName = data.username;
+    const playerSkin = data.skinPath ? data.skinPath.replace(/\\/g, "/") : "./src/assets/skins/deafult_yellow_skin.webp";
+
+    // Remove text input
+    const textInput = document.getElementById("user-text-input");
+    if (textInput) textInput.remove();
+
+    // Create overlay
+    const overlay = createElement("div", { id: "winner-overlay" }, [
+        createElement("img", { id: "winner-avatar", src: playerSkin, alt: `${playerName}'s avatar` }),
+        createElement("h1", { id: "win-message", textContent: `${playerName} has won!! 🎉` })
+    ]);
+    document.body.appendChild(overlay);
+
+    // Retrieve player list
+    const playersList = JSON.parse(sessionStorage.getItem("playersList") || "[]");
+
+    // Sort by total characters typed (descending)
+    const sorted = [...playersList].sort((a, b) => (b.totalCharacters || 0) - (a.totalCharacters || 0));
+
+    // Get top 3
+    const top3 = sorted.slice(0, 3);
+
+    if (top3.length > 0) {
+        const podiumContainer = createElement("div", { id: "podium-container" });
+        overlay.appendChild(podiumContainer);
+
+        podiumContainer.style.display = "flex";
+        podiumContainer.style.justifyContent = "center";
+        podiumContainer.style.alignItems = "flex-end";
+        podiumContainer.style.gap = "40px";
+        podiumContainer.style.marginTop = "40px";
+
+        top3.forEach((player, index) => {
+            const position = index + 1;
+            const avatar = createElement("img", { src: player.skinPath, alt: player.username, className: "podium-avatar" });
+            const name = createElement("span", { className: "podium-name", textContent: player.username });
+            const score = createElement("span", { className: "podium-score", textContent: `${player.totalCharacters || 0} chars` });
+
+            const column = createElement("div", { className: `podium-slot rank-${position}` }, [name, avatar, score]);
+            podiumContainer.appendChild(column);
+        });
+
+        // Style podium visually
+        const style = document.createElement("style");
+        style.textContent = `
+
+            #winner-avatar {
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                border: 5px solid gold;
+                box-shadow: 0 0 40px gold;
+                margin-bottom: 10px;
+            }
+
+            #podium-container .podium-slot {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.08);
+                padding: 10px 20px;
+                border-radius: 15px;
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+                transition: transform 0.4s ease;
+            }
+
+            .podium-slot:hover {
+                transform: translateY(-5px) scale(1.05);
+            }
+
+            .podium-avatar {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                margin: 5px 0;
+                border: 3px solid white;
+            }
+
+            .podium-name {
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+
+            .podium-score {
+                color: #aaa;
+                font-size: 1rem;
+            }
+
+            .rank-1 {
+                transform: translateY(-20px);
+                border: 2px solid gold;
+            }
+
+            .rank-2 {
+                transform: translateY(-10px);
+                border: 2px solid silver;
+            }
+
+            .rank-3 {
+                border: 2px solid #cd7f32;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: scale(0.95); }
+                to { opacity: 1; transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
     }
+}
+
 
     function handlePlayerLeft(data) {
         const playerDiv = document.getElementById(data.username);

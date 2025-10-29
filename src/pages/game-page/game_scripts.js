@@ -4,6 +4,7 @@
     let timerInterval = null;
     let roomId = null;
     let gameInitialized = false;
+    let socketMessageHandler = null;
 
     const correct_guess_sound = new Audio('./src/assets/sounds/correct-guess-sound.mp3');
     const countdown_sound = new Audio("./src/assets/sounds/countdown-sound.mp3");
@@ -11,65 +12,76 @@
     const new_round_sound = new Audio("./src/assets/sounds/new_round_sound.mp3");
     const wrong_guess_sound = new Audio("./src/assets/sounds/wrong-guess-sound.mp3");
     const someone_guessed_correctly_sound = new Audio("./src/assets/sounds/someone-guessed-correctly-sound.mp3");
-    
+
     function startGame(roomId) {
         socket.send(JSON.stringify({
             type: "initialize_game",
-            data: {
-                roomCode: roomId
-            }
+            data: { roomCode: roomId }
         }));
     }
 
-    socket.onmessage = function (event) {
-        try {
-            const response = JSON.parse(event.data);
-            switch (response.type) {
-                case "game_started":
-                    roomSettings = response.data.settings;
-                    initializeGame();
-                    break;
-                case "start_new_round":
-                    const data = response.data;
-                    if (!gameInitialized) {
-                        const checkReady = setInterval(() => {
-                            if (gameInitialized) {
-                                clearInterval(checkReady);
-                                questionPlaceholder = data.question;
-                                startNewRound(data.question);
-                            }
-                        }, 100);
-                    } else {
-                        questionPlaceholder = data.question;
-                        startNewRound(data.question);
-                    }
-                    break;
-                case "player_guessed_incorrectly":
-                    handleIncorrectGuess();
-                    break;
-                case "player_guessed_correctly":
-                    handleCorrectGuess(response.data);
-                    break;
-                case "player_has_won":
-                    handlePlayerHasWon(response.data);
-                    break;
-                case "player_left":
-                    handlePlayerLeft(response.data);
-                    break;
-                case "return_to_lobby":
-                    handleReturnToLobby(response.data);
-                    break;
+    function bindSocket() {
+        socketMessageHandler = function (event) {
+            try {
+                const response = JSON.parse(event.data);
+                switch (response.type) {
+                    case "game_started":
+                        roomSettings = response.data.settings;
+                        initializeGame();
+                        break;
+                    case "start_new_round":
+                        const data = response.data;
+                        if (!gameInitialized) {
+                            const checkReady = setInterval(() => {
+                                if (gameInitialized) {
+                                    clearInterval(checkReady);
+                                    questionPlaceholder = data.question;
+                                    startNewRound(data.question);
+                                }
+                            }, 100);
+                        } else {
+                            questionPlaceholder = data.question;
+                            startNewRound(data.question);
+                        }
+                        break;
+                    case "player_guessed_incorrectly":
+                        handleIncorrectGuess();
+                        break;
+                    case "player_guessed_correctly":
+                        handleCorrectGuess(response.data);
+                        break;
+                    case "player_has_won":
+                        handlePlayerHasWon(response.data);
+                        break;
+                    case "player_left":
+                        handlePlayerLeft(response.data);
+                        break;
+                    case "return_to_lobby":
+                        handleReturnToLobby(response.data);
+                        break;
+                }
+            } catch (err) {
+                console.error("Failed to handle incoming message:", err);
             }
-        } catch (err) {
-            console.error("Failed to handle incoming message:", err);
+        };
+        socket.addEventListener("message", socketMessageHandler);
+    }
+
+    function unbindSocket() {
+        if (socketMessageHandler) {
+            socket.removeEventListener("message", socketMessageHandler);
+            socketMessageHandler = null;
         }
-    };
+    }
 
     const hashTag = window.location.hash.substring(1);
     const [routeData, queryStr] = hashTag.split('?');
     const hashParameters = new URLSearchParams(queryStr);
     roomId = hashParameters.get('id');
-    if (roomId) startGame(roomId);
+    if (roomId) {
+        bindSocket();
+        startGame(roomId);
+    }
 
     function createElement(tag, options = {}, children = []) {
         const el = document.createElement(tag);
@@ -92,13 +104,13 @@
         }
         return center;
     }
-
     function initializeGame() {
         const center = getOrCreateCenter();
         loadPlayers();
         const waitingText = document.getElementById("game-waiting-text");
         if (waitingText && waitingText.parentNode) waitingText.remove();
         gameInitialized = true;
+
         countdown_sound.currentTime = 0;
         countdown_sound.volume = 0.5;
         countdown_sound.play();
@@ -374,12 +386,18 @@
         sessionStorage.setItem("playersList", JSON.stringify(playersList));
     }
 
-    function handleReturnToLobby(data) {
+function handleReturnToLobby(data) {
+        gameInitialized = false;
+        clearInterval(timerInterval);
+        timerInterval = null;
+        unbindSocket();
+
         if (data.host === sessionStorage.getItem("username")) {
             sessionStorage.setItem("host", "true");
         } else {
             sessionStorage.setItem("host", "false");
         }
+
         const winnerOverlay = document.getElementById("winner-overlay");
         if (winnerOverlay) winnerOverlay.remove();
         const userInput = document.getElementById("user-text-input");

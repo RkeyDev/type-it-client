@@ -4,20 +4,20 @@
   let playerListContainer = null;
   let startButton = null;
   let form = null;
+  let typingTimeEl = document.getElementById("typing-time-slider");
+  let characterGoalEl = document.getElementById("character-goal-slider");
+  let matchmakingToggle = document.getElementById("matchmaking-toggle");
+  let matchmakingToggleLabel = document.getElementById("matchmaking-toggle-label");
+
   const roomSettingsContainer = document.getElementById("room-settings-container");
   let room_settings_form = document.getElementById("room-settings-form");
   let roomSettingsContainerBackup = roomSettingsContainer.innerHTML;
 
   const slider_move_sound = new Audio('./src/assets/sounds/slider-move-sound.mp3');
-  const typingTimeEl = document.getElementById("typing-time-slider");
-  const characterGoalEl = document.getElementById("character-goal-slider");
-  const matchmakingToggle = document.getElementById("matchmaking-toggle");
-  const matchmakingToggleLabel = document.getElementById("matchmaking-toggle-label");
-
   slider_move_sound.volume = 0.3;
 
-  typingTimeEl.addEventListener("input", () => slider_move_sound.play());
-  characterGoalEl.addEventListener("input", () => slider_move_sound.play());
+  if (typingTimeEl) typingTimeEl.addEventListener("input", () => slider_move_sound.play());
+  if (characterGoalEl) characterGoalEl.addEventListener("input", () => slider_move_sound.play());
 
   function copyRoomCode() {
     if (!roomCodeButton) return;
@@ -59,56 +59,47 @@
       playerSlot.appendChild(nameElement);
       playerSlot.appendChild(skinElement);
       playerListContainer.appendChild(playerSlot);
-
-      
     });
 
     sessionStorage.setItem("playersList", JSON.stringify(playersList));
   }
 
-
   function rebindRoomSettingsEvents() {
-  // re-select new elements
-  form = document.getElementById("room-settings-form");
-  startButton = document.getElementById("start-game-button");
-  
-  const newTypingTimeEl = document.getElementById("typing-time-slider");
-  const newCharacterGoalEl = document.getElementById("character-goal-slider");
-  const newMatchmakingToggle = document.getElementById("matchmaking-toggle");
-  const newMatchmakingToggleLabel = document.getElementById("matchmaking-toggle-label");
+    form = document.getElementById("room-settings-form");
+    startButton = document.getElementById("start-game-button");
+    typingTimeEl = document.getElementById("typing-time-slider");
+    characterGoalEl = document.getElementById("character-goal-slider");
+    matchmakingToggle = document.getElementById("matchmaking-toggle");
+    matchmakingToggleLabel = document.getElementById("matchmaking-toggle-label");
 
-  // rebind slider sounds
-  newTypingTimeEl?.addEventListener("input", () => slider_move_sound.play());
-  newCharacterGoalEl?.addEventListener("input", () => slider_move_sound.play());
+    if (typingTimeEl) typingTimeEl.addEventListener("input", () => slider_move_sound.play());
+    if (characterGoalEl) characterGoalEl.addEventListener("input", () => slider_move_sound.play());
 
-  // rebind matchmaking toggle
-  if (newMatchmakingToggle) {
-    newMatchmakingToggle.addEventListener("change", () => {
-      if (!window.socket || socket.readyState !== WebSocket.OPEN) {
-        console.warn("Socket not open");
-        return;
-      }
-
-      if (newMatchmakingToggleLabel)
-        newMatchmakingToggleLabel.textContent = newMatchmakingToggle.checked ? 'On' : 'Off';
-
-      const username = sessionStorage.getItem("username") || "";
-      socket.send(JSON.stringify({
-        type: "toggle_matchmaking",
-        data: {
-          allow_matchmaking: newMatchmakingToggle.checked.toString(),
-          username: username,
-          roomCode: roomId
+    if (matchmakingToggle) {
+      matchmakingToggle.addEventListener("change", () => {
+        if (!window.socket || socket.readyState !== WebSocket.OPEN) {
+          console.warn("Socket not open");
+          return;
         }
-      }));
-    });
+
+        if (matchmakingToggleLabel)
+          matchmakingToggleLabel.textContent = matchmakingToggle.checked ? 'On' : 'Off';
+
+        const username = sessionStorage.getItem("username") || "";
+        socket.send(JSON.stringify({
+          type: "toggle_matchmaking",
+          data: {
+            allow_matchmaking: matchmakingToggle.checked.toString(),
+            username: username,
+            roomCode: roomId
+          }
+        }));
+      });
+    }
+
+    if (form) form.addEventListener("submit", onStartSubmit);
+    if (startButton) startButton.addEventListener("click", onStartClick);
   }
-
-  // rebind start button + form
-  if (form) form.addEventListener("submit", onStartSubmit);
-  if (startButton) startButton.addEventListener("click", onStartClick);
-}
-
 
   function loadPlayersFromSessionOrInitialData() {
     const storedPlayers = sessionStorage.getItem("playersList");
@@ -139,6 +130,13 @@
       if (roomCodeButton)
         roomCodeButton.innerText = roomId || roomCodeButton.innerText || "Error";
 
+      // save current settings for syncing
+      window.currentRoomSettings = {
+        typingTime: parsedRoomData.data.settings?.typingTime || 60,
+        characterGoal: parsedRoomData.data.settings?.characterGoal || 120,
+        language: parsedRoomData.data.settings?.language || "english"
+      };
+
     } catch (err) {
       console.error("Failed to load room data from session:", err);
     }
@@ -153,13 +151,17 @@
         const playerDataList = typeof data.data.players === 'string'
           ? JSON.parse(data.data.players)
           : data.data.players;
-
         updatePlayerList(playerDataList);
+
+        window.currentRoomSettings = {
+          typingTime: data.data.settings?.typingTime || 60,
+          characterGoal: data.data.settings?.characterGoal || 120,
+          language: data.data.settings?.language || "english"
+        };
 
       } else if (data.type === "game_started") {
         window.location.href = `#game?id=${roomId}`;
-      }
-      else if(data.type === "new_host"){
+      } else if (data.type === "new_host") {
         setPlayerToHost();
       }
     } catch (err) {
@@ -168,22 +170,24 @@
   }
 
   function setPlayerToHost() {
-    // restore the original room settings form if it was cleared
     if (!document.getElementById("room-settings-form")) {
       roomSettingsContainer.innerHTML = roomSettingsContainerBackup;
     }
 
-    // reselect the form after restoring
     room_settings_form = document.getElementById("room-settings-form");
     room_settings_form.style.visibility = "visible";
-
     sessionStorage.setItem("host", "true");
 
-    // rebind all events to the new DOM
     rebindRoomSettingsEvents();
+
+    // sync sliders with current settings from backend
+    if (window.currentRoomSettings) {
+      if (typingTimeEl) typingTimeEl.value = window.currentRoomSettings.typingTime;
+      if (characterGoalEl) characterGoalEl.value = window.currentRoomSettings.characterGoal;
+      const langEl = document.getElementById("languages-dropdown");
+      if (langEl) langEl.value = window.currentRoomSettings.language;
+    }
   }
-
-
 
   function submitStart() {
     const languageEl = document.getElementById("languages-dropdown");
@@ -264,7 +268,6 @@
       setSettingsDisabled();
     else
       room_settings_form.style.visibility = "visible";
-      
 
     loadPlayersFromSessionOrInitialData();
   }
@@ -281,7 +284,6 @@
     const form = document.querySelector("form");
     if (form) form.style.visibility = "hidden";
 
-    
     roomSettingsContainer.innerHTML = "";
     room_settings_form.style.visibility = "visible";
     const wrapper = document.createElement("div");

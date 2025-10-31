@@ -1,26 +1,42 @@
-html, body {
-    margin: -5px;
-    padding: 0;
-    overflow: hidden !important;
-    overscroll-behavior: none;
-    touch-action: none;
-}
 
 /* Login Page */
 #logo-image {
     margin: auto;
     padding-left: 15px;
     display: block;
-    width: clamp(180px, 18vw, 270px);
+    width: clamp(180px, 12vw, 220px);
     height: auto;
+}
+
+#login-page {
+  display: grid;
+  grid-template-areas:
+    "logo"
+    "form"
+    "footer";
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  padding: 1em;
+}
+
+#logo-header { grid-area: logo; display: flex; justify-content: center; }
+#login-form { grid-area: form; display: flex; align-items: center; justify-content: center; }
+#footer { grid-area: footer; display: flex; justify-content: center; }
+
+#login-form-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 15%;
 }
 
 #login-form {
     width: min(82vw, 400px);
     margin: 2.5% auto;
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    top: clamp(64px, 6vh, 85px);
+
 }
 
 #privacy-policy-link {
@@ -41,14 +57,10 @@ html, body {
 }
 
 #username-textfield {
-    position: relative;
-    top: clamp(12px, 3vh, 40px);
-    width: 100%;
-    height: clamp(40px, 5.5vh, 56px);
+
     border-radius: 8px;
     border: none;
-    padding: clamp(10px, 1.2vw, 14px);
-    margin-bottom: clamp(32px, 3vh, 56px);
+    padding: clamp(15px, 1.2vw, 18px);
     outline: none;
     background-color: #768EA9;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -107,7 +119,9 @@ html, body {
     border: none;
     outline: none;
 }
-
+.arrow-img{
+    width: 100%;
+}
 /* Tutorial Floating Window */
 #tutorial-container {
     position: fixed;
@@ -196,80 +210,40 @@ html, body {
     height: auto;
 }
 
-/* Media Queries */
-@media (max-width: 1920px) {
-    #privacy-policy-link {
-        top: 92%;
-    }
-    #submit-button {
-        margin-top: 10%;
-    }
-}
 
-@media (max-width: 1500px) {
-    #login-form {
-        margin: -2.5% auto;
-    }
-    #tutorial-box {
-        width: clamp(300px, 80%, 900px);
 
-    }
-    #tutorial-text {
-        font-size: clamp(14px, 2vw, 27px);
-    }
-    
-}
-
-@media (max-width: 1080px) {
-    .arrow-img {
-        width: 100%;
-    }
-    #login-form-container {
-        position: relative;
-        top: 90px;
-    }
-    .arrow-button {
-        position: relative;
-    }
-    #privacy-policy-link {
-        bottom: 30px;
-        font-size: clamp(14px, 1.5vw, 18px);
-    }
-    #tutorial-box {
-        width: 90%;
-        height: auto;
-    }
-    #tutorial-text {
-        font-size: 15px;
-    }
-    #tutorial-image {
-        width: 100%;
-    }
-
-    #tutorial-close{
-        top: -1%;
-    }
-        #mobile-screens-ad-container{
-    display: flex;
+#mobile-screens-ad-container {
     position: fixed;
-    top: 75%;
-    left: 5%;
-}
-}
-
-@media (max-width: 480px) {
-    #tutorial-box {
-        width: 95%;
-        height: auto;
-        padding: 10px;
-    }
-    #tutorial-text {
-        font-size: 14px;
-    }
-    #tutorial-image {
-        width:50%;
-        max-width: none;
-    }
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 320px; /* match ad size */
+    height: 15%;     /* match ad size */
+    display: block;
+    z-index: 9999;
 }
 
+#login-form-container {
+    padding-bottom: -130px; /* leave space for bottom mobile ad */
+}
 
+#mobile-screens-ad-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 320px;
+    height: 50px; /* match ad iframe height */
+    display: block;
+    z-index: 9999;
+}
+
+@media (max-height: 448px) {
+  #privacy-policy-link {
+    position: fixed;
+    bottom: 0;
+    left: clamp(5%,6vw,10%);
+  }
+}

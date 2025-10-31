@@ -12,6 +12,9 @@ body{
     overflow: hidden !important;     /* disables scrollbars */
   overscroll-behavior: none;       /* prevents scroll chaining */
   touch-action: none;              /* disables touch-based scrolling on mobile */
+  display: grid;
+
+  
 }
 
 #logo-image{
@@ -22,11 +25,6 @@ body{
     z-index: 9999999;
 }
 
-@media (max-width: 1000px) {
-    h1,h2,h3,h4,label,p,span,button,input,textarea,select{
-        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-}
 
 
 
@@ -57,45 +55,25 @@ body{
 }
 
 
-#right-banner-ad-container {
-    position: fixed;  /* stays in viewport */
-    top: 50%;          /* start in the middle */
-    right: 18px;       /* keep same margin as your widget */
-    transform: translateY(-50%); /* center vertically */
-    z-index: 9999;     /* make sure it’s on top */
-}
-
+#right-banner-ad-container,
 #left-banner-ad-container {
-    position: fixed;  /* stays in viewport */
-    top: 50%;          /* start in the middle */
-    left: 18px;       /* keep same margin as your widget */
-    transform: translateY(-50%); /* center vertically */
-    z-index: 9999;     /* make sure it’s on top */
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 9999;
+    max-height: 70vh; /* won't exceed viewport */
 }
 
-#mobile-screens-ad-container{
-    display: none;
-}
+#right-banner-ad-container { right: 8px; }
+#left-banner-ad-container { left: 8px; }
 
-@media (max-width:1500px) {
-    #left-banner-ad-container ,
-    #right-banner-ad-container{
-        height: 80%;
-        top: 55%;
+@media (max-width: 1024px) {
+    #right-banner-ad-container,
+    #left-banner-ad-container {
+        display: none; /* hide on smaller screens */
     }
-    #left-banner-ad-container iframe,
-    #right-banner-ad-container iframe{
-        max-height: 100%;
-        height: 100%;
-    }
-    
 }
 
-@media (max-width: 768px) {
-    /* Hide left banner on mobile */
-    #left-banner-ad-container,#right-banner-ad-container {
-        display: none;
-    }
 
 
-}
+

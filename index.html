@@ -100,6 +100,11 @@ if (!window.typeItBackgroundInitialized) {
     setInterval(createSymbol, 1000); // create one new symbol every 1 second
 }
 
+    if (window.innerHeight < window.innerWidth) {
+      document.body.classList.add("landscape");
+    } else {
+      document.body.classList.remove("landscape");
+    }
 
   </script>
   <main id="app">
@@ -125,46 +130,51 @@ if (!window.typeItBackgroundInitialized) {
   </script>
 
 
-
-  <div id="right-banner-ad-container">
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="rkeyDev" data-description="Support me on Buy me a coffee!" data-message="Support me here!" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-    <script type="text/javascript">
-    atOptions = {
-      'key' : 'f5d62de6a49d640595e89ad265f9ae14',
-      'format' : 'iframe',
-      'height' : 600,
-      'width' : 160,
-      'params' : {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f5d62de6a49d640595e89ad265f9ae14/invoke.js"></script>
-</div>
-
-<div id="left-banner-ad-container">
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="rkeyDev" data-description="Support me on Buy me a coffee!" data-message="Support me here!" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
-    <script type="text/javascript">
-    atOptions = {
-      'key' : 'f5d62de6a49d640595e89ad265f9ae14',
-      'format' : 'iframe',
-      'height' : 600,
-      'width' : 160,
-      'params' : {}
-    };
-  </script>
-  <script type="text/javascript" src="//www.highperformanceformat.com/f5d62de6a49d640595e89ad265f9ae14/invoke.js"></script>
-</div>
-<div id="mobile-screens-ad-container">
-  <script type="text/javascript">
+<section id="right-banner-ad">
+    <div id="right-banner-ad-container">
+      <script type="text/javascript">
 	atOptions = {
-		'key' : '0eb2e3f91cb8aec8263fd5512397c80f',
+		'key' : '8ed8a15dcba51943150de3fbaa56ad6c',
 		'format' : 'iframe',
-		'height' : 50,
-		'width' : 320,
+		'height' : 300,
+		'width' : 160,
 		'params' : {}
 	};
 </script>
-<script type="text/javascript" src="//www.highperformanceformat.com/0eb2e3f91cb8aec8263fd5512397c80f/invoke.js"></script>
-</div>
+<script type="text/javascript" src="//www.highperformanceformat.com/8ed8a15dcba51943150de3fbaa56ad6c/invoke.js"></script>
+  </div>
+</section>
+
+<section id="left-banner-ad">
+  <div id="left-banner-ad-container">
+      <script type="text/javascript">
+	atOptions = {
+		'key' : '8ed8a15dcba51943150de3fbaa56ad6c',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/8ed8a15dcba51943150de3fbaa56ad6c/invoke.js"></script>
+  </div>
+</section>
+
+<footer>
+  <div id="mobile-screens-ad-container">
+    <script type="text/javascript">
+    atOptions = {
+      'key' : '0eb2e3f91cb8aec8263fd5512397c80f',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/0eb2e3f91cb8aec8263fd5512397c80f/invoke.js"></script>
+  </div>
+</footer>
+
 <script type='text/javascript' src='//pl27954223.effectivegatecpm.com/37/f1/b1/37f1b1f0d15c94c5950927055273029f.js'></script>
 </body>
 </html>

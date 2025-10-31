@@ -9,12 +9,14 @@
 </head>
 <body>
     
-    <div id="page-container">
-        <div id="logo">
-            <a href="./index.html"><img alt="Logo" src="./src/assets/Logo.png" id="logo-image"></a>
-        </div>
+    <main id="login-page">
+        <header>
+            <div id="logo">
+                <a href="./index.html"><img alt="Logo" src="./src/assets/Logo.png" id="logo-image"></a>
+            </div>
+        </header>
 
-        <div id="tutorial-container" style="visibility: hidden;">
+        <section id="tutorial-container" style="visibility: hidden;">
             <div id="tutorial-box">
                 <button id="tutorial-close">✕</button>
                 <h1 id="tutorial-text"></h1>
@@ -24,9 +26,9 @@
                     <button id="tutorial-next"><img src="./src/assets/Arrow-Right.png" class="tutorial-arrow"></button>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="login-form-container">
+        <section id="login-form-container">
             <div id="login-form">
                 <div class="input-group">
                     <input type="text" id="username-textfield" name="username" placeholder="Enter Your Nickname..." maxlength="10">
@@ -42,10 +44,14 @@
                 </div>
                 <button onclick="validateForm()" id="submit-button">Continue</button>
             </div>
-        </div>
+        </section>
 
-        <a id="privacy-policy-link" href="./src/pages/privacy_policy/privacy_policy.html">Privacy Policy</a>
-    </div>
+        
+
+        <footer>
+            <a id="privacy-policy-link" href="./src/pages/privacy_policy/privacy_policy.html">Privacy Policy</a>
+        </footer>
+    </main>
     <script src="./src/pages/login-page/login_scripts.js"></script>
     <script>document.getElementById("right-banner-ad-container").style.visibility = "visible";</script>
 </body>

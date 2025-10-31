@@ -12,16 +12,21 @@ html, body {
     height: 100%;
 }
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
     height: 100vh;
     margin: 0;
     overflow: hidden !important;     /* disables scrollbars */
     overscroll-behavior: none;       /* prevents scroll chaining */
     touch-action: none;
+}
+
+#main-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 3vh; /* space between logo and buttons */
 }
 
 #logo{
@@ -39,29 +44,41 @@ body {
 }
 
 #room-code-textfield{
-    position: static;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 0;
     height: clamp(44px, 6vh, 60px);
     width: 100%;
     border-radius: 8px;
     border: none;
     padding: clamp(10px, 1.2vw, 14px);
-    margin: 0;
+    margin: 1%;
     outline: none;
     background-color: #768EA9;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
     color: white;
+    transform: translate(-3%);
 }
-#main-menu-buttons-container{
-    width: min(92vw, 560px);
-    margin: 0 auto;
+#main-menu-buttons-container {
     display: flex;
     flex-direction: column;
+    align-items: center; /* horizontal centering */
     gap: clamp(24px, 4vh, 48px);
-    position: static;
-    top: 0;
+    width: 100%; /* optional if you want buttons to scale */
+    max-width: 500px; /* limit max width */
+    padding-bottom: 50%;
 }
 
+#room-code-form{
+    width: clamp(300px, 35vw, 500px);
+    margin: 0.5% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    
+}
 
 #room-code-textfield::placeholder {
     color: white;
@@ -145,29 +162,6 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* Desktop and tablet: adjust join button to be slightly narrower and add spacing */
-@media (min-width: 600px) {
-    #logo-image {
-        transform: translateX(clamp(60px, 21.5vw, 160px));
-        margin-top: clamp(8px, 2vh, 24px);
-        margin-bottom: clamp(24px, 5vh, 72px);
-    }
-    #room-code-form {
-        margin-bottom: clamp(24px, 6vh, 80px);
-    }
-    #main-menu-buttons-container {
-        gap: clamp(28px, 5vh, 56px);
-    }
-    #join-room-button {
-        width: clamp(220px, 48%, 420px);
-        margin: clamp(10px, 1.6vh, 18px) auto 0;
-    }
-    #matchmaking-button,
-    #create-room-button {
-        margin: 0 auto;
-        width: clamp(240px, 68%, 500px);
-    }
-}
 
 /* Custom Alert Styles */
 #custom-alert {
@@ -220,57 +214,15 @@ body {
   to { opacity: 1; transform: scale(1); }
 }
 
-@media (max-width: 1080px) {
-    #mobile-screens-ad-container{
-    display: flex;
+
+#mobile-screens-ad-container {
     position: fixed;
-    top: 0%;
-    left: 5%;
-}
-    #main-menu-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        gap: clamp(16px, 3vh, 32px); 
-        padding-top: 20px;
-    }
-
-    #logo-image {
-        width: clamp(160px, 18vw, 260px);
-        height: auto;
-        margin: 0 auto;
-        transform: none; 
-    }
-
-    #room-code-textfield {
-        width: 90%;
-        position: relative;
-        left: 2%;
-
-    }
-
-    #join-room-button{
-        width: 50%;
-    position: relative;
-    left: 0%;
-    top: 10px;
-}
-
-
-    #matchmaking-button{
-    font-size: clamp(18px, 2.2vw, 25px);
-    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
-    width: 90%;
-    position: relative;
-    top: 50px;
-    left: 5%;
-}
-
-#create-room-button{
-    position: relative;
-    width: 90%;
-    top: 40px;
-    left: 5%;
-}
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 320px;
+    height: 15%; /* match ad iframe height */
+    display: block;
+    z-index: 9999;
 }

@@ -784,6 +784,7 @@ body{
 }
 
 
-#right-banner-ad-container{
-    visibility: hidden;
+#right-banner-ad-container,#mobile-screens-ad-container{
+    display: none;
 }
+

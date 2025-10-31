@@ -2,9 +2,9 @@
 /* Login Page */
 #logo-image {
     margin: auto;
-    padding-left: 15px;
+    padding-left: 0;
     display: block;
-    width: clamp(180px, 12vw, 220px);
+    width: clamp(150px, 12vw, 220px);
     height: auto;
 }
 
@@ -31,7 +31,7 @@
 }
 
 #login-form {
-    width: min(82vw, 400px);
+    width: clamp(300px, 35vw, 500px);
     margin: 2.5% auto;
     display: flex;
     flex-direction: column;
@@ -235,15 +235,17 @@
     transform: translateX(-50%);
     width: 100%;
     max-width: 320px;
-    height: 50px; /* match ad iframe height */
+    height: 15%; /* match ad iframe height */
     display: block;
     z-index: 9999;
 }
 
-@media (max-height: 448px) {
+@media (max-height: 778px) {
   #privacy-policy-link {
     position: fixed;
     bottom: 0;
     left: clamp(5%,6vw,10%);
   }
+
+
 }

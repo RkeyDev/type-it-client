@@ -10,9 +10,9 @@ body{
     background-attachment: fixed;
     min-height: 100vh;
     overflow: hidden !important;     /* disables scrollbars */
-  overscroll-behavior: none;       /* prevents scroll chaining */
-  touch-action: none;              /* disables touch-based scrolling on mobile */
-  display: grid;
+    overscroll-behavior: none;       /* prevents scroll chaining */
+    touch-action: none;              /* disables touch-based scrolling on mobile */
+    display: grid;
 
   
 }

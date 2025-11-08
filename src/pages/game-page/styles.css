@@ -6,6 +6,9 @@ html, body {
   touch-action: none; 
 }
 
+
+
+
 /* Hide scrollbars cross-browser */
 * {
   -ms-overflow-style: none;

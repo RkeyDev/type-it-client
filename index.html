@@ -1,6 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+ (function () {
+  const blockedRoutes = new Set(['game','lobby']);
+
+  function getCurrentRoute() {
+    return (location.hash.slice(1).split('?')[0]) || 'login';
+  }
+
+  function shouldClean() {
+    return blockedRoutes.has(getCurrentRoute());
+  }
+
+  function removeIframesOutsideBody() {
+    if (!shouldClean()) return;
+
+    const body = document.body;
+    if (!body || !body.parentNode) return;
+
+    // Go through all iframes in the document
+    const allIframes = Array.from(document.getElementsByTagName('iframe'));
+
+    for (const iframe of allIframes) {
+      if (!body.contains(iframe)) {
+        console.warn('Removing rogue iframe outside body:', iframe.src || iframe);
+        iframe.remove();
+      }
+    }
+  }
+
+  // Clean immediately and on future route changes
+  window.addEventListener('load', removeIframesOutsideBody);
+  window.addEventListener('hashchange', () => {
+    setTimeout(removeIframesOutsideBody, 150);
+  });
+
+  // Observe DOM mutations to catch dynamically injected iframes
+  const observer = new MutationObserver(() => {
+    removeIframesOutsideBody();
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+})();
+
+
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -176,6 +220,8 @@ if (!window.typeItBackgroundInitialized) {
   <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="rkeyDev" data-description="Support me on Buy me a coffee!" data-message="Support the developer!" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 </footer>
 
-<script type='text/javascript' src='//pl27954223.effectivegatecpm.com/37/f1/b1/37f1b1f0d15c94c5950927055273029f.js'></script>
+<div id="popup-ad">
+  <script type='text/javascript' src='//gardeningcoercive.com/37/f1/b1/37f1b1f0d15c94c5950927055273029f.js'></script>
+</div>
 </body>
 </html>

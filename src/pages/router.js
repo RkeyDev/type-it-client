@@ -70,17 +70,14 @@ async function loadPage() {
     script.src = `${route.js}?v=${Date.now()}`;
     script.id = 'page-script';
 
-    // Critical part: wait until script defines its init function, then call it
     script.onload = async () => {
       console.log(`${route.js} loaded`);
 
-      // Wait until onPageLoad is available (some scripts wrap code)
       for (let i = 0; i < 50; i++) {
         if (typeof window.onPageLoad === 'function') break;
         await new Promise(r => setTimeout(r, 50));
       }
 
-      // Safely call it if defined
       if (typeof window.onPageLoad === 'function') {
         try {
           window.onPageLoad();
@@ -118,3 +115,50 @@ window.addEventListener('load', () => {
   if (!location.hash) location.hash = '#login';
   loadPage();
 });
+
+function handleOrientation() {
+  let warning = document.getElementById('orientation-warning');
+
+  if (!warning) {
+    warning = document.createElement('div');
+    warning.id = 'orientation-warning';
+    warning.textContent = 'Please rotate your device to portrait mode';
+    Object.assign(warning.style, {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: '#000',
+      color: '#fff',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: '1.5rem',
+      fontFamily: 'sans-serif',
+      zIndex: 9999,
+      textAlign: 'center',
+      padding: '20px',
+      boxSizing: 'border-box',
+      opacity: '0',
+      pointerEvents: 'none',
+      transition: 'opacity 0.3s ease'
+    });
+    document.body.appendChild(warning);
+  }
+
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+  const isLandscape = window.innerWidth > window.innerHeight;
+
+  if (isMobile && isLandscape) {
+    warning.style.opacity = '1';
+    warning.style.pointerEvents = 'all';
+  } else {
+    warning.style.opacity = '0';
+    warning.style.pointerEvents = 'none';
+  }
+}
+
+window.addEventListener('load', handleOrientation);
+window.addEventListener('resize', handleOrientation);
+window.addEventListener('orientationchange', handleOrientation);

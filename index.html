@@ -223,5 +223,34 @@ if (!window.typeItBackgroundInitialized) {
 <div id="popup-ad">
   <script type='text/javascript' src='//gardeningcoercive.com/37/f1/b1/37f1b1f0d15c94c5950927055273029f.js'></script>
 </div>
+
+
+<script>
+(function lockTitle() {
+  const originalTitle = document.title;
+  
+  // Reset title if changed
+  const observer = new MutationObserver(() => {
+    if (document.title !== originalTitle) {
+      document.title = originalTitle;
+    }
+  });
+
+  // Observe title changes
+  observer.observe(document.querySelector('title'), { childList: true });
+
+  // Periodic check in case script replaces <title> element
+  setInterval(() => {
+    if (!document.querySelector('title')) {
+      const title = document.createElement('title');
+      title.textContent = originalTitle;
+      document.head.appendChild(title);
+    } else if (document.title !== originalTitle) {
+      document.title = originalTitle;
+    }
+  }, 500);
+})();
+</script>
+
 </body>
 </html>

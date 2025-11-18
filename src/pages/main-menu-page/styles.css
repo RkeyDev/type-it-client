@@ -1,5 +1,5 @@
-/* Desktop-first responsive styles for main menu (no mobile rules) */
-/* Hide scrollbars for this page (desktop) */
+/* Responsive styles for main menu - all devices */
+/* Hide scrollbars for this page */
 * {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -15,8 +15,8 @@ body {
     min-height: 100vh;
     height: 100vh;
     margin: 0;
-    overflow: hidden !important;     /* disables scrollbars */
-    overscroll-behavior: none;       /* prevents scroll chaining */
+    overflow: hidden !important;
+    overscroll-behavior: none;
     touch-action: none;
 }
 
@@ -26,58 +26,63 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    gap: 3vh; /* space between logo and buttons */
+    gap: clamp(2vh, 3vh, 4vh);
+    padding: clamp(10px, 2vw, 20px);
+    box-sizing: border-box;
 }
 
-#logo{
-    width: 50%;
+#logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: clamp(10px, 2vh, 20px);
 }
-#logo-image{
+
+#logo-image {
     margin: 0 auto;
     display: block;
-    width: clamp(160px, 18vw, 260px);
+    width: clamp(140px, 25vw, 260px);
     height: auto;
     position: static !important;
     top: auto !important;
-    transform: translateX(clamp(60px, 21.5vw, 160px));
-    margin-bottom: clamp(16px, 3vh, 32px);
+    transform: none;
+    margin-bottom: clamp(12px, 2vh, 24px);
 }
 
-#room-code-textfield{
+#room-code-textfield {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 0;
-    height: clamp(44px, 6vh, 60px);
+    height: clamp(52px, 7vh, 72px);
     width: 100%;
     border-radius: 8px;
     border: none;
-    padding: clamp(10px, 1.2vw, 14px);
-    margin: 1%;
+    padding: clamp(10px, 1.5vw, 14px);
     outline: none;
     background-color: #768EA9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
     color: white;
-    transform: translate(-3%);
+    transform: none;
+    box-sizing: border-box;
+    font-size: clamp(18px, 2.2vw, 25px);
 }
+
 #main-menu-buttons-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* horizontal centering */
-    gap: clamp(24px, 4vh, 48px);
-    width: 100%; /* optional if you want buttons to scale */
-    max-width: 500px; /* limit max width */
-    padding-bottom: 50%;
+    align-items: center;
+    gap: clamp(32px, 5vh, 60px);
+    width: 100%;
+    max-width: clamp(400px, 90vw, 700px);
+    padding-bottom: 0;
 }
 
-#room-code-form{
-    width: clamp(300px, 35vw, 500px);
-    margin: 0.5% auto;
+#room-code-form {
+    width: 100%;
+    max-width: clamp(400px, 90vw, 700px);
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
-    
 }
 
 #room-code-textfield::placeholder {
@@ -85,34 +90,35 @@ body {
     font-size: clamp(18px, 2.2vw, 25px);
 }
 
-#join-room-button{
-    font-size: clamp(18px, 2.2vw, 25px);
-    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
-    width: clamp(260px, 60%, 520px);
+#join-room-button {
+    font-size: clamp(16px, 2vw, 22px);
+    padding: clamp(8px, 1vh, 12px) clamp(12px, 1.5vw, 16px);
+    width: 50%;
     height: clamp(44px, 6vh, 60px);
-    border-radius: 8px;
+    border-radius: 0px 0px 8px 8px;
     border: none;
     background-color: #9C73BC;
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     position: static;
-    left: 0;
-    top: 0;
-    margin: 0 auto;
+    margin: 0;
+    box-sizing: border-box;
+    max-width: 85%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#join-room-button:hover{
+#join-room-button:hover {
     background-color: #8c6ca5;
     transition: background-color 0.3s ease;
 }
 
-#matchmaking-button{
+#matchmaking-button {
     font-size: clamp(18px, 2.2vw, 25px);
-    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
+    padding: clamp(8px, 1vh, 12px) clamp(12px, 1.5vw, 16px);
     width: 100%;
     height: clamp(52px, 7vh, 72px);
     border-radius: 8px;
@@ -120,27 +126,25 @@ body {
     background-color: #96B1A9;
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     position: static;
-    left: 0;
-    top: 0;
+    box-sizing: border-box;
 }
 
-#room-code-textfield.error::placeholder{
+#room-code-textfield.error::placeholder {
     color: #c94b35;
 }
 
-#matchmaking-button:hover{
+#matchmaking-button:hover {
     background-color: #7fada0;
     transition: background-color 0.3s ease;
 }
 
-#create-room-button{
+#create-room-button {
     font-size: clamp(18px, 2.2vw, 25px);
-    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.4vw, 14px);
+    padding: clamp(8px, 1vh, 12px) clamp(12px, 1.5vw, 16px);
     width: 100%;
     height: clamp(52px, 7vh, 72px);
     border-radius: 8px;
@@ -148,18 +152,133 @@ body {
     background-color: #A9B170;
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     position: static;
-    left: 0;
-    top: 0;
+    box-sizing: border-box;
 }
 
-#create-room-button:hover{
+#create-room-button:hover {
     background-color: #9cae5f;
     transition: background-color 0.3s ease;
+}
+
+/* Mobile devices (phones) */
+@media screen and (max-width: 767px) {
+    #main-menu {
+        gap: clamp(2.5vh, 3.5vh, 5vh);
+        padding: clamp(12px, 3.5vw, 20px);
+    }
+
+
+    #logo-image {
+        width: clamp(180px, 55vw, 280px);
+        margin-bottom: clamp(16px, 2.5vh, 24px);
+    }
+
+    #main-menu-buttons-container {
+        gap: clamp(32px, 6vh, 56px);
+        max-width: min(94vw, 650px);
+    }
+
+    #room-code-form {
+        max-width: min(94vw, 650px);
+    }
+
+    #room-code-textfield {
+        height: clamp(58px, 4vh, 72px);
+        font-size: clamp(22px, 5.5vw, 30px);
+    }
+
+    #room-code-textfield::placeholder {
+        font-size: clamp(22px, 5.5vw, 30px);
+    }
+
+    #join-room-button {
+        height: clamp(52px, 4vh, 66px);
+        font-size: clamp(20px, 5vw, 28px);
+        max-width: 82%;
+    }
+
+    #matchmaking-button,
+    #create-room-button {
+        height: clamp(58px, 4vh, 72px);
+        font-size: clamp(22px, 5.5vw, 30px);
+    }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    #main-menu {
+        gap: clamp(2vh, 3vh, 3.5vh);
+    }
+
+    #logo-image {
+        width: clamp(160px, 22vw, 240px);
+    }
+
+    #main-menu-buttons-container {
+        max-width: clamp(500px, 80vw, 680px);
+    }
+    
+    #room-code-form {
+        max-width: clamp(500px, 80vw, 680px);
+    }
+}
+
+/* Laptops */
+@media screen and (min-width: 1025px) and (max-width: 1440px) {
+    #main-menu {
+        gap: clamp(2.5vh, 3vh, 4vh);
+    }
+
+    #logo-image {
+        width: clamp(180px, 20vw, 250px);
+    }
+    
+    #main-menu-buttons-container {
+        max-width: clamp(550px, 85vw, 720px);
+    }
+    
+    #room-code-form {
+        max-width: clamp(550px, 85vw, 720px);
+    }
+}
+
+/* Large desktops */
+@media screen and (min-width: 1441px) {
+    #logo-image {
+        width: clamp(220px, 20vw, 300px);
+    }
+    
+    #main-menu-buttons-container {
+        max-width: clamp(700px, 85vw, 900px);
+    }
+    
+    #room-code-form {
+        max-width: clamp(700px, 85vw, 900px);
+    }
+    
+    #room-code-textfield {
+        height: clamp(56px, 7.5vh, 80px);
+        font-size: clamp(20px, 2.5vw, 28px);
+    }
+    
+    #room-code-textfield::placeholder {
+        font-size: clamp(20px, 2.5vw, 28px);
+    }
+    
+    #join-room-button {
+        height: clamp(48px, 6.5vh, 68px);
+        font-size: clamp(18px, 2.3vw, 24px);
+    }
+    
+    #matchmaking-button,
+    #create-room-button {
+        height: clamp(56px, 7.5vh, 80px);
+        font-size: clamp(20px, 2.5vw, 28px);
+    }
 }
 
 
@@ -175,6 +294,8 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  padding: clamp(10px, 3vw, 20px);
+  box-sizing: border-box;
 }
 
 #custom-alert.hidden {
@@ -184,25 +305,27 @@ body {
 .custom-alert-box {
   background: white;
   color: #333;
-  border-radius: 12px;
-  padding: 24px 30px;
-  max-width: 350px;
-  width: 80%;
+  border-radius: clamp(10px, 1.5vw, 12px);
+  padding: clamp(20px, 3vw, 30px) clamp(24px, 4vw, 30px);
+  max-width: clamp(280px, 85vw, 400px);
+  width: 90%;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   text-align: center;
   position: relative;
   animation: fadeIn 0.2s ease-in-out;
+  box-sizing: border-box;
 }
 
 #close-alert {
   position: absolute;
-  top: 8px;
-  right: 12px;
-  font-size: 20px;
+  top: clamp(6px, 1vw, 10px);
+  right: clamp(10px, 1.5vw, 14px);
+  font-size: clamp(18px, 2.5vw, 24px);
   font-weight: bold;
   color: #888;
   cursor: pointer;
   transition: color 0.2s;
+  line-height: 1;
 }
 
 #close-alert:hover {
@@ -214,15 +337,49 @@ body {
   to { opacity: 1; transform: scale(1); }
 }
 
-
 #mobile-screens-ad-container {
     position: fixed;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 320px;
-    height: 15%; /* match ad iframe height */
+    max-width: clamp(280px, 90vw, 320px);
+    height: clamp(12%, 15vh, 18%);
     display: block;
     z-index: 9999;
+}
+
+/* Large desktops */
+@media screen and (min-width: 1441px) {
+    #logo-image {
+        width: clamp(240px, 22vw, 320px);
+    }
+    
+    #main-menu-buttons-container {
+        max-width: clamp(750px, 85vw, 950px);
+    }
+    
+    #room-code-form {
+        max-width: clamp(750px, 85vw, 950px);
+    }
+    
+    #room-code-textfield {
+        height: clamp(60px, 8vh, 84px);
+        font-size: clamp(22px, 2.5vw, 28px);
+    }
+    
+    #room-code-textfield::placeholder {
+        font-size: clamp(22px, 2.5vw, 28px);
+    }
+    
+    #join-room-button {
+        height: clamp(52px, 7vh, 72px);
+        font-size: clamp(20px, 2.5vw, 28px);
+    }
+    
+    #matchmaking-button,
+    #create-room-button {
+        height: clamp(60px, 8vh, 84px);
+        font-size: clamp(22px, 2.5vw, 28px);
+    }
 }

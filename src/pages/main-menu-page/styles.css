@@ -345,6 +345,7 @@ body {
     height: clamp(12%, 15vh, 18%);
     display: block;
     z-index: 9999;
+    
 }
 
 /* Large desktops */

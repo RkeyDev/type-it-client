@@ -1,20 +1,16 @@
 /* === Page scroll disabling (game page only) === */
 html, body {
   height: 100%;
-  overflow: hidden !important;     /* disables scrollbars */
-  overscroll-behavior: none;       /* prevents scroll chaining */
-  touch-action: none; 
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
 }
-
-
-
 
 /* Hide scrollbars cross-browser */
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 *::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -49,18 +45,21 @@ html, body {
 #players-container {
   display: contents;
 }
+#time-left{
+  font-size: 3vw;
+}
 
 /* === Player styling === */
 .player {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: clamp(12px, 1.5vw, 20px);
+  font-size: clamp(14px, 1.8vw, 24px);
 }
 
 .circle {
-  width: clamp(50px, 6vw, 80px);
-  height: clamp(50px, 6vw, 80px);
+  width: clamp(60px, 5vw, 95px);
+  height: clamp(60px, 5vw, 95px);
   border-radius: 50%;
   margin-bottom: clamp(4px, 0.8vh, 8px);
   position: relative;
@@ -82,7 +81,7 @@ html, body {
 
 /* === Player names === */
 .name {
-  font-size: clamp(12px, 1.6vw, 20px);
+  font-size: clamp(18px, 2vw, 30px);
   color: white;
   white-space: nowrap;
   position: relative;
@@ -92,13 +91,13 @@ html, body {
   text-align: center;
   width: 100%;
   pointer-events: none;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* === Center area layout === */
+/* === Center area === */
 .center {
   grid-area: center;
   display: flex;
@@ -107,14 +106,14 @@ html, body {
   justify-content: center;
 }
 
-/* === Timer (directly above user input) === */
+/* === Timer (BIGGER ON ALL DEVICES) === */
 .timer {
   order: 0;
-  font-size: clamp(24px, 4vw, 56px);
+  font-size: clamp(34px, 6vw, 80px);
   color: white;
-  font-weight: bold;
+  font-weight: 900;
   text-align: center;
-  margin-bottom: clamp(8px, 1.5vh, 20px);
+  margin-bottom: clamp(12px, 2vh, 26px);
 }
 
 /* === Textarea === */
@@ -123,9 +122,9 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: clamp(16px, 2.5vw, 25px);
+  font-size: clamp(26px, 5.5vw, 35px);
   font-weight: bold;
-  height: clamp(50px, 8vh, 100px);
+  height: clamp(120px, 10vh, 150px);
   width: clamp(250px, 85vw, 550px);
   max-width: 110%;
   resize: none;
@@ -136,13 +135,12 @@ html, body {
   border: none;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
   scrollbar-width: none;
-  padding: clamp(10px, 1.5vw, 15px);
   box-sizing: border-box;
 }
 
 #user-text-input::placeholder {
   color: white;
-  font-size: clamp(16px, 2.5vw, 25px);
+  font-size: clamp(26px, 5.5vw, 35px);
 }
 
 /* === Waiting text === */
@@ -156,35 +154,28 @@ html, body {
 }
 
 /* === Input correctness states === */
-#user-text-input.error::placeholder {
-  color: red;
-}
+#user-text-input.error::placeholder { color: red; }
+#user-text-input.correct::placeholder { color: green; }
 
-#user-text-input.correct::placeholder {
-  color: green;
-}
-
-/* === Fade animation for center area === */
+/* === Fade animation === */
 .center.fade-out {
   opacity: 0;
   transition: opacity 0.5s;
   pointer-events: none;
 }
-
 .center.fade-in {
   opacity: 1;
   transition: opacity 0.5s;
   pointer-events: auto;
 }
 
-/* === Desktop responsive adjustments (exclude mobile) === */
+/* === Desktop responsive === */
 @media screen and (min-width: 768px) and (max-width: 1200px) {
   .game-container {
     width: min(96vw, 1200px);
     height: min(92vh, 860px);
     gap: clamp(12px, 2.5vw, 36px);
   }
-
 }
 
 @media screen and (min-width: 1201px) and (max-width: 1600px) {
@@ -261,37 +252,7 @@ html, body {
   text-align: center;
 }
 
-#time-left {
-  font-size: clamp(36px, 4vw, 60px);
-  font-weight: bold;
-  color: gold;
-  text-align: center;
-  display: inline-block;
-  transform: translateY(-50px) scale(0.5);
-  opacity: 0;
-  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
-}
-
-#time-left.show {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-}
-
-#time-left.flip {
-  animation: flipDigit 0.4s ease forwards;
-}
-
-#time-left {
-  font-size: clamp(28px, 4.5vw, 60px);
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  display: inline-block;
-  transform: translateY(clamp(-30px, -4vh, -40px)) scale(0.8);
-  opacity: 0;
-  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s;
-}
-
+/* === Player UI internals === */
 .circle .avatar-img {
   display: block;
   width: 100%;
@@ -305,7 +266,7 @@ html, body {
   white-space: nowrap;
   margin-bottom: clamp(4px, 0.6vh, 6px);
   font-weight: 700;
-  font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+  font-size: clamp(0.8rem, 1.5vw, 1.1rem);
 }
 
 .circle .progress-row span {
@@ -313,126 +274,7 @@ html, body {
   vertical-align: middle;
 }
 
-.waiting-text {
-  display: inline-block;
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
-  font-weight: 700;
-  background: linear-gradient(90deg, #ffffff, #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: clamp(1px, 0.2vw, 1.5px);
-  text-shadow: 0 0 clamp(10px, 2vw, 20px) rgba(252, 252, 252, 0.4);
-  animation: pulseGlow 2s ease-in-out infinite, floatText 3s ease-in-out infinite;
-  margin-top: clamp(12px, 2vh, 20px);
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
-                 0 0 20px rgba(255, 255, 255, 0.568),
-                 0 0 30px rgba(255, 255, 255, 0.2);
-    transform: scale(1);
-  }
-  50% {
-    text-shadow: 0 0 25px rgba(215, 215, 215, 0.9),
-                 0 0 40px rgba(142, 142, 142, 0.6),
-                 0 0 50px rgba(202, 202, 202, 0.4);
-    transform: scale(1.05);
-  }
-}
-
-@keyframes floatText {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-}
-
-
-
-#time-left.show {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-}
-
-
-
-@keyframes numberBounce {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.3); }
-  50% { transform: scale(1); }
-  70% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-
-#podium-container .podium-slot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.08);
-    padding: 10px 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    transition: transform 0.4s ease;
-}
-.podium-slot:hover {
-    transform: translateY(-5px) scale(1.05);
-}
-.podium-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin: 5px 0;
-    border: 3px solid white;
-}
-.podium-name {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-.podium-score {
-    color: #aaa;
-    font-size: 1rem;
-}
-.rank-1 {
-    
-    border: 2px solid gold;
-}
-.rank-2 {
-    border: 2px solid silver;
-}
-.rank-3 {
-    border: 2px solid #cd7f32;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-
-/* Handle smaller desktop resolutions (e.g. 720p or less) */
-@media screen and (max-height: 850px) {
-  html, body {
-    overflow-y: auto;
-  }
-
-  .game-container {
-    height: auto !important;
-    min-height: 100vh;
-    justify-content: flex-start;
-    padding-top: 20px;
-    padding-bottom: 40px;
-  }
-
-  #players-container {
-    transform: scale(0.9);
-    transform-origin: top center;
-  }
-}
-
-/* === Mobile-specific adjustments (max-width: 767px) === */
+/* === Mobile-specific adjustments === */
 @media screen and (max-width: 767px) {
   #scale-wrapper {
     padding: clamp(8px, 2vw, 16px);
@@ -463,19 +305,18 @@ html, body {
 
   .player {
     flex: 0 0 auto;
-    max-width: clamp(80px, 22vw, 120px);
-    margin-bottom: 0;
+    max-width: clamp(90px, 26vw, 135px);
   }
 
   .circle {
-    width: clamp(60px, 18vw, 90px);
-    height: clamp(60px, 18vw, 90px);
+    width: clamp(80px, 22vw, 130px);
+    height: clamp(80px, 22vw, 130px);
   }
 
   .circle .name {
-    font-size: clamp(11px, 3.5vw, 16px);
-    top: clamp(4px, 0.8vh, 8px);
-    margin-top: clamp(8px, 1.5vh, 12px);
+    font-size: clamp(18px, 5vw, 26px);
+    margin-top: clamp(10px, 1.5vh, 14px);
+    font-weight: 800;
   }
 
   .center {
@@ -487,231 +328,40 @@ html, body {
   #user-text-input {
     width: 95%;
     max-width: 95%;
-    font-size: clamp(14px, 4vw, 20px);
+    font-size: clamp(28px, 4vw, 38px);
     min-height: clamp(50px, 8vh, 70px);
-    height: clamp(50px, 8vh, 70px);
-  }
-
-  #user-text-input::placeholder {
-    font-size: clamp(14px, 4vw, 20px);
-  }
-
-  .timer {
-    font-size: clamp(22px, 8vw, 42px);
-    margin-bottom: clamp(12px, 2vh, 18px);
-    margin-top: clamp(8px, 1.5vh, 12px);
-  }
-
-  #game-waiting-text {
-    font-size: clamp(18px, 5vw, 36px);
-  }
-
-  #winner-avatar {
-    width: clamp(100px, 40vw, 180px);
-    height: clamp(100px, 40vw, 180px);
-  }
-
-  #win-message {
-    font-size: clamp(18px, 8vw, 48px);
-    padding: 0 clamp(10px, 3vw, 20px);
-  }
-
-  #round-countdown {
-    font-size: clamp(32px, 18vw, 100px);
-  }
-
-  #time-left {
-    font-size: clamp(28px, 6vw, 48px);
-  }
-
-  #mobile-screens-ad-container {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: clamp(280px, 90vw, 320px);
-    height: clamp(12%, 15vh, 18%);
-    z-index: 9999;
+    height: clamp(70px, 10vh, 90px);
   }
 }
 
-
-/* === Small mobile devices === */
+/* === Small mobile === */
 @media screen and (max-width: 400px) {
-  #scale-wrapper {
-    padding-top: clamp(30px, 5vh, 50px);
-  }
-
-  .game-container {
-    padding: clamp(15px, 3vh, 30px) 0;
-    gap: clamp(10px, 1.5vh, 16px);
-  }
-
   #players-container {
     gap: clamp(12px, 2.5vw, 20px);
   }
 
   .player {
-    max-width: clamp(70px, 20vw, 100px);
+    max-width: clamp(80px, 24vw, 120px);
   }
 
   .circle {
-    width: clamp(50px, 16vw, 75px);
-    height: clamp(50px, 16vw, 75px);
+    width: clamp(70px, 20vw, 110px);
+    height: clamp(70px, 20vw, 110px);
   }
 
   .circle .name {
-    font-size: clamp(10px, 3vw, 14px);
-    margin-top: clamp(10px, 2vh, 14px);
-  }
-
-  .center {
-    margin-top: clamp(25px, 5vh, 45px);
-    padding-top: clamp(12px, 2.5vh, 22px);
-  }
-
-  #user-text-input {
-    width: 92%;
-    max-width: 92%;
-    font-size: clamp(13px, 3.5vw, 18px);
-    min-height: clamp(45px, 7vh, 60px);
-  }
-
-  #user-text-input::placeholder {
-    font-size: clamp(13px, 3.5vw, 18px);
-  }
-
-  .timer {
-    font-size: clamp(20px, 7vw, 36px);
-    margin-bottom: clamp(14px, 2.5vh, 20px);
-    margin-top: clamp(10px, 2vh, 14px);
-  }
-
-  #game-waiting-text {
-    font-size: clamp(16px, 4.5vw, 30px);
-  }
-
-  #winner-avatar {
-    width: clamp(90px, 35vw, 150px);
-    height: clamp(90px, 35vw, 150px);
-  }
-
-  #win-message {
-    font-size: clamp(16px, 7vw, 40px);
-  }
-
-  #round-countdown {
-    font-size: clamp(28px, 16vw, 80px);
-  }
-
-  #time-left {
-    font-size: clamp(24px, 5.5vw, 40px);
+    font-size: clamp(17px, 5vw, 24px);
+    font-weight: 800;
   }
 }
 
-/* === Laptop vertical offset fix === */
+/* === Laptop adjustments === */
 @media screen and (min-width: 1024px) and (max-width: 1600px) {
   #scale-wrapper {
     align-items: flex-start;
     padding-top: clamp(2vh, 4vh, 5vh);
   }
-
   .game-container {
     transform: translateY(clamp(-6vh, -8vh, -4vh));
-  }
-}
-
-/* === Mobile-friendly podium scaling === */
-@media screen and (max-width: 767px) {
-  #podium-container {
-    gap: clamp(8px, 2vw, 12px) !important;
-    margin-top: clamp(15px, 3vh, 20px) !important;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .podium-slot {
-    padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 12px) !important;
-    border-radius: clamp(8px, 1.5vw, 10px) !important;
-    box-shadow: 0 0 clamp(4px, 1vw, 6px) rgba(255, 255, 255, 0.15) !important;
-    transform: none !important;
-  }
-
-  .podium-avatar {
-    width: clamp(45px, 12vw, 60px) !important;
-    height: clamp(45px, 12vw, 60px) !important;
-    border-width: clamp(2px, 0.5vw, 3px) !important;
-    margin: clamp(3px, 0.8vh, 5px) 0 !important;
-  }
-
-  .podium-name {
-    font-size: clamp(11px, 3vw, 15px) !important;
-  }
-
-  .podium-score {
-    font-size: clamp(10px, 2.5vw, 13px) !important;
-  }
-
-  .rank-1, .rank-2, .rank-3 {
-    border-width: clamp(1.5px, 0.4vw, 2px) !important;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  #podium-container {
-    gap: clamp(6px, 1.5vw, 10px) !important;
-    margin-top: clamp(10px, 2vh, 15px) !important;
-  }
-
-  .podium-slot {
-    padding: clamp(4px, 1vw, 8px) clamp(6px, 1.5vw, 10px) !important;
-  }
-
-  .podium-avatar {
-    width: clamp(40px, 10vw, 50px) !important;
-    height: clamp(40px, 10vw, 50px) !important;
-  }
-
-  .podium-name {
-    font-size: clamp(10px, 2.5vw, 13px) !important;
-  }
-
-  .podium-score {
-    font-size: clamp(9px, 2vw, 11px) !important;
-  }
-}
-/* === Laptop-friendly podium scaling (1024px–1440px) === */
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
-  #podium-container {
-    gap: clamp(16px, 2vw, 20px) !important;
-    margin-top: clamp(20px, 3vh, 25px) !important;
-    transform: scale(0.85);
-  }
-
-  .podium-slot {
-    padding: clamp(8px, 1.2vw, 14px) clamp(12px, 1.5vw, 16px) !important;
-    border-radius: clamp(10px, 1.5vw, 12px) !important;
-    box-shadow: 0 0 clamp(8px, 1.2vw, 10px) rgba(255, 255, 255, 0.15) !important;
-  }
-
-  .podium-avatar {
-    width: clamp(60px, 6vw, 70px) !important;
-    height: clamp(60px, 6vw, 70px) !important;
-    border-width: clamp(2px, 0.3vw, 3px) !important;
-    margin: clamp(4px, 0.6vh, 6px) 0 !important;
-  }
-
-  .podium-name {
-    font-size: clamp(13px, 1.3vw, 16px) !important;
-  }
-
-  .podium-score {
-    font-size: clamp(12px, 1.1vw, 14px) !important;
-  }
-
-  .rank-1, .rank-2, .rank-3 {
-    border-width: clamp(2px, 0.3vw, 2.5px) !important;
   }
 }

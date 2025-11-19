@@ -60,7 +60,7 @@
 
 #privacy-policy-link {
     position: fixed;
-    bottom: clamp(15px, 2vh, 25px);
+    bottom: calc(var(--ad-height) + clamp(10px, 2vh, 20px));
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -68,7 +68,7 @@
     font-size: clamp(12px, 1.8vw, 18px);
     text-decoration: none;
     opacity: 0.8;
-    z-index: 100;
+    z-index: 99999;
 }
 
 #privacy-policy-link:hover {
@@ -360,17 +360,16 @@
     transform: translateX(-50%);
     width: 100%;
     max-width: clamp(280px, 90vw, 320px);
-    height: clamp(12%, 15vh, 18%);
+    height: clamp(12%, 12vh, 18%);
     display: block;
     z-index: 9999;
+    --ad-height: 12vh;
+    height: var(--ad-height);
 }
 
 @media (max-height: 778px) {
     #privacy-policy-link {
-        position: fixed;
-        bottom: clamp(5px, 1vh, 10px);
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: calc(var(--ad-height) + clamp(10px, 2vh, 20px));
     }
 }
 /* Large Screens / Desktops (Moderate Scaling) */

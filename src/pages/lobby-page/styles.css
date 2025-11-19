@@ -270,7 +270,7 @@ body {
     appearance: none;
     width: clamp(16px, 2.5vw, 20px);
     height: clamp(16px, 2.5vw, 20px);
-    background: #398A8F;
+    background: #3F8EBF;
     border-radius: 50%;
     cursor: pointer;
 }
@@ -397,7 +397,7 @@ body {
     width: clamp(20px, 3vh, 28px);
     left: clamp(3px, 0.5vw, 4px);
     bottom: clamp(3px, 0.5vh, 4px);
-    background-color: #418b8f;
+    background-color: #3F8EBF;
     transition: transform 0.4s;
     border-radius: 50%;
 }

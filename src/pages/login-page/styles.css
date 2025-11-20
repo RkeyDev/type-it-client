@@ -419,3 +419,37 @@
         bottom: clamp(18px, 2vh, 28px);
     }
 }
+
+#tutorial-image-wrapper {
+    width: 100%;
+    max-width: 1500px;
+
+    /* FIXED HEIGHT RATIO */
+    aspect-ratio: 16 / 9;
+
+    /* Keeps layout stable */
+    background: rgba(255,255,255,0.05);
+    border-radius: clamp(10px, 1.5vw, 12px);
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto clamp(12px, 2vh, 20px) auto;
+}
+
+#tutorial-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keeps image inside without distortion */
+    display: block;
+}
+
+/* Make tutorial image area taller on mobile */
+@media screen and (max-width: 767px) {
+    #tutorial-image-wrapper {
+        aspect-ratio: 3 / 4; /* taller shape for small screens */
+        max-height: 65vh; /* optional: prevents it from getting too big */
+    }
+}

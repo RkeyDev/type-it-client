@@ -163,7 +163,12 @@ window.addEventListener('orientationchange', handleOrientation);
   function startIdleTimer() {
     idleTimer = setTimeout(() => {
       console.log("Idle timeout triggered, redirecting to login...");
-      location.hash = '#login';
+
+      // Clear session data so the user can't return to old page
+      sessionStorage.clear();
+
+      // Set the hash to login and reload
+      location.replace('#login');
       location.reload();
     }, MOBILE_IDLE_TIMEOUT);
   }

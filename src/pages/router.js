@@ -71,21 +71,12 @@ async function loadPage() {
     script.id = 'page-script';
 
     script.onload = async () => {
-      console.log(`${route.js} loaded`);
-
       for (let i = 0; i < 50; i++) {
         if (typeof window.onPageLoad === 'function') break;
         await new Promise(r => setTimeout(r, 50));
       }
-
       if (typeof window.onPageLoad === 'function') {
-        try {
-          window.onPageLoad();
-        } catch (err) {
-          console.error('Error running onPageLoad():', err);
-        }
-      } else {
-        console.warn('No onPageLoad() found in', route.js);
+        try { window.onPageLoad(); } catch (err) { console.error(err); }
       }
     };
 
@@ -116,6 +107,7 @@ window.addEventListener('load', () => {
   loadPage();
 });
 
+// --- Mobile orientation warning ---
 function handleOrientation() {
   let warning = document.getElementById('orientation-warning');
 
@@ -162,3 +154,36 @@ function handleOrientation() {
 window.addEventListener('load', handleOrientation);
 window.addEventListener('resize', handleOrientation);
 window.addEventListener('orientationchange', handleOrientation);
+
+// --- Mobile idle timeout handling ---
+(function() {
+  const MOBILE_IDLE_TIMEOUT = 5 * 60 * 1000; // 5 minutes
+  let idleTimer = null;
+
+  function startIdleTimer() {
+    idleTimer = setTimeout(() => {
+      console.log("Idle timeout triggered, redirecting to login...");
+      location.hash = '#login';
+      location.reload();
+    }, MOBILE_IDLE_TIMEOUT);
+  }
+
+  function resetIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    startIdleTimer();
+  }
+
+  startIdleTimer();
+
+  ['click', 'mousemove', 'keydown', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, resetIdleTimer);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (idleTimer) clearTimeout(idleTimer);
+    } else {
+      startIdleTimer();
+    }
+  });
+})();

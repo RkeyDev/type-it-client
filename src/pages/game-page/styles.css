@@ -176,22 +176,39 @@ html, body {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 #winner-avatar {
-  width: 180px;
-  height: 180px;
+  width: clamp(100px, 25vw, 180px);
+  height: clamp(100px, 25vw, 180px);
   border-radius: 50%;
   border: 5px solid gold;
   box-shadow: 0 0 40px gold;
-  margin-bottom: 10px;
+  margin-bottom: clamp(8px, 2vw, 15px);
 }
 
 #win-message {
   color: gold;
-  font-size: 4rem;
+  font-size: clamp(24px, 10vw, 4rem);
   text-align: center;
   text-shadow: 2px 2px 8px #000;
+  line-height: 1.2;
+  max-width: 90%;
+}
+
+/* Mobile-specific adjustments for really small screens */
+@media screen and (max-width: 480px) {
+  #winner-avatar {
+    width: clamp(80px, 30vw, 120px);
+    height: clamp(80px, 30vw, 120px);
+    margin-bottom: 10px;
+  }
+
+  #win-message {
+    font-size: clamp(20px, 12vw, 36px);
+  }
 }
 
 #round-countdown-overlay {
@@ -384,8 +401,6 @@ html, body {
   }
 }
 
-
-
 #mobile-screens-ad-container {
-    display: none;
+  display: none;
 }

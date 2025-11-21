@@ -115,6 +115,7 @@
         countdown_sound.volume = 0.5;
         countdown_sound.play();
         startCountdown(center, () => {});
+
     }
 
     function loadPlayers() {
@@ -136,6 +137,8 @@
             const playerDiv = createElement("div", { id: player.username, className: `player p${index + 1}` }, [circleDiv]);
             container.appendChild(playerDiv);
         });
+
+        
     }
 
     function startCountdown(container, onFinish) {
@@ -250,6 +253,7 @@
         questionPlaceholder = question;
         listenForTextInput();
         userInput.focus();
+        scrollPlayersToTop();
     }
 
     function listenForTextInput() {
@@ -425,6 +429,18 @@
         playersList = playersList.filter(player => player.username !== data.username);
         sessionStorage.setItem("playersList", JSON.stringify(playersList));
     }
+
+    function scrollPlayersToTop() {
+    const playersContainer = document.getElementById('players-container');
+    if (playersContainer) {
+        setTimeout(() => {
+            playersContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 50);
+    }
+}
+
+
+
 
 function handleReturnToLobby(data) {
         gameInitialized = false;

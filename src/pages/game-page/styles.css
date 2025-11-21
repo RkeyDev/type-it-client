@@ -1,3 +1,4 @@
+/* === GLOBAL STYLES === */
 html, body {
   height: 100%;
   overflow: hidden !important;
@@ -161,6 +162,7 @@ html, body {
   pointer-events: auto;
 }
 
+/* === WINNER & OVERLAYS === */
 #winner-overlay {
   position: fixed;
   top: 0;
@@ -229,29 +231,7 @@ html, body {
   opacity: 1;
 }
 
-.waiting-text {
-  display: inline-block;
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #ffffff, #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 20px rgba(252, 252, 252, 0.4);
-  animation: pulseGlow 2s ease-in-out infinite, floatText 3s ease-in-out infinite;
-  margin-top: 20px;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.568), 0 0 30px rgba(255, 255, 255, 0.2); transform: scale(1); }
-  50% { text-shadow: 0 0 25px rgba(215, 215, 215, 0.9), 0 0 40px rgba(142, 142, 142, 0.6), 0 0 50px rgba(202, 202, 202, 0.4); transform: scale(1.05); }
-}
-
-@keyframes floatText {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
+/* === PODIUM STYLING === */
 .podium-slot {
   display: flex;
   flex-direction: column;
@@ -289,10 +269,11 @@ html, body {
 .rank-2 { border: 2px solid silver; }
 .rank-3 { border: 2px solid #cd7f32; }
 
-@media screen and (max-height: 850px) {
-  html, body { overflow-y: auto; }
-  .game-container { height: auto !important; min-height: 100vh; padding-top: 20px; padding-bottom: 40px; }
-  #players-container { transform: scale(0.9); transform-origin: top center; }
+/* === MEDIA QUERIES === */
+
+/* Laptop screens fix */
+@media screen and (min-width: 1024px) and (max-width: 1500px) {
+  #players-container { transform: scale(0.85); transform-origin: top center; gap: 24px !important; }
 }
 
 @media screen and (max-width: 1080px) {
@@ -329,37 +310,6 @@ html, body {
   .timer { font-size: clamp(24px, 10vw, 48px); }
 }
 
-@media screen and (max-width: 400px) {
-  .player { margin-bottom: 10%; }
-  #time-left { font-size: 25px; }
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
-  #podium-container { gap: 20px !important; margin-top: 25px !important; transform: scale(0.85); }
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1500px) {
-  #players-container { transform: scale(0.85); transform-origin: top center; gap: 24px !important; }
-}
-
-
-/* Laptop screens fix */
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
-  .game-container {
-    height: auto;
-    min-height: 80vh; /* enough space for bottom players */
-    padding-bottom: 40px; /* extra padding for bottom row */
-  }
-
-  #players-container {
-    transform: scale(0.9);
-    transform-origin: top center;
-  }
-
-  .player {
-    margin-bottom: 5%; /* add bottom margin to prevent cutting off names */
-  }
-}/* === FINAL MOBILE FIX: 3 rows × 2 players, no overlapping === */
 @media screen and (max-width: 768px) {
 
   html, body {
@@ -379,8 +329,8 @@ html, body {
     align-items: start;
     transform: none !important;
     position: relative !important;
-    padding-bottom: 250px !important;
-    overflow-y: auto;
+    padding-bottom: 120px !important; /* enough space above .center */
+    overflow-y: auto !important;
   }
 
   .player {
@@ -392,9 +342,7 @@ html, body {
     position: relative !important;
   }
 
-  .player[class*="p"] {
-    grid-area: unset !important;
-  }
+  .player[class*="p"] { grid-area: unset !important; }
 
   .circle {
     width: clamp(60px, 24vw, 95px);
@@ -412,6 +360,7 @@ html, body {
     font-size: clamp(14px, 3vw, 18px);
   }
 
+  /* Fixed textarea */
   .center {
     position: fixed !important;
     bottom: 0 !important;
@@ -424,22 +373,19 @@ html, body {
     justify-content: center !important;
     align-items: center !important;
     z-index: 9999 !important;
+    box-sizing: border-box;
   }
 
   #user-text-input {
     width: 92% !important;
     max-width: 500px !important;
-    height: clamp(50px, 7vh, 70px) !important;
+    height: 70px !important; 
     font-size: clamp(18px, 4.5vw, 22px) !important;
   }
-
-
 }
-
 
 
 
 #mobile-screens-ad-container {
     display: none;
 }
-

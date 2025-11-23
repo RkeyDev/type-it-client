@@ -175,6 +175,7 @@ function changeSkin(direction) {
 }
 
 function onPageLoad() {
+    
     const skinImage = document.getElementById("skin-image");
     const savedSkin = window.sessionStorage.getItem("skin");
     if (savedSkin && skins.includes(savedSkin)) {
@@ -207,4 +208,10 @@ function getCookie(name) {
 
 window.addEventListener("load", () => {
     onPageLoad();
+});
+document.getElementById("show-tutorial-button").addEventListener("click", () => {
+    setCookie("tutorial-seen", "", -1); // remove cookie
+    tutorialContainer.classList.remove("hidden");
+    updateTutorialStep();
+    document.body.style.visibility = "visible";
 });

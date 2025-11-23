@@ -446,6 +446,24 @@
     display: block;
 }
 
+#show-tutorial-button {
+    display: block;
+    margin: clamp(10px, 2vh, 20px) auto 0 auto;
+    padding: clamp(8px, 1vh, 12px) clamp(12px, 1.5vw, 16px);
+    font-size: clamp(14px, 2vw, 20px);
+    border-radius: 8px;
+    border: none;
+    background-color: #768EA9;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#show-tutorial-button:hover {
+    background-color: #5f7a95;
+}
+
+
 /* Make tutorial image area taller on mobile */
 @media screen and (max-width: 767px) {
     #tutorial-image-wrapper {

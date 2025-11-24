@@ -5,6 +5,8 @@
     let roomId = null;
     let gameInitialized = false;
     let socketMessageHandler = null;
+    const bmc_wbtn = document.getElementById("bmc-wbtn");
+    
 
     const correct_guess_sound = new Audio('./src/assets/sounds/correct-guess-sound.mp3');
     const countdown_sound = new Audio("./src/assets/sounds/countdown-sound.mp3");
@@ -115,6 +117,7 @@
         countdown_sound.volume = 0.5;
         countdown_sound.play();
         startCountdown(center, () => {});
+        bmc_wbtn.style.display = "none";
 
     }
 
@@ -460,6 +463,7 @@ function handleReturnToLobby(data) {
         if (userInput) userInput.remove();
         if (data && data.roomCode) {
             document.location.hash = `#lobby?id=${data.roomCode}`;
+            bmc_wbtn.style.display = "flex";
         } else {
             console.warn("No room code provided for returning to lobby.");
         }

@@ -414,11 +414,19 @@
         width: clamp(180px, 22vw, 260px);
     }
 
+
+}
+@media screen and (min-width: 1025px) {
     #privacy-policy-link {
-        font-size: clamp(14px, 1.8vw, 20px);
-        bottom: clamp(18px, 2vh, 28px);
+        bottom: clamp(5px, 1vh, 20px); /* distance from bottom */
+        left: clamp(10px, 1vw, 40px);  /* distance from left edge */
+        transform: none;               /* remove the horizontal centering */
+        text-align: left;
+        font-size: 1.5vw;
     }
 }
+
+
 
 #tutorial-image-wrapper {
     width: 100%;
@@ -471,5 +479,36 @@
     #tutorial-image-wrapper {
         aspect-ratio: 3 / 4; /* taller shape for small screens */
         max-height: 65vh; /* optional: prevents it from getting too big */
+    }
+}
+
+#discord-button {
+    display: block;
+    margin: clamp(12px, 2.5vh, 24px) auto 0 auto;
+    padding: clamp(10px, 1.2vh, 14px) clamp(16px, 2vw, 20px);
+    font-size: clamp(16px, 2vw, 22px);
+    border-radius: 8px;
+    border: none;
+    background-color: #7289DA; /* Lighter Discord-like blue, stands out */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#discord-button:hover {
+    background-color: #5b6eae;
+    transform: scale(1.05);
+}
+
+/* Mobile adjustments for tutorial & Discord buttons */
+@media screen and (max-width: 767px) {
+    #show-tutorial-button,
+    #discord-button {
+        padding: clamp(12px, 2vh, 18px) clamp(16px, 4vw, 24px);
+        font-size: clamp(18px, 5vw, 26px);
     }
 }

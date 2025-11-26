@@ -367,11 +367,7 @@
     height: var(--ad-height);
 }
 
-@media (max-height: 778px) {
-    #privacy-policy-link {
-        bottom: calc(var(--ad-height) + clamp(10px, 2vh, 20px));
-    }
-}
+
 /* Large Screens / Desktops (Moderate Scaling) */
 @media screen and (min-width: 1441px) {
     #login-form {

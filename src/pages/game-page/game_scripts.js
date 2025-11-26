@@ -360,6 +360,7 @@
             correct_guess_sound.playbackRate = 1.5;
             correct_guess_sound.play();
         } else {
+            someone_guessed_correctly_sound.volume = 0.5;
             someone_guessed_correctly_sound.play();
         }
         const skin = playerDiv.querySelector("img");
